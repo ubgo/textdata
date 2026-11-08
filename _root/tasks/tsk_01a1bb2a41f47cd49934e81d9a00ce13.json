@@ -1,6 +1,6 @@
 {
   "_live": {
-    "hlc": "2026-11-08T12:37:51.244Z/0000/act_afbe7ed1d969752697eebecaac20e9dc",
+    "hlc": "2026-11-08T13:05:55.910Z/0000/act_afbe7ed1d969752697eebecaac20e9dc",
     "live_since": "2026-11-08T12:37:51Z"
   },
   "_table": "tasks",
@@ -34,11 +34,11 @@
   "project_id": "prj_01a1bb14e8b671d8b096f2815781e6ef",
   "repo_id": null,
   "role": null,
-  "started_at": null,
-  "status": "todo",
+  "started_at": "2026-11-08T13:05:55.869809973Z",
+  "status": "in_progress",
   "tasklist_id": "tlt_01a1bb15600f71bd81160920a09e2a72",
   "timebox_seconds": null,
   "title": "Phase 4: deprecated forwarder in ubgo/dotenv (local branch textdata-forwarder), cfgkit proven",
-  "updated_at": "2026-11-08T12:37:51.220804294Z",
+  "updated_at": "2026-11-08T13:05:55.869817793Z",
   "work_branch": null
 }
