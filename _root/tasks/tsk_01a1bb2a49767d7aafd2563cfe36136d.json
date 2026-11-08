@@ -1,6 +1,6 @@
 {
   "_live": {
-    "hlc": "2026-11-08T12:37:53.174Z/0000/act_afbe7ed1d969752697eebecaac20e9dc",
+    "hlc": "2026-11-08T13:46:38.232Z/0000/act_afbe7ed1d969752697eebecaac20e9dc",
     "live_since": "2026-11-08T12:37:53Z"
   },
   "_table": "tasks",
@@ -34,11 +34,11 @@
   "project_id": "prj_01a1bb14e8b671d8b096f2815781e6ef",
   "repo_id": null,
   "role": null,
-  "started_at": null,
-  "status": "todo",
+  "started_at": "2026-11-08T13:46:38.179337457Z",
+  "status": "in_progress",
   "tasklist_id": "tlt_01a1bb15600f71bd81160920a09e2a72",
   "timebox_seconds": null,
   "title": "Phase 5: jsonc core (parse, read, edit, save, Strict, expand) with fuzz, conformance, property tests",
-  "updated_at": "2026-11-08T12:37:53.142847537Z",
+  "updated_at": "2026-11-08T13:46:38.179344140Z",
   "work_branch": null
 }
