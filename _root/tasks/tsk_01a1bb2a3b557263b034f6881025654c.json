@@ -1,6 +1,6 @@
 {
   "_live": {
-    "hlc": "2026-11-08T12:37:49.552Z/0000/act_afbe7ed1d969752697eebecaac20e9dc",
+    "hlc": "2026-11-08T13:03:35.902Z/0000/act_afbe7ed1d969752697eebecaac20e9dc",
     "live_since": "2026-11-08T12:37:49Z"
   },
   "_table": "tasks",
@@ -34,11 +34,11 @@
   "project_id": "prj_01a1bb14e8b671d8b096f2815781e6ef",
   "repo_id": null,
   "role": null,
-  "started_at": null,
-  "status": "todo",
+  "started_at": "2026-11-08T13:03:35.863700694Z",
+  "status": "in_progress",
   "tasklist_id": "tlt_01a1bb15600f71bd81160920a09e2a72",
   "timebox_seconds": null,
   "title": "Phase 3: clikit + dotenv CLI command package + plugins/github, plugins/vercel + textdatactl",
-  "updated_at": "2026-11-08T12:37:49.525121311Z",
+  "updated_at": "2026-11-08T13:03:35.863708613Z",
   "work_branch": null
 }
