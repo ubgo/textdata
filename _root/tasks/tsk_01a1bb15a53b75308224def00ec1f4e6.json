@@ -1,6 +1,6 @@
 {
   "_live": {
-    "hlc": "2026-11-08T12:15:20.525Z/0000/act_afbe7ed1d969752697eebecaac20e9dc",
+    "hlc": "2026-11-08T12:37:41.478Z/0000/human:khanakia@gmail.com",
     "live_since": "2026-11-08T12:15:20Z"
   },
   "_table": "tasks",
@@ -34,11 +34,11 @@
   "project_id": "prj_01a1bb14e8b671d8b096f2815781e6ef",
   "repo_id": null,
   "role": null,
-  "started_at": null,
-  "status": "todo",
+  "started_at": "2026-11-08T12:37:41.454595482Z",
+  "status": "in_progress",
   "tasklist_id": "tlt_01a1bb15600f71bd81160920a09e2a72",
   "timebox_seconds": null,
   "title": "Rewrite jsonc-spec.md as a textdata spec around the locked layout",
-  "updated_at": "2026-11-08T12:15:20.379321000Z",
+  "updated_at": "2026-11-08T12:37:41.454600642Z",
   "work_branch": null
 }
