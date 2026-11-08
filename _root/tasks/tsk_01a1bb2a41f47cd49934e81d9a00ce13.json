@@ -1,6 +1,6 @@
 {
   "_live": {
-    "hlc": "2026-11-08T13:05:55.910Z/0000/act_afbe7ed1d969752697eebecaac20e9dc",
+    "hlc": "2026-11-08T13:06:01.248Z/0000/act_afbe7ed1d969752697eebecaac20e9dc",
     "live_since": "2026-11-08T12:37:51Z"
   },
   "_table": "tasks",
@@ -16,11 +16,11 @@
   "claim_epoch": 0,
   "claim_log": null,
   "commitment": "accepted",
-  "completed_at": null,
+  "completed_at": "2026-11-08T13:06:01.200984479Z",
   "created_at": "2026-11-08T12:37:51.220804022Z",
   "created_by_actor_id": "act_afbe7ed1d969752697eebecaac20e9dc",
   "deferred_until": null,
-  "done_by": null,
+  "done_by": "act_afbe7ed1d969752697eebecaac20e9dc",
   "done_commit": null,
   "done_pr": null,
   "due_at": null,
@@ -35,10 +35,10 @@
   "repo_id": null,
   "role": null,
   "started_at": "2026-11-08T13:05:55.869809973Z",
-  "status": "in_progress",
+  "status": "done",
   "tasklist_id": "tlt_01a1bb15600f71bd81160920a09e2a72",
   "timebox_seconds": null,
   "title": "Phase 4: deprecated forwarder in ubgo/dotenv (local branch textdata-forwarder), cfgkit proven",
-  "updated_at": "2026-11-08T13:05:55.869817793Z",
+  "updated_at": "2026-11-08T13:06:01.200993173Z",
   "work_branch": null
 }
