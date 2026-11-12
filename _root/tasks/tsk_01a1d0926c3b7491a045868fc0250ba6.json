@@ -1,6 +1,6 @@
 {
   "_live": {
-    "hlc": "2026-11-12T16:23:39.368Z/0000/act_afbe7ed1d969752697eebecaac20e9dc",
+    "hlc": "2026-11-12T16:24:10.072Z/0000/act_afbe7ed1d969752697eebecaac20e9dc",
     "live_since": "2026-11-12T16:23:39Z"
   },
   "_table": "tasks",
@@ -34,11 +34,11 @@
   "project_id": "prj_01a1bb14e8b671d8b096f2815781e6ef",
   "repo_id": null,
   "role": null,
-  "started_at": null,
-  "status": "todo",
+  "started_at": "2026-11-12T16:24:10.010187233Z",
+  "status": "in_progress",
   "tasklist_id": "tlt_01a1bb15600f71bd81160920a09e2a72",
   "timebox_seconds": null,
   "title": "cfgkit contrib/format-jsonc on local branch in ubgo/cfgkit clone",
-  "updated_at": "2026-11-12T16:23:39.323250362Z",
+  "updated_at": "2026-11-12T16:24:10.010197628Z",
   "work_branch": null
 }
