@@ -1,6 +1,6 @@
 {
   "_live": {
-    "hlc": "2026-11-12T16:23:56.873Z/0000/act_afbe7ed1d969752697eebecaac20e9dc",
+    "hlc": "2026-11-12T16:47:20.009Z/0000/act_afbe7ed1d969752697eebecaac20e9dc",
     "live_since": "2026-11-12T16:23:26Z"
   },
   "_table": "tasks",
@@ -16,11 +16,11 @@
   "claim_epoch": 0,
   "claim_log": null,
   "commitment": "accepted",
-  "completed_at": null,
+  "completed_at": "2026-11-12T16:47:19.978802759Z",
   "created_at": "2026-11-12T16:23:26.448740350Z",
   "created_by_actor_id": "act_afbe7ed1d969752697eebecaac20e9dc",
   "deferred_until": null,
-  "done_by": null,
+  "done_by": "act_afbe7ed1d969752697eebecaac20e9dc",
   "done_commit": null,
   "done_pr": null,
   "due_at": null,
@@ -35,10 +35,10 @@
   "repo_id": null,
   "role": null,
   "started_at": "2026-11-12T16:23:56.816566509Z",
-  "status": "in_progress",
+  "status": "done",
   "tasklist_id": "tlt_01a1bb15600f71bd81160920a09e2a72",
   "timebox_seconds": null,
   "title": "jsonc/generate (New builders, FromStruct) + jsonc/schema (SchemaFromStruct, Validate, Validator plugin)",
-  "updated_at": "2026-11-12T16:23:56.816575327Z",
+  "updated_at": "2026-11-12T16:47:19.978808348Z",
   "work_branch": null
 }
