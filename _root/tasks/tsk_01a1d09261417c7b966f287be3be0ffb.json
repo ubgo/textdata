@@ -1,6 +1,6 @@
 {
   "_live": {
-    "hlc": "2026-11-12T16:23:36.589Z/0000/act_afbe7ed1d969752697eebecaac20e9dc",
+    "hlc": "2026-11-12T16:24:07.473Z/0000/act_afbe7ed1d969752697eebecaac20e9dc",
     "live_since": "2026-11-12T16:23:36Z"
   },
   "_table": "tasks",
@@ -34,11 +34,11 @@
   "project_id": "prj_01a1bb14e8b671d8b096f2815781e6ef",
   "repo_id": null,
   "role": null,
-  "started_at": null,
-  "status": "todo",
+  "started_at": "2026-11-12T16:24:07.405505964Z",
+  "status": "in_progress",
   "tasklist_id": "tlt_01a1bb15600f71bd81160920a09e2a72",
   "timebox_seconds": null,
   "title": "plugins/vault + plugins/aws read-only resolvers",
-  "updated_at": "2026-11-12T16:23:36.513780988Z",
+  "updated_at": "2026-11-12T16:24:07.405514890Z",
   "work_branch": null
 }
