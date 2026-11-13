@@ -1,6 +1,8 @@
 {
   "features": [
-    "live"
+    "hlc",
+    "live",
+    "task_tree"
   ],
-  "min_lore_version": "0.1.0"
+  "min_lore_version": "0.1.18"
 }
