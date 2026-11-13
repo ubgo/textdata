@@ -40,7 +40,7 @@ Every library module except the CLI ones is stdlib only. The CLI modules bring c
 ## Pitfalls
 
 - **The format modules require Go 1.22; the CLI modules require Go 1.26.4.** Importing `dotenvcmd`, `jsonccmd`, `envkit`, `ctl` or `providerkit` raises your module's `go` line.
-- **Module versions are tagged per module** (`dotenv/v0.1.4`, `jsonc/v0.1.4`, `plugins/vault/v0.1.4`). `go get github.com/ubgo/textdata@latest` gets the base only; name the module path you want.
+- **Module versions are tagged per module** (`dotenv/v0.1.4`, `jsonc/v0.1.5`, `plugins/vault/v0.1.4`). `go get github.com/ubgo/textdata@latest` gets the base only; name the module path you want.
 - **`dotenv` does not know about `$extends` or `Validator` plugins.** `dotenv.WithPlugin` refuses a plugin whose only abilities are ones dotenv never uses, such as the `extends` Includer: `Open`, `ParseReader` and `Read` return `dotenv: plugin "extends": no ability dotenv supports (Includer)` (`errors.Is(err, dotenv.ErrUnsupportedPlugin)`), and on a file from `Parse` the error comes from `GetExpanded`, `ExpandedMap` and `Save`. A plugin with at least one ability dotenv supports still installs; `schema.Plugin` installs on a dotenv file as a SaveGuard only (see [value plugins](value-plugins.md)).
 - **`jsonc.Strict()` is per document.** A document parsed without it and saved with `SaveAs` keeps whatever comments it had; `Strict` does not strip them. Use [`format.Minify`](../guides/jsonc-tools/format.md#step-4--minify-to-plain-json) or `Doc.JSON()` to emit plain JSON from a commented file.
 

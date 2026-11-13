@@ -6,13 +6,13 @@ require (
 	github.com/spf13/cobra v1.10.2
 	github.com/ubgo/textdata v0.1.4
 	github.com/ubgo/textdata/clikit v0.1.4
-	github.com/ubgo/textdata/cmd/textdatactl v0.1.4
+	github.com/ubgo/textdata/cmd/textdatactl v0.1.5
 	github.com/ubgo/textdata/dotenv v0.1.4
 	github.com/ubgo/textdata/dotenv/cli v0.1.4
 	github.com/ubgo/textdata/dotenv/cli/providers/github v0.1.4
 	github.com/ubgo/textdata/dotenv/cli/providers/vercel v0.1.4
-	github.com/ubgo/textdata/jsonc v0.1.4
-	github.com/ubgo/textdata/jsonc/cli v0.1.4
+	github.com/ubgo/textdata/jsonc v0.1.5
+	github.com/ubgo/textdata/jsonc/cli v0.1.5
 	github.com/ubgo/textdata/plugins/aws v0.1.4
 	github.com/ubgo/textdata/plugins/extends v0.1.4
 	github.com/ubgo/textdata/plugins/file v0.1.4

@@ -15,7 +15,7 @@ textdata is an open-source Go library for comment- and byte-preserving parsing a
 
 `github.com/ubgo/textdata` is a multi-module repository: a small shared base (this module), one module per format, value and provider plugins, and the CLIs. Formats today: [dotenv](dotenv/README.md) (moved here from `github.com/ubgo/dotenv`) and [JSONC / JSON](jsonc/README.md). YAML and TOML come only when a tool needs them.
 
-Status: **released.** Every module is tagged `v0.1.4`, the first public release (`v0.1.4`, `dotenv/v0.1.4`, `jsonc/v0.1.4`, …); the earlier `v0.1.1`–`v0.1.3` tags are retracted. `textdatactl` ships prebuilt binaries on the [releases page](https://github.com/ubgo/textdata/releases). `go get` the module path you need, for example `go get github.com/ubgo/textdata/dotenv@latest`.
+Status: **released.** Every module was first released at `v0.1.4` (`v0.1.4`, `dotenv/v0.1.4`, …); `jsonc`, `jsonc/cli` and `textdatactl` are now at `v0.1.5`. The earlier `v0.1.1`–`v0.1.3` tags are retracted. `textdatactl` ships prebuilt binaries on the [releases page](https://github.com/ubgo/textdata/releases). `go get` the module path you need, for example `go get github.com/ubgo/textdata/dotenv@latest`.
 
 **Contents:** [Why textdata?](#why-textdata) · [Install](#install) · [Quick start](#quick-start) · [Documentation](#documentation) · [Modules](#modules) · [Guarantees](#guarantees-every-format-keeps) · [Dependency rules](#dependency-rules) · [The base packages](#the-base-packages) · [CLIs](#clis) · [Releases](#releases) · [Development](#development) · [FAQ](#faq) · [Contributing](#contributing) · [License](#license)
 
