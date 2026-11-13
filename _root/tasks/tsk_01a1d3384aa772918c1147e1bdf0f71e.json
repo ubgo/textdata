@@ -1,7 +1,7 @@
 {
-  "_hlc": "2026-11-13T04:44:04.189Z/0000/act_7b6e2727126b7bbb9f3a5a9cefc0022f",
+  "_hlc": "2026-11-13T04:44:07.981Z/0000/act_7b6e2727126b7bbb9f3a5a9cefc0022f",
   "_live": {
-    "hlc": "2026-11-13T04:44:04.189Z/0000/act_7b6e2727126b7bbb9f3a5a9cefc0022f",
+    "hlc": "2026-11-13T04:44:07.981Z/0000/act_7b6e2727126b7bbb9f3a5a9cefc0022f",
     "live_since": "2026-11-13T04:44:04Z"
   },
   "_o": {
@@ -23,14 +23,25 @@
   "created_at": "2026-11-13T04:44:04.189000000Z",
   "created_by": "act_7b6e2727126b7bbb9f3a5a9cefc0022f",
   "created_by_actor_id": "act_7b6e2727126b7bbb9f3a5a9cefc0022f",
+  "history": [
+    {
+      "at": "2026-11-13T04:44:07Z",
+      "by": "act_7b6e2727126b7bbb9f3a5a9cefc0022f",
+      "field": "status",
+      "from": "todo",
+      "id": "the_01a1d33859657b15aa310b36bca2dd5a",
+      "to": "in_progress"
+    }
+  ],
   "id": "tsk_01a1d3384aa772918c1147e1bdf0f71e",
   "mission_id": "msn_01a1bb154a1a7e019bfaa7bf7496418e",
   "priority": "medium",
   "project_id": "prj_01a1bb14e8b671d8b096f2815781e6ef",
-  "status": "todo",
+  "started_at": "2026-11-13T04:44:07.908986999Z",
+  "status": "in_progress",
   "tasklist_id": "tlt_01a1bb15600f71bd81160920a09e2a72",
   "title": "Brief 3: no unused deps per import (integration module, providers move, require table)",
-  "updated_at": "2026-11-13T04:44:04.189000000Z",
+  "updated_at": "2026-11-13T04:44:07.981000000Z",
   "updated_by": "act_7b6e2727126b7bbb9f3a5a9cefc0022f",
   "watchers": [
     "act_7b6e2727126b7bbb9f3a5a9cefc0022f"
