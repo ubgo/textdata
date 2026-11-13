@@ -137,7 +137,7 @@ Error `code` values in the envelope are stable API: `not_found`, `io`, `required
 
 ```console
 $ dotenvctl --version --json
-dotenvctl version v0.1.5-0.20261113071213-e24c1e3cc8bb+dirty
+dotenvctl version v0.1.6-0.20261113071213-e24c1e3cc8bb+dirty
 ```
 
 ## Step 2 — read values

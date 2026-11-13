@@ -9,7 +9,7 @@ go install github.com/ubgo/textdata/cmd/textdatactl@latest
 textdatactl jsonc --help
 ```
 
-Status: released; the current tag is `jsonc/cli/v0.1.4`.
+Status: released; the current tag is `jsonc/cli/v0.1.5`.
 
 ## Verbs
 

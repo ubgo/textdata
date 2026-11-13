@@ -10,16 +10,16 @@ Install with Go (needs Go 1.26.4 or later, the version `cmd/textdatactl` declare
 go install github.com/ubgo/textdata/cmd/textdatactl@latest
 ```
 
-Or download a prebuilt binary from the [`textdatactl/v0.1.4` release](https://github.com/ubgo/textdata/releases/tag/textdatactl%2Fv0.1.4): archives for `darwin_amd64`, `darwin_arm64`, `linux_amd64`, `linux_arm64` (`.tar.gz`) and `windows_amd64` (`.zip`), each holding the single `textdatactl` binary, plus `checksums.txt`:
+Or download a prebuilt binary from the [`textdatactl/v0.1.5` release](https://github.com/ubgo/textdata/releases/tag/textdatactl%2Fv0.1.5): archives for `darwin_amd64`, `darwin_arm64`, `linux_amd64`, `linux_arm64` (`.tar.gz`) and `windows_amd64` (`.zip`), each holding the single `textdatactl` binary, plus `checksums.txt`:
 
 ```sh
-curl -fsSLO https://github.com/ubgo/textdata/releases/download/textdatactl/v0.1.4/textdatactl_v0.1.4_linux_amd64.tar.gz
-curl -fsSLO https://github.com/ubgo/textdata/releases/download/textdatactl/v0.1.4/checksums.txt
-sha256sum -c checksums.txt --ignore-missing   # textdatactl_v0.1.4_linux_amd64.tar.gz: OK
-tar xzf textdatactl_v0.1.4_linux_amd64.tar.gz && sudo mv textdatactl /usr/local/bin/
+curl -fsSLO https://github.com/ubgo/textdata/releases/download/textdatactl/v0.1.5/textdatactl_v0.1.5_linux_amd64.tar.gz
+curl -fsSLO https://github.com/ubgo/textdata/releases/download/textdatactl/v0.1.5/checksums.txt
+sha256sum -c checksums.txt --ignore-missing   # textdatactl_v0.1.5_linux_amd64.tar.gz: OK
+tar xzf textdatactl_v0.1.5_linux_amd64.tar.gz && sudo mv textdatactl /usr/local/bin/
 ```
 
-The release tag is `textdatactl/v0.1.4` (the binary's tag); the Go module is tagged `cmd/textdatactl/v0.1.4`, which is what `go install …@latest` resolves. To build from a clone instead: `cd cmd/textdatactl && go build -o textdatactl .`.
+The release tag is `textdatactl/v0.1.5` (the binary's tag); the Go module is tagged `cmd/textdatactl/v0.1.5`, which is what `go install …@latest` resolves. To build from a clone instead: `cd cmd/textdatactl && go build -o textdatactl .`.
 
 The examples below run in a folder holding the `.env` and `config.jsonc` from [`examples/getting-started/first-read`](../../../examples/getting-started/first-read) (copy its `app.env` to `.env` first: `cp app.env .env`). The in-process example for Step 4 is [`examples/getting-started/embed-cli`](../../../examples/getting-started/embed-cli).
 
@@ -29,20 +29,20 @@ To see every verb of both formats and `version --json` run once with real output
 
 ```sh
 $ textdatactl version
-textdatactl v0.1.4
+textdatactl v0.1.5
   source:      ldflags
   commit:      861b434792ec70e0b4760162bb65f21df68e3db2
   built:       2026-11-13T05:17:57Z
   go:          go1.27.1
   platform:    linux/amd64
 $ textdatactl --version
-textdatactl version v0.1.4
+textdatactl version v0.1.5
 ```
 
-That is the `linux_amd64` release archive. A binary from `go install` reports `source: module` and the module version; one built from a clone reports a pseudo-version such as `v0.1.5-0.20261113071213-e24c1e3cc8bb+dirty`. `textdatactl version --json` prints the same facts in the JSON envelope:
+That is the `linux_amd64` release archive. A binary from `go install` reports `source: module` and the module version; one built from a clone reports a pseudo-version such as `v0.1.6-0.20261113071213-e24c1e3cc8bb+dirty`. `textdatactl version --json` prints the same facts in the JSON envelope:
 
 ```json
-{"ok":true,"data":{"binary":"textdatactl","version":"v0.1.5-0.20261113071213-e24c1e3cc8bb+dirty","source":"module","commit":"e24c1e3cc8bb8e048e5ed14e1200aedd182409e5","build_time":"2026-11-13T07:12:13Z","modified":true,"go_version":"go1.27.1","platform":"linux/amd64"}}
+{"ok":true,"data":{"binary":"textdatactl","version":"v0.1.6-0.20261113071213-e24c1e3cc8bb+dirty","source":"module","commit":"e24c1e3cc8bb8e048e5ed14e1200aedd182409e5","build_time":"2026-11-13T07:12:13Z","modified":true,"go_version":"go1.27.1","platform":"linux/amd64"}}
 ```
 
 ## Step 2 — Read and edit a .env file
