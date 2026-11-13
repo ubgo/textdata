@@ -1,7 +1,7 @@
 {
-  "_hlc": "2026-11-13T05:44:59.944Z/0000/act_afbe7ed1d969752697eebecaac20e9dc",
+  "_hlc": "2026-11-13T05:45:05.535Z/0000/act_afbe7ed1d969752697eebecaac20e9dc",
   "_live": {
-    "hlc": "2026-11-13T05:44:59.944Z/0000/act_afbe7ed1d969752697eebecaac20e9dc",
+    "hlc": "2026-11-13T05:45:05.535Z/0000/act_afbe7ed1d969752697eebecaac20e9dc",
     "live_since": "2026-11-13T05:44:59Z"
   },
   "_o": {
@@ -20,17 +20,38 @@
     "v": "0.1.18-dev+bughunt.ae539cdf"
   },
   "body": "All modules tagged with volt, repo public, cfgkit v0.1.1 + contrib/format-jsonc v0.1.1, ubgo/dotenv v0.1.3 / cli/v0.1.4 archived. Details in docsi/memory/textdata-status.md.",
+  "close_reason": "completed",
   "commitment": "accepted",
+  "completed_at": "2026-11-13T05:45:05.414540397Z",
   "created_at": "2026-11-13T05:44:59.944000000Z",
   "created_by": "act_afbe7ed1d969752697eebecaac20e9dc",
   "created_by_actor_id": "act_afbe7ed1d969752697eebecaac20e9dc",
+  "done_by": "act_afbe7ed1d969752697eebecaac20e9dc",
+  "history": [
+    {
+      "at": "2026-11-13T05:45:05Z",
+      "by": "act_afbe7ed1d969752697eebecaac20e9dc",
+      "field": "status",
+      "from": "todo",
+      "id": "the_01a1d37028867cc8a122f4d18adc274c",
+      "note": "open_items_at_close: 0",
+      "to": "done"
+    },
+    {
+      "at": "2026-11-13T05:45:05Z",
+      "by": "act_afbe7ed1d969752697eebecaac20e9dc",
+      "field": "close_reason",
+      "id": "the_01a1d37028867cd1bdd78acbaa17bcfb",
+      "to": "completed"
+    }
+  ],
   "id": "tsk_01a1d37012ad7d0ba61f86d5d5c1cbcc",
   "priority": "medium",
   "project_id": "prj_01a1bb14e8b671d8b096f2815781e6ef",
-  "status": "todo",
+  "status": "done",
   "tasklist_id": "tlt_01a1bb15600f71bd81160920a09e2a72",
   "title": "Release textdata v0.1.1, jsonc v0.1.2, cfgkit switch, retire ubgo/dotenv",
-  "updated_at": "2026-11-13T05:44:59.944000000Z",
+  "updated_at": "2026-11-13T05:45:05.535000000Z",
   "updated_by": "act_afbe7ed1d969752697eebecaac20e9dc",
   "watchers": [
     "act_afbe7ed1d969752697eebecaac20e9dc"
