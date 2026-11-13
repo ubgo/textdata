@@ -20,10 +20,10 @@ github.com/ubgo/textdata/dotenv/cli/providers/github v0.1.4 h1:FtvTL7H18qfvA/CyW
 github.com/ubgo/textdata/dotenv/cli/providers/github v0.1.4/go.mod h1:dhrCtXN4ny8YWLF0/iSagkzxj7IzpwU5GBXw6vJkQ/E=
 github.com/ubgo/textdata/dotenv/cli/providers/vercel v0.1.4 h1:0pvjnrKGzQpcjCHZMyRdnaVDHlAVCLGomhaSW8mF2n8=
 github.com/ubgo/textdata/dotenv/cli/providers/vercel v0.1.4/go.mod h1:9Tw3D6FvYYoZ03tsUM672nET5b+bRiG3PXRhvGwuhAs=
-github.com/ubgo/textdata/jsonc v0.1.4 h1:KjOXCI9cG4rm14U27ektmBjjjqe9rQj0rQEjEAcBk6o=
-github.com/ubgo/textdata/jsonc v0.1.4/go.mod h1:zrXw5vtxCr9vJ9OCS9+oA5+mXkDvijglSI4BKZCGYDg=
-github.com/ubgo/textdata/jsonc/cli v0.1.4 h1:fR/pwPOGDEBtpW/EgxWK3r/+t3QpkhAJu7v3yfL+I6A=
-github.com/ubgo/textdata/jsonc/cli v0.1.4/go.mod h1:W+L/o51pcQ9h2GLjZKoEALj5kz6K+0ZgmcVy1XQRtxk=
+github.com/ubgo/textdata/jsonc v0.1.5 h1:mxdLnR9wIAk9iBq0v0VATpjhkoqTFqr5GG5QHba96f8=
+github.com/ubgo/textdata/jsonc v0.1.5/go.mod h1:zrXw5vtxCr9vJ9OCS9+oA5+mXkDvijglSI4BKZCGYDg=
+github.com/ubgo/textdata/jsonc/cli v0.1.5 h1:fQMg88JAV+NgKXNjcI2uWQ1UP+UKiqRH/tFQduuVCK8=
+github.com/ubgo/textdata/jsonc/cli v0.1.5/go.mod h1:hOClxIONSzsjJdMzCWKv8HPKjdCZ7pieR2VtnnyKWRo=
 github.com/ubgo/voltkit/output v0.2.0 h1:xdHp39XTxyqE04ViB73e9C9JKsxAldZbudZM/mVFT2I=
 github.com/ubgo/voltkit/output v0.2.0/go.mod h1:bjN9RmQAhzxvdrKoU3qfqM0ZKv6wYLpz/5aneKum57s=
 github.com/ubgo/voltkit/versioncmd v0.2.1 h1:i8uCWIOOfIOS105G1iF7e342CWViuYQwI2EENtSX+PU=

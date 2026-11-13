@@ -4,6 +4,12 @@ All notable changes to `github.com/ubgo/textdata/cmd/textdatactl` are listed her
 
 ## [Unreleased]
 
+## [0.1.5] - 2026-11-13
+
+### Changed
+
+- Requires `github.com/ubgo/textdata/jsonc/cli` v0.1.5 and `jsonc` v0.1.5: `textdatactl jsonc` edits and `fmt` keep a mixed LF/CRLF file's own line ending instead of one taken from inside a block comment.
+
 ## [0.1.4] - 2026-11-13
 
 First public release. The earlier `cmd/textdatactl/v0.1.1`–`cmd/textdatactl/v0.1.2` tags were pre-releases; they are retracted in `go.mod`, and everything they contained is in this release.
