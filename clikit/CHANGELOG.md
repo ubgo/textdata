@@ -4,6 +4,10 @@ All notable changes to `github.com/ubgo/textdata/clikit` are listed here. The fo
 
 ## [Unreleased]
 
+### Changed
+
+- `go.mod` is tidy for a standalone build: `github.com/spf13/pflag` is now an indirect requirement (only cobra imports it) and `github.com/inconshreveable/mousetrap` is listed as indirect. No code or behaviour change; this ships with the next patch release.
+
 ## [0.1.4] - 2026-11-13
 
 First public release. The earlier `clikit/v0.1.1`–`clikit/v0.1.2` tags were pre-releases; they are retracted in `go.mod`, and everything they contained is in this release.

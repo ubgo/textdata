@@ -40,7 +40,7 @@ var wantRequires = map[string][]string{
 	"plugins/extends":             {base},
 	"plugins/vault":               {base},
 	"plugins/aws":                 {base},
-	"clikit":                      {cobra, pflag},
+	"clikit":                      {cobra},
 	"dotenv/cli/providers/github": {cobra, pflag, clikit},
 	"dotenv/cli/providers/vercel": {cobra, clikit},
 	"dotenv/cli":                  {cobra, clikit, dotenv, ghProv, vcProv, "golang.org/x/term"},
