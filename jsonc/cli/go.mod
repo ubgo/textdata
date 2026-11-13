@@ -6,9 +6,9 @@ retract [v0.1.1, v0.1.2] // superseded by the v0.1.4 fresh release
 
 require (
 	github.com/spf13/cobra v1.10.2
-	github.com/ubgo/textdata v0.1.2
-	github.com/ubgo/textdata/clikit v0.1.2
-	github.com/ubgo/textdata/jsonc v0.1.3
+	github.com/ubgo/textdata v0.1.4
+	github.com/ubgo/textdata/clikit v0.1.4
+	github.com/ubgo/textdata/jsonc v0.1.4
 )
 
 require (
