@@ -126,10 +126,21 @@ tasks:
         done
         exit $bad
 
+  tidy:check:
+    desc: Fail when any module's go.mod or go.sum is not what a standalone `go mod tidy` writes
+    cmds:
+      - |
+        bad=0
+        for m in {{.MODULES}}; do
+          out=$(cd "$m" && GOWORK=off go mod tidy -diff 2>&1) || { echo "── $m is not tidy (run: cd $m && GOWORK=off go mod tidy)"; echo "$out"; bad=1; }
+        done
+        exit $bad
+
   check:
-    desc: The full gate, once before a commit — gofmt, vet, race tests, short fuzz of every target
+    desc: The full gate, once before a commit — gofmt, go mod tidy, dependency rules, vet, race tests, short fuzz of every target
     cmds:
       - task: fmt:check
+      - task: tidy:check
       - task: deps:check
       - task: vet
       - task: test:race
