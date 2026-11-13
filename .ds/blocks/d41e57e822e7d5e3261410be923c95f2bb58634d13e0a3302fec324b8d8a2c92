@@ -1,0 +1,22 @@
+func guardSave(w io.Writer, name string, s *schema.Schema) error {
+	checker := schema.Plugin(s, schema.WithFileName(configName))
+	d, err := jsonc.Open(name, jsonc.WithPlugin(checker))
+	if err != nil {
+		return err
+	}
+	if err := errors.Join(d.Set("logLevel", "warn"), d.Set("port", 8443), d.Delete("tpyo")); err != nil {
+		return err
+	}
+	fmt.Fprintln(w, "save fixed:", d.Save())
+	if err := d.Set("port", -1); err != nil {
+		return err
+	}
+	fmt.Fprintln(w, "save broken:", withoutDir(d.Save(), filepath.Dir(name)))
+	onDisk, err := jsonc.Open(name)
+	if err != nil {
+		return err
+	}
+	port, err := onDisk.GetInt("port")
+	fmt.Fprintln(w, "port on disk:", port)
+	return err
+}

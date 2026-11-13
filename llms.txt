@@ -1,0 +1,23 @@
+# textdata
+
+> Comment- and byte-preserving parsers and editors for .env (dotenv) and JSONC/JSON config files in Go. Parse, read, change one value and save: every comment, blank line, key order and quote you did not touch is written back exactly. Stdlib only, fuzz-tested, with ${VAR} expansion, secret plugins (gopass, Vault, AWS) and a CLI.
+
+textdata is open source (Apache-2.0, github.com/ubgo/textdata). It is a multi-module Go repository: import only the module you need, for example `github.com/ubgo/textdata/dotenv` or `github.com/ubgo/textdata/jsonc`.
+
+## Docs
+- [README](https://github.com/ubgo/textdata/blob/main/README.md): overview, install, quick start, modules, FAQ
+- [Documentation index](https://github.com/ubgo/textdata/blob/main/docs/README.md): learning path and every guide
+- [Feature index](https://github.com/ubgo/textdata/blob/main/docs/reference/features.md): every feature with its guide and example
+- [dotenv](https://github.com/ubgo/textdata/blob/main/dotenv/README.md): the .env library
+- [jsonc](https://github.com/ubgo/textdata/blob/main/jsonc/README.md): the JSONC and JSON library
+- [CHANGELOG](https://github.com/ubgo/textdata/blob/main/CHANGELOG.md): base module release history (each module has its own)
+- [CONTRIBUTING](https://github.com/ubgo/textdata/blob/main/CONTRIBUTING.md): how to contribute
+
+## Install
+- Library: `go get github.com/ubgo/textdata/dotenv@latest` or `go get github.com/ubgo/textdata/jsonc@latest`
+- CLI: `go install github.com/ubgo/textdata/cmd/textdatactl@latest`
+- Binaries: https://github.com/ubgo/textdata/releases
+
+## Links
+- Repository: https://github.com/ubgo/textdata
+- API reference: https://pkg.go.dev/github.com/ubgo/textdata

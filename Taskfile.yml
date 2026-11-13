@@ -1,0 +1,136 @@
+# https://taskfile.dev
+#
+# One Taskfile for every module in the workspace. Modules are read from
+# go.work, so a new module is covered the moment it is added there.
+#
+# Two tiers: `task test` is the quick loop (cached, no race); `task check` is
+# the full gate run once before a commit (gofmt, vet, race tests, short fuzz of
+# every fuzz target). Nothing here runs automatically: there is no CI on push.
+
+version: "3"
+
+vars:
+  # Module directories from go.work, relative to the repo root.
+  MODULES:
+    sh: go list -m -f '{{"{{"}}.Dir{{"}}"}}' | sed "s#^$(pwd)#.#" | tr '\n' ' '
+  FUZZTIME: '{{.FUZZTIME | default "10s"}}'
+
+tasks:
+  default:
+    desc: List available tasks
+    cmds:
+      - task --list
+    silent: true
+
+  modules:
+    desc: List the workspace modules
+    cmds:
+      - for: { var: MODULES }
+        cmd: echo "{{.ITEM}}"
+    silent: true
+
+  test:
+    desc: 'Quick tests for every module, or one: task test -- ./dotenv'
+    cmds:
+      - |
+        set -e
+        for m in {{if .CLI_ARGS}}{{.CLI_ARGS}}{{else}}{{.MODULES}}{{end}}; do
+          echo "── $m"; (cd "$m" && go test ./...)
+        done
+
+  test:race:
+    desc: Race-detector tests for every module
+    cmds:
+      - |
+        set -e
+        for m in {{.MODULES}}; do echo "── $m"; (cd "$m" && go test -race ./...); done
+
+  vet:
+    desc: go vet every module
+    cmds:
+      - |
+        set -e
+        for m in {{.MODULES}}; do echo "── $m"; (cd "$m" && go vet ./...); done
+
+  fmt:
+    desc: gofmt the tree
+    cmds:
+      - gofmt -w .
+
+  fmt:check:
+    desc: Fail when any Go file is unformatted
+    cmds:
+      - |
+        out=$(gofmt -l .)
+        if [ -n "$out" ]; then echo "gofmt needed on:"; echo "$out"; exit 1; fi
+
+  fuzz:list:
+    desc: List every fuzz target as <package dir> <Fuzz name>
+    cmds:
+      - |
+        grep -rH --include=*_test.go -o "^func Fuzz[A-Za-z0-9_]*" . | sed -e "s#/[^/]*_test.go:func # #" | sort -u
+    silent: true
+
+  fuzz:
+    desc: 'Fuzz one target: task fuzz -- ./jsonc FuzzParseRender [30s]'
+    cmds:
+      - |
+        set -- {{.CLI_ARGS}}
+        dir=$1; name=$2; t=${3:-30s}
+        cd "$dir" && go test -run '^$' -fuzz "^$name\$" -fuzztime "$t" .
+
+  fuzz:all:
+    desc: 'Fuzz every target for FUZZTIME each (default 10s): task fuzz:all FUZZTIME=30s'
+    cmds:
+      - |
+        set -e
+        task fuzz:list | while read -r dir name; do
+          echo "── $dir $name"
+          (cd "$dir" && go test -run '^$' -fuzz "^$name\$" -fuzztime {{.FUZZTIME}} .)
+        done
+
+  tidy:
+    desc: go mod tidy every module (needs the workspace for unreleased siblings)
+    cmds:
+      - |
+        for m in {{.MODULES}}; do echo "── $m"; (cd "$m" && go mod tidy) || true; done
+
+  cfgkit:check:
+    desc: 'Prove cfgkit contrib/format-jsonc (local branch format-jsonc in the cfgkit clone) against this tree, in a temp go.work outside both repos'
+    vars:
+      CFGKIT_REPO: '{{.CFGKIT_REPO | default "../cfgkit"}}'
+    cmds:
+      - |
+        set -e
+        here=$(pwd); ck=$(cd {{.CFGKIT_REPO}} && pwd)
+        ws=$(mktemp -d); trap 'rm -rf "$ws"' EXIT
+        git -C "$ck" worktree add -q --detach "$ws/cfgkit" format-jsonc
+        trap 'git -C "$ck" worktree remove --force "$ws/cfgkit"; rm -rf "$ws"' EXIT
+        cd "$ws"; z=v0.0.0-00010101000000-000000000000
+        go work init ./cfgkit ./cfgkit/contrib/format-jsonc "$here" "$here/jsonc" "$here/dotenv"
+        go work edit -replace=github.com/ubgo/textdata@$z="$here" -replace=github.com/ubgo/textdata/jsonc@$z="$here/jsonc" -replace=github.com/ubgo/textdata/dotenv@$z="$here/dotenv"
+        export GOWORK="$ws/go.work"
+        for m in cfgkit/contrib/format-jsonc cfgkit; do echo "── $m"; (cd "$m" && go vet ./... && go test -race -count=1 ./...); done
+
+  deps:check:
+    desc: Fail when a module directly requires something its non-test code does not import (test-only or unused); the integration module is exempt
+    cmds:
+      - |
+        bad=0
+        for m in {{.MODULES}}; do
+          [ "$m" = "./integration" ] && continue
+          used=$(cd "$m" && go list -deps -f '{{"{{"}}with .Module{{"}}"}}{{"{{"}}.Path{{"}}"}}{{"{{"}}end{{"}}"}}' ./... | sort -u)
+          for r in $(cd "$m" && go mod edit -json | python3 -c 'import json,sys;[print(r["Path"]) for r in json.load(sys.stdin).get("Require") or [] if not r.get("Indirect")]'); do
+            echo "$used" | grep -qx "$r" || { echo "$m requires $r but its non-test code does not import it"; bad=1; }
+          done
+        done
+        exit $bad
+
+  check:
+    desc: The full gate, once before a commit — gofmt, vet, race tests, short fuzz of every target
+    cmds:
+      - task: fmt:check
+      - task: deps:check
+      - task: vet
+      - task: test:race
+      - task: fuzz:all

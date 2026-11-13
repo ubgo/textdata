@@ -1,0 +1,23 @@
+{
+  "_hlc": "2026-11-08T13:30:40.092Z/0000/",
+  "_table": "decisions",
+  "_v": 2,
+  "archived_at": null,
+  "body": "Get, JSON and Decode never expand. Expanded() returns a new Doc with string values expanded and transformed (keys never); GetExpanded(path) the same for one value. WithExpand() only makes the one-call Read expand. ${NAME} resolves only through Lookupers (WithLookup, plugins); unknown names are empty like Compose; ${scheme:ref} through Resolvers; $(cmd) only with WithCommandSubstitution or a CommandRunner plugin. Alternative rejected: an option that makes Get return expanded values, because then the same Doc reads differently depending on construction and a later Save could not be trusted to keep references.",
+  "confidence": null,
+  "created_at": "2026-11-08T13:30:40.092824933Z",
+  "created_by": "act_afbe7ed1d969752697eebecaac20e9dc",
+  "created_by_actor_id": "act_afbe7ed1d969752697eebecaac20e9dc",
+  "id": "dec_01a1bb5a9c5c7d199c95bb0480391bcc",
+  "last_validated_at": null,
+  "project_id": "prj_01a1bb14e8b671d8b096f2815781e6ef",
+  "repo_id": null,
+  "source_kind": "manual",
+  "source_ref": null,
+  "status": "accepted",
+  "superseded_by_id": null,
+  "title": "jsonc reads raw; expansion only through Expanded/GetExpanded",
+  "trust_score": 0.5,
+  "updated_at": "2026-11-08T13:30:40.092825055Z",
+  "updated_by": "act_00000000000070008000000000000000"
+}

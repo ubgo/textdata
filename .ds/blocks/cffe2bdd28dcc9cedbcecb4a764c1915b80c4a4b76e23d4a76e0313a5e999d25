@@ -1,0 +1,30 @@
+func commands(w io.Writer) error {
+	vars := map[string]string{"WHO": "world"}
+	off := &expand.Engine{Lookup: mapLookup(vars)}
+	on := &expand.Engine{
+		Lookup: mapLookup(vars),
+		Run: func(cmd string) (string, error) {
+			if strings.HasPrefix(cmd, "fail") {
+				return "", errors.New("exit status 1")
+			}
+			return strings.ToUpper(cmd), nil // stands in for a real shell
+		},
+	}
+	in := "a $(echo $WHO) b [$(fail)]"
+	offOut, err := off.Expand(in, nil)
+	if err != nil {
+		return err
+	}
+	onOut, err := on.Expand("a $(echo $WHO) b", nil)
+	if err != nil {
+		return err
+	}
+	fmt.Fprintf(w, "run off: %s\nrun on:  %s\n", offOut, onOut)
+	_, err = on.Expand(in, nil)
+	var ce *expand.CommandError
+	if !errors.As(err, &ce) {
+		return fmt.Errorf("want a *expand.CommandError, got %v", err)
+	}
+	fmt.Fprintf(w, "run fail: %v (cmd=%q)\n", err, ce.Cmd)
+	return nil
+}

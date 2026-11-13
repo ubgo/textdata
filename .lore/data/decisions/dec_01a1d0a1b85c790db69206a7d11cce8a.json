@@ -1,0 +1,23 @@
+{
+  "_hlc": "2026-11-12T16:40:21.852Z/0000/",
+  "_table": "decisions",
+  "_v": 2,
+  "archived_at": null,
+  "body": "gitleaks flags AWS's own published example token/signatures in plugins/aws/testdata/sigv4. Chosen: .gitleaksignore with the five exact fingerprints (narrowest allowlist), keeping full vector coverage of the signed session-token header. Alternatives: drop the two vector folders (less coverage) or a path-wide allowlist (would hide a real future leak in that folder). Also renamed a vault example field from password to apikey so lore's password_pair rule does not trip on a fake value.",
+  "confidence": null,
+  "created_at": "2026-11-12T16:40:21.852564117Z",
+  "created_by": "act_afbe7ed1d969752697eebecaac20e9dc",
+  "created_by_actor_id": "act_afbe7ed1d969752697eebecaac20e9dc",
+  "id": "dec_01a1d0a1b85c790db69206a7d11cce8a",
+  "last_validated_at": null,
+  "project_id": "prj_01a1bb14e8b671d8b096f2815781e6ef",
+  "repo_id": null,
+  "source_kind": "manual",
+  "source_ref": null,
+  "status": "accepted",
+  "superseded_by_id": null,
+  "title": "Keep AWS SigV4 session-token vectors; allowlist by fingerprint",
+  "trust_score": 0.5,
+  "updated_at": "2026-11-12T16:40:21.852564427Z",
+  "updated_by": "act_00000000000070008000000000000000"
+}

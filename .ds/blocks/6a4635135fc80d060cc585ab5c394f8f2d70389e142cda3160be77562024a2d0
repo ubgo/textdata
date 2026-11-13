@@ -1,0 +1,32 @@
+func functionOptions(w io.Writer) error {
+	env := map[string]string{"REGION": "eu-west-1", "ZONE": "ignored"}
+	keys := map[string]string{"c2VjcmV0": "hunter2"}
+	f := dotenv.Parse("ZONE=${REGION}-a\nPASS='encrypted:c2VjcmV0'\n",
+		dotenv.WithLookup(func(name string) (string, bool) {
+			v, ok := env[name]
+			return v, ok
+		}),
+		dotenv.WithValueTransform(func(key, v string) (string, error) {
+			id, ok := strings.CutPrefix(v, cipherPrefix)
+			if !ok {
+				return v, nil
+			}
+			if plain, found := keys[id]; found {
+				return plain, nil
+			}
+			return "", fmt.Errorf("%s: no key for %q", key, id)
+		}),
+		dotenv.WithSaveGuard(func(*dotenv.File) error { return errors.New("read-only") }),
+	)
+	zone, _, err := f.GetExpanded("ZONE")
+	if err != nil {
+		return err
+	}
+	// PASS's error is printed, not returned: a nil error here is the point.
+	pass, _, passErr := f.GetExpanded("PASS")
+	raw, _ := f.Get("PASS")
+	fmt.Fprintln(w, "ZONE:", zone, "PASS:", pass, "Get(PASS):", raw, "err:", passErr)
+	f.Path = "never-written.env" // the guard refuses before any write
+	fmt.Fprintln(w, "save:", f.Save())
+	return nil
+}

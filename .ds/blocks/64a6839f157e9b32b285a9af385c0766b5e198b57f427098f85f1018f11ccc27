@@ -1,0 +1,19 @@
+func newFakeVault(requests *atomic.Int32) *httptest.Server {
+	return httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		requests.Add(1)
+		if r.Header.Get("X-Vault-Token") != demoToken || r.URL.Path == pathForbidden {
+			reply(w, http.StatusForbidden, bodyDenied)
+			return
+		}
+		switch {
+		case r.URL.Path == pathKV2 && r.URL.Query().Get(queryVersion) == pinnedVersion:
+			reply(w, http.StatusOK, bodyKV2V1)
+		case r.URL.Path == pathKV2:
+			reply(w, http.StatusOK, bodyKV2Latest)
+		case r.URL.Path == pathKV1:
+			reply(w, http.StatusOK, bodyKV1)
+		default:
+			reply(w, http.StatusNotFound, bodyNotFound)
+		}
+	}))
+}

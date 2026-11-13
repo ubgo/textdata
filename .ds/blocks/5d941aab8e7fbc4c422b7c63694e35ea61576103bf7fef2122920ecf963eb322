@@ -1,0 +1,22 @@
+func ordering(w io.Writer) error {
+	look := func(answer string) func(string) (string, bool) {
+		return func(string) (string, bool) { return answer, answer != "" }
+	}
+	wrap := func(tag string) func(string, string) (string, error) {
+		return func(_, v string) (string, error) { return tag + "(" + v + ")", nil }
+	}
+	runner := func(tag string) func(string) (string, error) {
+		return func(string) (string, error) { return tag, nil }
+	}
+	f := dotenv.Parse("A=${X}\nB=$(cmd)\n",
+		dotenv.WithLookup(look("")), dotenv.WithLookup(look("second")), dotenv.WithLookup(look("third")),
+		dotenv.WithValueTransform(wrap("t1")), dotenv.WithValueTransform(wrap("t2")),
+		dotenv.WithCommandRunner(runner("first-runner")), dotenv.WithCommandRunner(runner("last-runner")),
+	)
+	m, err := f.ExpandedMap()
+	if err != nil {
+		return err
+	}
+	fmt.Fprintln(w, "A:", m["A"], "B:", m["B"])
+	return nil
+}

@@ -1,0 +1,14 @@
+func inherited(w io.Writer) error {
+	f := dotenv.Parse("PORT=8080\nHOME\nexport AWS_REGION\nHOME\n")
+	source := map[string]string{"HOME": "/home/app"}
+	for _, name := range f.Inherited() {
+		v, ok := source[name]
+		fmt.Fprintf(w, "%s: %q found=%v\n", name, v, ok)
+	}
+	v, _, err := f.GetExpanded("HOME")
+	if err != nil {
+		return err
+	}
+	fmt.Fprintf(w, "GetExpanded(HOME) = %q\n", v)
+	return nil
+}

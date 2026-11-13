@@ -1,0 +1,54 @@
+# Selection grammar
+
+Resolves one `.env` file with a different `selection.Options` per step through `envkit.SelectFile`, the call `dotenvctl` makes before every provider verb: every key with the push defaults, a prefix kept and stripped, a force-included key, lifted guards, no expansion, a custom placeholder pattern, the named-key-must-exist error and `selection.PlaceholderMatcher`.
+
+Guide: [selection.md](../../../docs/guides/providers/selection.md).
+
+Writes the `.env` to a temp directory; nothing else is touched.
+
+## Run
+
+```sh
+cd examples/providers/selection && go run .
+go test ./providers/selection/   # from examples/: compares the output with testdata/output.txt
+```
+
+## Expected output
+
+```text
+1. every key, expanded, guards on
+  pair    GITHUB_SECRET_DB_URL=postgres://db.internal/app
+  pair    GITHUB_SECRET_GITHUB_TOKEN=ghp_local_only
+  pair    DB_HOST=db.internal
+  pair    DEPLOY_REGION=eu-west-1
+  pair    LOG_LEVEL=debug
+  skipped GITHUB_SECRET_API_KEY (placeholder)
+  skipped GITHUB_SECRET_SENTRY_DSN (empty)
+2. only deploy secrets, prefix stripped
+  pair    DB_URL=postgres://db.internal/app
+  skipped API_KEY (placeholder)
+  skipped SENTRY_DSN (empty)
+3. force-include one app key
+  pair    DB_URL=postgres://db.internal/app
+  pair    DEPLOY_REGION=eu-west-1
+  skipped API_KEY (placeholder)
+  skipped SENTRY_DSN (empty)
+4. lift both guards
+  pair    DB_URL=postgres://db.internal/app
+  pair    API_KEY=__YOU__
+  pair    GITHUB_TOKEN=ghp_local_only
+  pair    SENTRY_DSN=
+5. no expansion
+  pair    GITHUB_SECRET_DB_URL=postgres://${DB_HOST}/app
+6. a custom placeholder pattern
+  pair    GITHUB_SECRET_DB_URL=postgres://db.internal/app
+  pair    GITHUB_SECRET_API_KEY=__YOU__
+  skipped GITHUB_SECRET_GITHUB_TOKEN (placeholder)
+  skipped GITHUB_SECRET_SENTRY_DSN (empty)
+7. a named key that does not exist
+  error: envkit: key "MISSING" not found
+  excluding it instead: err=<nil>
+8. checking a pattern before use
+  default ^__[A-Z0-9_]+__$ matches __YOU__: true
+  bad pattern: placeholder pattern "__(": error parsing regexp: missing closing ): `__(`
+```

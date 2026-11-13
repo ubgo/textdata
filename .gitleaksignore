@@ -1,0 +1,6 @@
+# AWS's own published SigV4 test-suite example token and signatures (awslabs/aws-c-auth, Apache-2.0); not credentials.
+plugins/aws/testdata/sigv4/get-vanilla-with-session-token/context.json:generic-api-key:5
+plugins/aws/testdata/sigv4/get-vanilla-with-session-token/header-canonical-request.txt:generic-api-key:6
+plugins/aws/testdata/sigv4/get-vanilla-with-session-token/header-signed-request.txt:generic-api-key:3
+plugins/aws/testdata/sigv4/get-vanilla-with-session-token/header-signed-request.txt:generic-api-key:5
+plugins/aws/testdata/sigv4/post-sts-header-before/header-signed-request.txt:generic-api-key:5

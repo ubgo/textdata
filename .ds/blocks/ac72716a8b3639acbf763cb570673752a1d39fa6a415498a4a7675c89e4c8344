@@ -1,0 +1,15 @@
+func getVsExpanded(w io.Writer) error {
+	f := dotenv.Parse("URL=postgres://${HOST}:$PORT/app\nHOST=db\nPORT=5432\nMISSING=[${NOPE}]\n")
+	raw, _ := f.Get("URL")
+	url, ok, err := f.GetExpanded("URL")
+	if err != nil {
+		return err
+	}
+	fmt.Fprintf(w, "Get=%s\nGetExpanded=%s ok=%v\n", raw, url, ok)
+	missing, _, err := f.GetExpanded("MISSING")
+	if err != nil {
+		return err
+	}
+	fmt.Fprintln(w, "MISSING:", missing)
+	return nil
+}

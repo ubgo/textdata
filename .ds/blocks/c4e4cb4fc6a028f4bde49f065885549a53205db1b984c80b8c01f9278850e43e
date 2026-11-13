@@ -1,0 +1,16 @@
+func setValues(w io.Writer) {
+	f := dotenv.Parse(app)
+	created := f.Set("PORT", "9090")
+	fmt.Fprintln(w, "PORT created:", created)
+	created = f.Set("LOG_LEVEL", "info")
+	fmt.Fprintln(w, "LOG_LEVEL created:", created)
+
+	before := f.Render()
+	f.Set("HOST", "localhost")
+	fmt.Fprintln(w, "same value is a no-op:", f.Render() == before)
+
+	f.Set("GREETING", "hello world")
+	f.Set("PASSWORD", "p$$w")
+	f.Set("MOTD", "line one\nline two")
+	fmt.Fprint(w, f.Render())
+}

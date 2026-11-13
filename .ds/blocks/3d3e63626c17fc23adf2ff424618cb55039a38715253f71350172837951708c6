@@ -1,0 +1,28 @@
+func commands(w io.Writer) error {
+	src := "GIT=git\nREV=$(${GIT} rev-parse --short HEAD)\nWHO=$(whoami)\nLIT='$(whoami)'\n"
+	off := dotenv.Parse(src)
+	rev, _, err := off.GetExpanded("REV")
+	if err != nil {
+		return err
+	}
+	fmt.Fprintln(w, "off: REV =", rev)
+
+	runner := func(cmd string) (string, error) {
+		out, ok := allowed[cmd]
+		if !ok {
+			return "", fmt.Errorf("command %q not allowed", cmd)
+		}
+		return out, nil
+	}
+	on := dotenv.Parse(src, dotenv.WithCommandRunner(runner))
+	if err := expandAll(w, on); err != nil {
+		return err
+	}
+	// Options apply in order: a later switch-off wins over the runner.
+	later := dotenv.Parse(src, dotenv.WithCommandRunner(runner), dotenv.WithCommandSubstitution(false))
+	if rev, _, err = later.GetExpanded("REV"); err != nil {
+		return err
+	}
+	fmt.Fprintln(w, "runner then off: REV =", rev)
+	return nil
+}

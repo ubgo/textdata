@@ -1,0 +1,23 @@
+{
+  "_hlc": "2026-11-08T13:30:39.823Z/0000/",
+  "_table": "decisions",
+  "_v": 2,
+  "archived_at": null,
+  "body": "Insert: own-line layout when the last item ends its line (even with a // comment) - new item on its own line after it, comma added right after the last value; inline otherwise - after every comment following the last item, ', ' joined; empty container - on a new line after the opening bracket's line (and any comment running from it), else just before the closing bracket. Delete mirrors each case (whole lines with attached comments; the predecessor's comma when the deleted item was last without one). Found and fixed by FuzzSetDelete/FuzzEditSequence; their crashers stay in jsonc/testdata/fuzz as regression seeds. Disable/Restore is for object members only; Restore matches the decoded key and takes a comma on its own line with the member.",
+  "confidence": null,
+  "created_at": "2026-11-08T13:30:39.823565327Z",
+  "created_by": "act_afbe7ed1d969752697eebecaac20e9dc",
+  "created_by_actor_id": "act_afbe7ed1d969752697eebecaac20e9dc",
+  "id": "dec_01a1bb5a9b4f791e920e8e1919dd1f75",
+  "last_validated_at": null,
+  "project_id": "prj_01a1bb14e8b671d8b096f2815781e6ef",
+  "repo_id": null,
+  "source_kind": "manual",
+  "source_ref": null,
+  "status": "accepted",
+  "superseded_by_id": null,
+  "title": "jsonc layout rules make Set then Delete an exact inverse",
+  "trust_score": 0.5,
+  "updated_at": "2026-11-08T13:30:39.823565430Z",
+  "updated_by": "act_00000000000070008000000000000000"
+}

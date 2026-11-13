@@ -1,0 +1,26 @@
+func guard(w io.Writer, f *dotenv.File) error {
+	before, err := os.ReadFile(f.Path)
+	if err != nil {
+		return err
+	}
+	f.Set("DB_PASSWORD", "hush") // someone pastes the secret in
+	err = f.Save()
+	fmt.Fprintln(w, "leak refused:", errors.Is(err, errLeak))
+	fmt.Fprintln(w, strings.Replace(err.Error(), f.Path, envFile, 1))
+
+	f.Unset("DB_PASSWORD", true)
+	f.Unset("DB_URL", true)
+	err = f.Save()
+	fmt.Fprintln(w, strings.Replace(err.Error(), f.Path, envFile, 1))
+
+	after, err := os.ReadFile(f.Path)
+	if err != nil {
+		return err
+	}
+	entries, err := os.ReadDir(filepath.Dir(f.Path))
+	if err != nil {
+		return err
+	}
+	fmt.Fprintln(w, "file unchanged:", string(before) == string(after), "files in dir:", len(entries))
+	return nil
+}

@@ -1,0 +1,18 @@
+const (
+	// EnvPluginFile is the absolute path of the -f file the user chose.
+	EnvPluginFile = "DOTENVCTL_FILE"
+	// EnvPluginJSON is "1" when the user passed --json, else "0".
+	EnvPluginJSON = "DOTENVCTL_JSON"
+	// EnvPluginPlaceholder is the active placeholder regexp.
+	EnvPluginPlaceholder = "DOTENVCTL_PLACEHOLDER"
+	// EnvPluginBin is the absolute path of the running host executable — the
+	// callback handle, always followed by EnvPluginBinArgs:
+	// `"$DOTENVCTL_BIN" ${DOTENVCTL_BIN_ARGS:-} -f "$DOTENVCTL_FILE" list --json`.
+	EnvPluginBin = "DOTENVCTL_BIN"
+	// EnvPluginBinArgs holds the space-separated words that must follow
+	// DOTENVCTL_BIN to reach the dotenv verbs: empty for dotenvctl, "dotenv"
+	// under textdatactl (WithCallbackArgs). Expand it unquoted.
+	EnvPluginBinArgs = "DOTENVCTL_BIN_ARGS"
+	// EnvPluginVersion is the host version, so plugins can gate on features.
+	EnvPluginVersion = "DOTENVCTL_VERSION"
+)

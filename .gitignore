@@ -1,0 +1,28 @@
+# BEGIN repolink (managed — do not edit)
+/CLAUDE.md
+/docsi
+# END repolink
+
+# lore
+.lore/lore.db
+.lore/lore.db-shm
+.lore/lore.db-wal
+.lore/lore.db.broken.*
+.lore/state/
+.lore/backups/
+.lore/LORE.md
+
+# go test -c / -cpuprofile binaries
+*.test
+
+# lore
+.lore/lore-cache.db
+.lore/lore-cache.db-shm
+.lore/lore-cache.db-wal
+.lore/lock
+.lore/data/**/.tmp-*
+
+# volt build/release artifacts. volt writes ./dist in the directory it runs
+# from, between per-platform go builds: an unignored dist/ marks every binary
+# after the first as vcs.modified ("(dirty)" in `textdatactl version`).
+dist/

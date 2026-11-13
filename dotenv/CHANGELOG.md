@@ -1,0 +1,24 @@
+# Changelog
+
+All notable changes to `github.com/ubgo/textdata/dotenv` are listed here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions are this module's own git tags (`dotenv/vX.Y.Z`).
+
+## [Unreleased]
+
+## [0.1.4] - 2026-11-13
+
+First public release. The earlier `dotenv/v0.1.1`–`dotenv/v0.1.2` tags were pre-releases; they are retracted in `go.mod`, and everything they contained is in this release.
+
+### Added
+
+- Moved from `github.com/ubgo/dotenv` (source commit cf531f4); every original test and fuzz seed passes unchanged; the old repo is deprecated and archived after this release (no forwarder); its tags stay downloadable.
+- Expansion runs on the base `expand` engine; plugin interfaces are aliases of the base `plugin` package; saving goes through `atomicfile` and now writes through symlinks.
+- `Resolver` plugins for `${scheme:ref}` and the cross-format `plugin.SaveGuard` (a `*File` is a `plugin.Document`).
+
+### Changed during the pre-releases
+
+- A `$(command)` that fails, exits non-zero or is refused by a `CommandRunner` now makes `GetExpanded`, `ExpandedMap` and `Read` return an `*expand.CommandError` naming the command (it unwraps to the runner's error) instead of expanding to `""`. Behaviour change: code that relied on a failing command reading as empty must make the command succeed (`$(cmd || true)`) or return a fallback from its runner.
+
+### Fixed during the pre-releases
+
+- `SetAfter`, `SetBefore`, `InsertAfter` and `InsertBefore` name the missing anchor: the error is `dotenv: anchor key not found: "NOPE"`, wrapping `ErrAnchorNotFound` (match it with `errors.Is`; a direct `==` comparison no longer matches).
+- `WithPlugin` no longer silently installs a plugin whose only abilities are ones dotenv never uses (the `extends` Includer, a `Validator`). It is refused with `dotenv: plugin "<name>": no ability dotenv supports (<abilities>)`, wrapping the new `ErrUnsupportedPlugin`; `Open`, `ParseReader` and `Read` return it, and on a file from `Parse` so do `GetExpanded`, `ExpandedMap`, `Save` and `SaveAs`. A plugin with at least one supported ability still installs.

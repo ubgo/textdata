@@ -1,0 +1,21 @@
+type Store struct {
+	name   string
+	values map[string]string
+	// lookups maps plain ${NAME} references to store refs; a name not in it
+	// is "not mine", so the next Lookuper is asked.
+	lookups map[string]string
+}
+
+// Compile-time proof of the abilities Store claims. Without these lines a
+// typo in a method signature compiles, installs, and is silently never called.
+var (
+	_ plugin.Plugin   = (*Store)(nil)
+	_ plugin.Resolver = (*Store)(nil)
+	_ plugin.Lookuper = (*Store)(nil)
+)
+
+// Name implements plugin.Plugin; errors name the plugin with it.
+func (s *Store) Name() string { return s.name }
+
+// Schemes implements plugin.Resolver.
+func (s *Store) Schemes() []string { return []string{memScheme} }

@@ -1,0 +1,16 @@
+func refuseBroken(w io.Writer, merged *jsonc.Doc) error {
+	// Parse always returns a Doc; broken's syntax error is the input under
+	// test, so it is dropped here and Merge is left to refuse it.
+	broken, _ := jsonc.Parse([]byte(`{"server": {port: 1}}`))
+	array, err := jsonc.Parse([]byte(`[1, 2]`))
+	if err != nil {
+		return err
+	}
+	before := merged.Render()
+	errBroken := merged.Merge(broken)
+	errArray := merged.Merge(array)
+	fmt.Fprintln(w, "broken is ErrInvalid:", errors.Is(errBroken, jsonc.ErrInvalid))
+	fmt.Fprintln(w, "array root is ErrType:", errors.Is(errArray, jsonc.ErrType))
+	fmt.Fprintln(w, "target unchanged:", bytes.Equal(before, merged.Render()))
+	return nil
+}

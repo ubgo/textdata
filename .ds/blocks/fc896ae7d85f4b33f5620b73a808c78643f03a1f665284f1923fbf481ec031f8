@@ -1,0 +1,20 @@
+func readExpanded(w io.Writer, dir string) error {
+	path := filepath.Join(dir, configName)
+	if err := os.WriteFile(path, []byte(src), 0o600); err != nil {
+		return err
+	}
+	m, err := jsonc.Read(path, jsonc.WithExpand(), jsonc.WithLookup(lookup))
+	if err != nil {
+		return err
+	}
+	doc, err := jsonc.Open(path, jsonc.WithExpand())
+	if err != nil {
+		return err
+	}
+	db, ok := m["db"].(map[string]any)
+	if !ok {
+		return fmt.Errorf("db is %T, want an object", m["db"])
+	}
+	fmt.Fprintln(w, "Read:", db["url"], "| ExpandRequested:", doc.ExpandRequested())
+	return nil
+}

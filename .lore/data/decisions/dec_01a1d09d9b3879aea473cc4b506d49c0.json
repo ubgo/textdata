@@ -1,0 +1,23 @@
+{
+  "_hlc": "2026-11-12T16:35:52.248Z/0000/",
+  "_table": "decisions",
+  "_v": 2,
+  "archived_at": null,
+  "body": "Context: agent built root confinement opt-in. Chosen: secure by default, root = base dir, with an explicit opt-out option for trusted files that reference ../shared. Alternative: opt-in (silent read anywhere if a caller forgets). Reason: safest default for a resolver that reads files named inside possibly untrusted config.",
+  "confidence": null,
+  "created_at": "2026-11-12T16:35:52.248584619Z",
+  "created_by": "act_afbe7ed1d969752697eebecaac20e9dc",
+  "created_by_actor_id": "act_afbe7ed1d969752697eebecaac20e9dc",
+  "id": "dec_01a1d09d9b3879aea473cc4b506d49c0",
+  "last_validated_at": null,
+  "project_id": "prj_01a1bb14e8b671d8b096f2815781e6ef",
+  "repo_id": null,
+  "source_kind": "manual",
+  "source_ref": null,
+  "status": "accepted",
+  "superseded_by_id": null,
+  "title": "plugins/file confines refs to the base folder by default",
+  "trust_score": 0.5,
+  "updated_at": "2026-11-12T16:35:52.248584750Z",
+  "updated_by": "act_00000000000070008000000000000000"
+}

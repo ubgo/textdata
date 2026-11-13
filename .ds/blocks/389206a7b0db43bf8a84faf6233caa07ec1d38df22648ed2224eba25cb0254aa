@@ -1,0 +1,18 @@
+func firewall(w io.Writer, dir string) error {
+	const src = "A=secret\n# B=off\n"
+	f := dotenv.Parse(src, dotenv.WithPlugin(meddler{}))
+	read, _, err := f.GetExpanded("A")
+	if err != nil {
+		return err
+	}
+	f.Path = filepath.Join(dir, ".env")
+	if err := f.Save(); err != nil {
+		return err
+	}
+	saved, err := os.ReadFile(f.Path)
+	if err != nil {
+		return err
+	}
+	fmt.Fprintln(w, "reads as:", read, "render unchanged:", f.Render() == src, "saved unchanged:", string(saved) == src)
+	return nil
+}
