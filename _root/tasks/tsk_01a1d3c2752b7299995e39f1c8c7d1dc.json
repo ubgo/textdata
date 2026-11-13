@@ -1,7 +1,7 @@
 {
-  "_hlc": "2026-11-13T07:43:58.997Z/0000/act_7b6e2727126b7bbb9f3a5a9cefc0022f",
+  "_hlc": "2026-11-13T07:58:26.614Z/0000/act_7b6e2727126b7bbb9f3a5a9cefc0022f",
   "_live": {
-    "hlc": "2026-11-13T07:43:58.997Z/0000/act_7b6e2727126b7bbb9f3a5a9cefc0022f",
+    "hlc": "2026-11-13T07:58:26.614Z/0000/act_7b6e2727126b7bbb9f3a5a9cefc0022f",
     "live_since": "2026-11-13T07:14:59Z"
   },
   "_o": {
@@ -20,10 +20,13 @@
     "v": "0.1.18-dev+bughunt.69d4b340"
   },
   "body": "Owner request in /space/tmp/textdata-docs-brief.md",
+  "close_reason": "completed",
   "commitment": "accepted",
+  "completed_at": "2026-11-13T07:58:26.433025306Z",
   "created_at": "2026-11-13T07:14:59.185000000Z",
   "created_by": "act_7b6e2727126b7bbb9f3a5a9cefc0022f",
   "created_by_actor_id": "act_7b6e2727126b7bbb9f3a5a9cefc0022f",
+  "done_by": "act_7b6e2727126b7bbb9f3a5a9cefc0022f",
   "history": [
     {
       "at": "2026-11-13T07:43:58Z",
@@ -32,6 +35,22 @@
       "from": "todo",
       "id": "the_01a1d3dd011a763c8d0acb70c92023d0",
       "to": "in_progress"
+    },
+    {
+      "at": "2026-11-13T07:58:26Z",
+      "by": "act_7b6e2727126b7bbb9f3a5a9cefc0022f",
+      "field": "status",
+      "from": "in_progress",
+      "id": "the_01a1d3ea3e8176bf942c6c3f760dd5de",
+      "note": "open_items_at_close: 0",
+      "to": "done"
+    },
+    {
+      "at": "2026-11-13T07:58:26Z",
+      "by": "act_7b6e2727126b7bbb9f3a5a9cefc0022f",
+      "field": "close_reason",
+      "id": "the_01a1d3ea3e8176cc9f9d41adca6f7995",
+      "to": "completed"
     }
   ],
   "id": "tsk_01a1d3c2752b7299995e39f1c8c7d1dc",
@@ -39,10 +58,10 @@
   "priority": "medium",
   "project_id": "prj_01a1bb14e8b671d8b096f2815781e6ef",
   "started_at": "2026-11-13T07:43:58.745647095Z",
-  "status": "in_progress",
+  "status": "done",
   "tasklist_id": "tlt_01a1bb15600f71bd81160920a09e2a72",
   "title": "Batch 3: learning path, choosing guides, indexes",
-  "updated_at": "2026-11-13T07:43:58.997000000Z",
+  "updated_at": "2026-11-13T07:58:26.614000000Z",
   "updated_by": "act_7b6e2727126b7bbb9f3a5a9cefc0022f",
   "watchers": [
     "act_7b6e2727126b7bbb9f3a5a9cefc0022f"
