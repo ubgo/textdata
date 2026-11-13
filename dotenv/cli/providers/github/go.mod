@@ -7,7 +7,7 @@ retract [v0.1.1, v0.1.2] // superseded by the v0.1.4 fresh release
 require (
 	github.com/spf13/cobra v1.10.2
 	github.com/spf13/pflag v1.0.9
-	github.com/ubgo/textdata/clikit v0.1.1
+	github.com/ubgo/textdata/clikit v0.1.4
 )
 
 require github.com/inconshreveable/mousetrap v1.1.0 // indirect

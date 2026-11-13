@@ -6,7 +6,7 @@ retract v0.1.1 // superseded by the v0.1.4 fresh release
 
 require (
 	github.com/spf13/cobra v1.10.2
-	github.com/ubgo/textdata/clikit v0.1.1
+	github.com/ubgo/textdata/clikit v0.1.4
 )
 
 require (
