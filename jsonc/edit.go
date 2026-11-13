@@ -202,7 +202,7 @@ func (d *Doc) SetComment(p, text string) error {
 		return d.apply(splice{it.start(), it.start(), "/* " + text + " */ "})
 	}
 	indent := indentOf(d.src, it.start())
-	eol := d.eolAt(it.start())
+	eol := d.eolBefore(lineStart(d.src, it.start()))
 	var b strings.Builder
 	for _, line := range strings.Split(text, "\n") {
 		b.WriteString(indent)
@@ -498,7 +498,7 @@ func (d *Doc) insertItem(n *node, at int, key string, hasKey bool, value any) er
 			if err != nil {
 				return err
 			}
-			return d.apply(splice{at, at, d.eolAt(n.open) + indent + text})
+			return d.apply(splice{at, at, d.eolAt(at) + indent + text})
 		}
 		// Single line: just before the closing bracket, after any comment.
 		text, err := d.itemText(n, key, hasKey, value, "", false)
@@ -517,7 +517,7 @@ func (d *Doc) insertItem(n *node, at int, key string, hasKey bool, value any) er
 				return err
 			}
 			ls := lineStart(src, y.spanStart())
-			return d.apply(splice{ls, ls, indent + text + "," + d.eolAt(ls)})
+			return d.apply(splice{ls, ls, indent + text + "," + d.eolBefore(ls)})
 		}
 		text, err := d.itemText(n, key, hasKey, value, "", false)
 		if err != nil {
@@ -539,7 +539,7 @@ func (d *Doc) insertItem(n *node, at int, key string, hasKey bool, value any) er
 			return err
 		}
 		ins := d.afterLine(n, l.tailEnd())
-		eol := d.eolAt(l.tailEnd())
+		eol := d.eolAt(ins)
 		if l.comma < 0 {
 			return d.apply(splice{l.value.end, ins, "," + string(src[l.value.end:ins]) + eol + indent + text})
 		}
@@ -798,22 +798,64 @@ func (d *Doc) indentUnit() string {
 	return unit
 }
 
-// eolAt is the line ending of off's line, or the document's.
+// Line endings for inserted text. A line break inside a block comment is
+// part of the comment's text, not the file's layout, so it never sets the
+// style: a file whose only CRLF sits in a comment is an LF file.
+
+// eolAt is the terminator of off's line: the break where text inserted at
+// that line's end goes, so deleting the text again restores the input byte
+// for byte. When the line has no terminator, or it lies inside a block
+// comment, it is the document's line ending.
 func (d *Doc) eolAt(off int) string {
-	le := lineEnd(d.src, off)
-	if le < len(d.src) {
-		if le > 0 && d.src[le-1] == '\r' {
-			return "\r\n"
-		}
-		return "\n"
+	if le := lineEnd(d.src, off); le < len(d.src) && !d.inComment(le) {
+		return eolOf(d.src, le)
 	}
 	return d.docEOL()
 }
 
-// docEOL is the document's line ending: that of its first line break.
+// eolBefore is the terminator of the line break just before the line start
+// ls, for a line inserted at ls; at the start of the file, or when that
+// break lies inside a block comment, it is the document's line ending.
+func (d *Doc) eolBefore(ls int) string {
+	if ls > 0 && d.src[ls-1] == '\n' && !d.inComment(ls-1) {
+		return eolOf(d.src, ls-1)
+	}
+	return d.docEOL()
+}
+
+// docEOL is the document's line ending: that of its first line break
+// outside a comment, else of its first line break, else LF.
 func (d *Doc) docEOL() string {
-	if i := bytes.IndexByte(d.src, '\n'); i > 0 && d.src[i-1] == '\r' {
+	first := -1
+	for i, c := range d.src {
+		if c != '\n' {
+			continue
+		}
+		if !d.inComment(i) {
+			return eolOf(d.src, i)
+		}
+		if first < 0 {
+			first = i
+		}
+	}
+	if first >= 0 {
+		return eolOf(d.src, first)
+	}
+	return "\n"
+}
+
+// eolOf is the terminator whose '\n' is at nl: CRLF or LF.
+func eolOf(src []byte, nl int) string {
+	if nl > 0 && src[nl-1] == '\r' {
 		return "\r\n"
 	}
 	return "\n"
+}
+
+// inComment reports whether off lies strictly inside a comment. A line
+// comment ends before its terminator, so only a block comment's own line
+// breaks count as inside.
+func (d *Doc) inComment(off int) bool {
+	i := sort.Search(len(d.comments), func(i int) bool { return d.comments[i].end > off })
+	return i < len(d.comments) && d.comments[i].start < off
 }

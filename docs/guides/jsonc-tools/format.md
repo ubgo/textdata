@@ -179,7 +179,7 @@ textdatactl jsonc fmt settings.jsonc --indent 4 --trailing-commas --dry-run
 - **`TrailingCommas` is ignored for a strict document.** A document parsed with `jsonc.Strict()` never gains a comment or a trailing comma, so formatting plain JSON keeps it plain JSON (pinned by the package's strict-format test).
 - **Minify is lossy.** Comments and trailing commas are gone; never save minified output over a hand-edited file.
 - **Invalid input is refused, not repaired.** Both functions return an error wrapping `jsonc.ErrInvalid`; fix the syntax error at the reported position first.
-- **Line endings come from the file.** The first line break decides LF or CRLF; there is no style field to convert between them.
+- **Line endings come from the file.** The first line break outside a block comment decides LF or CRLF (a break inside a comment is the comment's text, not the file's layout); there is no style field to convert between them.
 
 ## Related
 

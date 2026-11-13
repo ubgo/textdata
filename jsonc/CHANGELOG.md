@@ -4,6 +4,13 @@ All notable changes to `github.com/ubgo/textdata/jsonc` are listed here. The for
 
 ## [Unreleased]
 
+## [0.1.5] - 2026-11-13
+
+### Fixed
+
+- Text inserted into a file that mixes LF and CRLF took its line ending from a line break inside a block comment. In `{/*\r\n*/\n}`, `Set` wrote a CRLF that `Delete` then left behind, so Set then Delete no longer gave back the input. Inserted text now uses the break where it goes, or the line break just before the new line, or the document's first line break outside a comment, never one inside a block comment. This covers `Set` and `SetAfter`/`SetBefore` on objects, `Append`/`Insert` on arrays, `SetComment` and the comments `Merge` copies. Found by `FuzzSetDelete`; the input is kept as a fuzz seed, and a table test covers each mixed LF/CRLF layout.
+- `format.Format` took the line ending from the first line break anywhere, so a CRLF inside a block comment turned an LF file into a CRLF one. It now uses the first break outside a block comment or string.
+
 ## [0.1.4] - 2026-11-13
 
 First public release. The earlier `jsonc/v0.1.1`–`jsonc/v0.1.3` tags were pre-releases; they are retracted in `go.mod`, and everything they contained is in this release.
