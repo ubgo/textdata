@@ -1,0 +1,37 @@
+== DefaultStyle
+{
+  // editor settings
+  "tabSize": 4,
+  "insertSpaces": true,
+
+  "files": {
+    "exclude": [
+      "node_modules",
+      ".git"
+    ]
+  },
+  /* dark by default */
+  "theme": "dark"
+}
+== Indent 4, TrailingCommas
+{
+    // editor settings
+    "tabSize": 4,
+    "insertSpaces": true,
+
+    "files": {
+        "exclude": [
+            "node_modules",
+            ".git",
+        ],
+    },
+    /* dark by default */
+    "theme": "dark",
+}
+== check
+messy formatted: false
+tidy formatted: true
+== Minify
+{"tabSize":4,"insertSpaces":true,"files":{"exclude":["node_modules",".git"]},"theme":"dark"}
+== invalid input
+jsonc: document has syntax errors: settings.jsonc:1:13: missing comma before '"'

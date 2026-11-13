@@ -1,0 +1,69 @@
+$ memctl mem push
+target : memory (2 stored)
+keys   : 2
+memctl: refusing to write without --yes in non-interactive mode
+exit 2
+
+$ memctl mem push --dry-run
+target : memory (2 stored)
+keys   : 2
+API_KEY: skipped-placeholder
+DB_URL: would-push
+REDIS_URL: would-push
+exit 0
+
+$ memctl mem push --yes
+target : memory (2 stored)
+keys   : 2
+API_KEY: skipped-placeholder
+DB_URL: pushed
+REDIS_URL: pushed
+exit 0
+
+$ memctl mem list
+API_KEY
+DB_URL
+OLD_FLAG
+REDIS_URL
+exit 0
+
+$ memctl mem prune --dry-run
+target : memory (4 stored)
+keys   : 1
+API_KEY: kept-skipped
+OLD_FLAG: would-delete
+exit 0
+
+$ memctl mem prune --keep OLD_FLAG --dry-run
+nothing to prune
+API_KEY: kept-skipped
+OLD_FLAG: kept-keep-flag
+exit 0
+
+$ memctl mem prune --yes
+target : memory (4 stored)
+keys   : 1
+API_KEY: kept-skipped
+OLD_FLAG: deleted
+exit 0
+
+$ memctl --json mem push --prefix DB_ --yes
+{"ok":true,"data":{"meta":{"target":"memory"},"results":[{"name":"DB_URL","action":"pushed"}],"dry_run":false}}
+exit 0
+
+$ memctl mem list
+no secrets in the memory store (did you push yet?)
+exit 0
+
+$ memctl mem push --yes
+target : memory (0 stored)
+keys   : 2
+API_KEY: skipped-placeholder
+DB_URL: pushed
+memctl: push REDIS_URL: backend unavailable
+exit 1
+
+$ memctl --json mem push --yes
+{"ok":false,"data":{"meta":{"target":"memory"},"results":[{"name":"API_KEY","action":"skipped-placeholder"},{"name":"DB_URL","action":"pushed"}],"dry_run":false},"error":{"code":"exec","message":"push REDIS_URL: backend unavailable"}}
+exit 1
+

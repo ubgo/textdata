@@ -1,0 +1,12 @@
+postgres://db/app
+{"ok":true,"data":{"key":"DB_URL","value":"postgres://db/app"}}
+human: out="" err="mytool: key \"API_KEY\" not found\n"
+{"ok":false,"error":{"code":"not_found","message":"key \"API_KEY\" not found"}}
+{"ok":false,"data":{"pushed":["DB_URL"]},"error":{"code":"exec","message":"push REDIS_URL: backend unavailable"}}
+-DB_HOST=localhost
++DB_HOST=db.prod
+no-op is nil: true
+[-A=1 -B=2 -C=3 +A=9 +B=2 +C=8]
+diff-revealed-false.html: secret=false mask=true banner=false
+diff-revealed-true.html: secret=true mask=false banner=true
+matrix.html: doctype=true script=false external=false

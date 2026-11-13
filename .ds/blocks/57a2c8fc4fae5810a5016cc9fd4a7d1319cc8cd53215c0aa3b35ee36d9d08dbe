@@ -1,0 +1,8 @@
+func runPlugin(w io.Writer, args ...string) int {
+	if err := os.Setenv(hostModeEnv, hostModeOn); err != nil {
+		fmt.Fprintln(w, err)
+		return dotenvcmd.ExitFailure
+	}
+	defer func() { _ = os.Unsetenv(hostModeEnv) }()
+	return dotenvcmd.Execute(args, w, w)
+}

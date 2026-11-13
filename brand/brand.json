@@ -1,0 +1,44 @@
+{
+  "$comment": "Text manifest only. No visual identity, logo, icon or OG image is produced for this repo by the owner's instruction; satl-brand-kit is deliberately not run. The fields here feed the README intro and the GitHub About and topics, so keep them in sync with both.",
+
+  "name": "textdata",
+  "repo": "ubgo/textdata",
+  "language": "go",
+  "kind": "library",
+  "license": "Apache-2.0",
+
+  "author": {
+    "name": "Aman Bansal",
+    "email": "khanakia@gmail.com",
+    "github": "khanakia"
+  },
+
+  "tagline": "Edit config files in Go without losing a single comment.",
+
+  "description": "Comment- and byte-preserving parsers and editors for .env (dotenv) and JSONC/JSON config files in Go. Parse, read, change one value and save: every comment, blank line, key order and quote you did not touch is written back exactly. Stdlib only, fuzz-tested, with ${VAR} expansion, secret plugins (gopass, Vault, AWS) and a CLI.",
+
+  "positioning": {
+    "category": "Lossless config file editing for Go",
+    "audience": "Go developers whose tools read and rewrite config files that people also edit by hand",
+    "wedge": "Round-trip fidelity. Parse(x).Render() == x for every input, and an edit changes only the bytes it touches, so a tool can update one key in a committed .env or JSONC file without reformatting it or dropping comments.",
+    "alternatives": ["encoding/json and map round-trips", ".env loaders that only read", "generic decode-and-re-encode libraries"],
+    "differentiators": [
+      "Byte-exact round trip for every input, valid or not, pinned by fuzz tests",
+      "Edits touch only their own bytes: comments, order, quoting and line endings survive",
+      "Standard library only in the base and format modules",
+      "One expansion engine and one plugin seam across dotenv and JSONC",
+      "Secrets from gopass, files, HashiCorp Vault and AWS through opt-in plugin modules",
+      "file:line:col errors everywhere",
+      "A CLI (textdatactl) with a JSON envelope and stable exit codes"
+    ]
+  },
+
+  "topics": [
+    "go", "golang", "dotenv", "env", "jsonc", "json", "json-with-comments",
+    "config", "configuration", "parser", "lossless", "round-trip",
+    "comment-preserving", "environment-variables", "secrets-management",
+    "vault", "cli", "developer-tools"
+  ],
+
+  "homepage": "https://pkg.go.dev/github.com/ubgo/textdata"
+}

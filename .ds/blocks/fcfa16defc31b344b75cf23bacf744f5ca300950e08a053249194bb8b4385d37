@@ -1,0 +1,29 @@
+func lookupInBothFormats(w io.Writer) error {
+	s := store{values: map[string]string{"DB_PASSWORD": sampleSecret, "api/token": "t-123"}}
+
+	env := dotenv.Parse("DSN=postgres://app@db/app?password=${DB_PASSWORD}\nTOKEN=${store:api/token}\n", dotenv.WithPlugin(s))
+	dsn, _, err := env.GetExpanded("DSN")
+	if err != nil {
+		return err
+	}
+	token, _, err := env.GetExpanded("TOKEN")
+	if err != nil {
+		return err
+	}
+	fmt.Fprintf(w, "dotenv: DSN=%s TOKEN=%s\n", dsn, token)
+
+	doc, err := jsonc.Parse([]byte(`{"db": {"password": "${DB_PASSWORD}"}, "token": "${store:api/token}"}`), jsonc.WithPlugin(s))
+	if err != nil {
+		return err
+	}
+	pw, err := doc.GetExpanded("db.password")
+	if err != nil {
+		return err
+	}
+	tok, err := doc.GetExpanded("token")
+	if err != nil {
+		return err
+	}
+	fmt.Fprintf(w, "jsonc:  db.password=%v token=%v\n", pw, tok)
+	return nil
+}

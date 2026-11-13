@@ -1,0 +1,4 @@
+go test fuzz v1
+[]byte("{}")
+[]byte("{\"\xc5\":0}")
+bool(false)

@@ -1,0 +1,24 @@
+func writeMatrix(w io.Writer, dir string) error {
+	m := report.Matrix{
+		Program: programName,
+		Envs:    []string{envStag, envProd},
+		Sources: []string{fileStag, fileProd},
+		Rows: []report.MatrixRow{
+			{Key: "DB_URL", Cells: []report.MatrixCell{cell(envkit.StatePresent), cell(envkit.StatePresent)}},
+			{Key: "SENTRY_DSN", Cells: []report.MatrixCell{cell(envkit.StatePresent), cell(envkit.StateMissing)}},
+		},
+	}
+	page, err := report.MatrixHTML(m)
+	if err != nil {
+		return err
+	}
+	path := filepath.Join(dir, "matrix.html")
+	if err := os.WriteFile(path, page, reportFileMode); err != nil {
+		return err
+	}
+	// The page embeds its generation time, so print properties, not bytes.
+	fmt.Fprintf(w, "%s: doctype=%t script=%t external=%t\n", filepath.Base(path),
+		bytes.HasPrefix(page, []byte("<!doctype html>")),
+		bytes.Contains(page, []byte("<script")), bytes.Contains(page, []byte("src=\"http")))
+	return nil
+}

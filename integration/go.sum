@@ -1,0 +1,16 @@
+github.com/ubgo/textdata v0.1.1 h1:BMEYHcCJhL3EZpbGc+uCApJZCaPpkUljWU5sUB6piI8=
+github.com/ubgo/textdata v0.1.1/go.mod h1:1va34iWWHcWGbX2TFLdKTvY0I4NTG9wNN2DMyOYUvM4=
+github.com/ubgo/textdata/dotenv v0.1.1 h1:F3r+8yNcQ/q0JN6712PvxcbBaE+M/pZRx9Abis+KC2E=
+github.com/ubgo/textdata/dotenv v0.1.1/go.mod h1:w575gpbGNazaHCC6e4IkSe8PV1nJyGoHnqr+rEzv60Q=
+github.com/ubgo/textdata/jsonc v0.1.1 h1:hHDbGKO2/llncKrZGferkqH6Ln+oPUJyIeta1N6h0DE=
+github.com/ubgo/textdata/jsonc v0.1.1/go.mod h1:bh2U66QXZZmEyiYwz++t5BMo36XMk7eNXQv/7LRCazw=
+github.com/ubgo/textdata/plugins/aws v0.1.1 h1:AA2QVcQbiNouXCxOBFVV/NrdcKElsX2LK1VWmouLZPc=
+github.com/ubgo/textdata/plugins/aws v0.1.1/go.mod h1:Y1lmAE1pm8aHgytO+AfGrFeUBpO57L8PH7me+BAAke4=
+github.com/ubgo/textdata/plugins/extends v0.1.1 h1:tiYvjtdm9jFWJ2W4tZJmrncwuSUC8uW3L+f9FO71RS4=
+github.com/ubgo/textdata/plugins/extends v0.1.1/go.mod h1:xYw5QtnIfhmOVlhYb1aYO0HVwvvuKfDetMZMISHDjYU=
+github.com/ubgo/textdata/plugins/file v0.1.1 h1:uXnPK1B8tDnu/XfXRtlwexTRWKd2BvVm8U1quD738zk=
+github.com/ubgo/textdata/plugins/file v0.1.1/go.mod h1:CYIWjWhJ2d9uOIH9BpvSzi8Hr4c8fotv2sa+A8MVBhU=
+github.com/ubgo/textdata/plugins/gopass v0.1.1 h1:vCi/FRjHqRCWkge7Xn/MCZ4VPWbFFeQo79tmnWy5L+k=
+github.com/ubgo/textdata/plugins/gopass v0.1.1/go.mod h1:uvTD5H0OhdbjWlEUvND+XUcnBN7MKGx9hMPbnEEhIvY=
+github.com/ubgo/textdata/plugins/vault v0.1.1 h1:i+hgw6JtLuX5AkE1QfD89iwSG4Zn94UYQCkLNLxQSO0=
+github.com/ubgo/textdata/plugins/vault v0.1.1/go.mod h1:2qKghTdqC3QA4jbtjqrMTWftyb5TfIUTrtHCwKRHqmc=

@@ -1,0 +1,23 @@
+{
+  "_hlc": "2026-11-12T16:36:44.420Z/0000/",
+  "_table": "decisions",
+  "_v": 2,
+  "archived_at": null,
+  "body": "Repo had no LICENSE; ubgo/dotenv is Apache-2.0. Each Go module zip carries only its own root, so every module gets a copy (pkg.go.dev shows a license per module). Alternative: root only, which leaves nested modules unlicensed on the proxy.",
+  "confidence": null,
+  "created_at": "2026-11-12T16:36:44.420575942Z",
+  "created_by": "act_afbe7ed1d969752697eebecaac20e9dc",
+  "created_by_actor_id": "act_afbe7ed1d969752697eebecaac20e9dc",
+  "id": "dec_01a1d09e6704796f84941f7c6fe03634",
+  "last_validated_at": null,
+  "project_id": "prj_01a1bb14e8b671d8b096f2815781e6ef",
+  "repo_id": null,
+  "source_kind": "manual",
+  "source_ref": null,
+  "status": "accepted",
+  "superseded_by_id": null,
+  "title": "Apache-2.0 LICENSE in every module root",
+  "trust_score": 0.5,
+  "updated_at": "2026-11-12T16:36:44.420576102Z",
+  "updated_by": "act_00000000000070008000000000000000"
+}

@@ -1,0 +1,29 @@
+# Changelog
+
+All notable changes to `github.com/ubgo/textdata/jsonc` are listed here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions are this module's own git tags (`jsonc/vX.Y.Z`).
+
+## [Unreleased]
+
+## [0.1.4] - 2026-11-13
+
+First public release. The earlier `jsonc/v0.1.1`–`jsonc/v0.1.3` tags were pre-releases; they are retracted in `go.mod`, and everything they contained is in this release.
+
+### Added
+
+- Lossless JSONC parser (tolerant by default, `Strict()` for plain JSON matching `encoding/json.Valid`), comments attached to members, `file:line:col` errors.
+- Read: `JSON`, `Decode`, `Get` and typed getters, `Has`, `Keys`, `Len`, `Kind`, `Comment`, `Pos`, `KeyPos`, dotted paths and JSON Pointer; `Read` one-call.
+- Edit: `Set`, `SetAfter`, `SetBefore`, `Delete`, `Append`, `Insert`, `Remove`, `SetComment`, `RemoveComment`, `Disable`, `Restore`, `Merge`, `Clone`; `Save`/`SaveAs` through `atomicfile` with save guards.
+- Dynamic values: expansion through the base engine with Lookupers, Resolvers, CommandRunner and ValueTransformers (off by default; positioned errors); `$extends` through `Extended` when an Includer is installed.
+- `Lint`, and packages `format` (`Format`, `Minify`), `generate` (builders, `FromStruct`), `schema` (`FromStruct`, `Parse`/`Load`, `Validate`, `Plugin`), `diff` (`Diff`).
+- Tests: JSONTestSuite conformance, a JSONC case set, property tests through `texttest`, fuzz targets for parse, edits, merge, format, lint, extends, schema and diff.
+
+### Changed during the pre-releases
+
+- `schema.Plugin` is now also a `plugin.SaveGuard`: installing it makes `Save` and `SaveAs` refuse a document with schema errors, leaving the file untouched. Warnings never refuse a save. It used to be a `Validator` only, so `Save` never ran it.
+- A failing or refused `$(command)` is now an error from `GetExpanded`, `Expanded` and `Read` with expansion, carrying the value's `file:line:col` and unwrapping to `*expand.CommandError`; it used to expand to `""` silently.
+- `Read` on a missing file now returns an error that names the path and wraps `fs.ErrNotExist`, matching `dotenv.Read`; it used to return an empty map and no error. `Open` is unchanged: a missing file is still an empty document that `Save` creates.
+
+### Fixed during the pre-releases
+
+- `Doc.Pos`, `Doc.KeyPos` and every error position raced when several goroutines read one unedited `Doc`: the lazily built offset index is now an atomic pointer, reset the same way by every edit. `Clone` builds a new `Doc` instead of copying one. Pinned by a race-detector test.
+- `schema.Parse` reported a `type` that is neither a string nor an array as `must be an array of strings`; a single type name is valid too, so it now says `must be a string or an array of strings`.

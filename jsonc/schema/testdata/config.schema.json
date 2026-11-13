@@ -1,0 +1,197 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/config.schema.json",
+  "title": "Config",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "description": "The JSON Schema this file follows.",
+      "type": "string"
+    },
+    "name": {
+      "description": "Application name.",
+      "type": "string",
+      "default": "app"
+    },
+    "logLevel": {
+      "description": "Log verbosity.",
+      "type": "string",
+      "enum": [
+        "debug",
+        "info",
+        "warn",
+        "error"
+      ],
+      "default": "info"
+    },
+    "server": {
+      "description": "HTTP server.",
+      "type": "object",
+      "properties": {
+        "addr": {
+          "description": "Listen address.",
+          "type": "string",
+          "default": ":8080",
+          "minLength": 1
+        },
+        "readTimeout": {
+          "description": "Duration in nanoseconds.",
+          "type": "integer",
+          "default": 5000000000
+        },
+        "tls": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "cert": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "addr"
+      ],
+      "additionalProperties": false
+    },
+    "primary": {
+      "$ref": "#/$defs/DB"
+    },
+    "replica": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/DB"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "hosts": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "default": [
+        "a",
+        "b"
+      ],
+      "items": {
+        "type": "string"
+      }
+    },
+    "ports": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "limits": {
+      "type": "object",
+      "default": {
+        "rps": 100
+      },
+      "additionalProperties": {
+        "type": "integer"
+      }
+    },
+    "ratio": {
+      "type": "number",
+      "default": 0.5
+    },
+    "debug": {
+      "type": "boolean"
+    },
+    "started": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "workers": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "default": 4
+    },
+    "id": {
+      "type": "string",
+      "default": "42"
+    },
+    "blob": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "contentEncoding": "base64"
+    },
+    "tree": {
+      "$ref": "#/$defs/Tree"
+    },
+    "labels": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "extra": {},
+    "token": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "token"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "DB": {
+      "type": "object",
+      "properties": {
+        "host": {
+          "description": "Database host.",
+          "type": "string",
+          "default": "localhost"
+        },
+        "port": {
+          "type": "integer",
+          "default": 5432,
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "password"
+      ],
+      "additionalProperties": false
+    },
+    "Tree": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "children": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/$defs/Tree"
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

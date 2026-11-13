@@ -1,0 +1,64 @@
+{
+  "$schema": "./config.schema.json",
+
+  // Application name.
+  "name": "app",
+
+  // Log verbosity.
+  // One of: debug, info, warn, error.
+  "logLevel": "info",
+
+  // HTTP server.
+  "server": {
+    // Listen address.
+    // Required, must not be empty.
+    "addr": ":8080",
+
+    // How long to wait for a request.
+    // Duration in nanoseconds.
+    "readTimeout": 5000000000, // 5s
+
+    "tls": {
+      // Certificate file.
+      "cert": "",
+      "key": ""
+    }
+  },
+
+  "primary": {
+    // Database host.
+    "host": "localhost",
+    "port": 5432,
+
+    // Database password.
+    // Required. Secret: do not commit a real value.
+    "password": ""
+  },
+
+  // Read replica.
+  // Leave as is to use the defaults.
+  "replica": {
+    // Database host.
+    "host": "localhost",
+    "port": 5432,
+
+    // Database password.
+    // Required. Secret: do not commit a real value.
+    "password": ""
+  },
+  "hosts": [
+    "a.example",
+    "b.example"
+  ],
+  "limits": {
+    "burst": 20,
+    "rps": 100
+  },
+  "ratio": 0.5,
+  "debug": false,
+  "started": "2026-01-02T03:04:05Z",
+  "workers": 4,
+  "id": "42",
+  "labels": {},
+  "extra": null
+}

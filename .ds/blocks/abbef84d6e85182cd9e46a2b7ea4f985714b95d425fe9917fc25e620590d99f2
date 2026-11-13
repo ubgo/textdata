@@ -1,0 +1,23 @@
+func writeReports(w io.Writer, dir string) error {
+	for _, reveal := range []bool{false, true} {
+		d := report.Diff{Program: programName, FileA: fileStag, FileB: fileProd, Revealed: reveal}
+		change := report.DiffChange{Key: "DB_URL"}
+		if reveal {
+			change.From, change.To = "postgres://db.stag/app", secretValue
+		}
+		d.Changed = []report.DiffChange{change}
+		page, err := report.DiffHTML(d)
+		if err != nil {
+			return err
+		}
+		path := filepath.Join(dir, fmt.Sprintf("diff-revealed-%t.html", reveal))
+		if err := os.WriteFile(path, page, reportFileMode); err != nil {
+			return err
+		}
+		fmt.Fprintf(w, "%s: secret=%t mask=%t banner=%t\n", filepath.Base(path),
+			bytes.Contains(page, []byte(secretValue)),
+			bytes.Contains(page, []byte(report.MaskGlyph)),
+			bytes.Contains(page, []byte(bannerText)))
+	}
+	return writeMatrix(w, dir)
+}

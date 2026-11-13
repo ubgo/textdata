@@ -1,0 +1,26 @@
+== base -> prod
+removed debug         true -> <nil> (base.jsonc 4:12, prod.jsonc -)
+changed hosts[0]      a.example -> z.example (base.jsonc 6:13, prod.jsonc 4:13)
+changed hosts[1]      b.example -> a.example (base.jsonc 6:26, prod.jsonc 4:26)
+added   hosts[2]      <nil> -> b.example (base.jsonc -, prod.jsonc 4:39)
+changed "log.level"   info -> warn (base.jsonc 7:16, prod.jsonc 5:16)
+changed server.port   8080 -> 443 (base.jsonc 3:22, prod.jsonc 3:41)
+added   server.tls    <nil> -> true (base.jsonc -, prod.jsonc 3:53)
+== by kind
+added: 2
+  hosts[2]      /hosts/2
+  server.tls    /server/tls
+removed: 1
+  debug         /debug
+changed: 4
+  hosts[0]      /hosts/0
+  hosts[1]      /hosts/1
+  "log.level"   /log.level
+  server.port   /server/port
+== base -> same meaning, new layout
+changes: 0
+== Equal
+1 == 1.0: true
+9007199254740993 == 9007199254740992: false
+map[a:true b:<nil>] == map[a:true b:<nil>]: true
+[a b] == [b a]: false

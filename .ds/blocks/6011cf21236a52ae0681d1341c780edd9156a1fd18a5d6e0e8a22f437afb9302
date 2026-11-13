@@ -1,0 +1,20 @@
+func withPlugins(w io.Writer) error {
+	vault := fakeVault{secrets: map[string]string{"db/password": "  hush \n"}}
+	doc, err := jsonc.Parse([]byte(src), jsonc.WithLookup(lookup), jsonc.WithPlugin(vault, trimSpace{}, fakeGit{}))
+	if err != nil {
+		return err
+	}
+	pw, err := doc.GetExpanded("db.password")
+	if err != nil {
+		return err
+	}
+	build, err := doc.GetExpanded("build")
+	if err != nil {
+		return err
+	}
+	fmt.Fprintf(w, "password: %q | build: %v\n", pw, build)
+	for _, info := range doc.Plugins() {
+		fmt.Fprintln(w, "plugin:", info)
+	}
+	return nil
+}

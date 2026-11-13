@@ -1,0 +1,2 @@
+# integration is a test-only module: never tagged or released.
+internal: true

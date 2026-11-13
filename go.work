@@ -1,0 +1,20 @@
+go 1.27.1
+
+use (
+	.
+	./clikit
+	./cmd/textdatactl
+	./dotenv
+	./dotenv/cli
+	./dotenv/cli/providers/github
+	./dotenv/cli/providers/vercel
+	./examples
+	./integration
+	./jsonc
+	./jsonc/cli
+	./plugins/aws
+	./plugins/extends
+	./plugins/file
+	./plugins/gopass
+	./plugins/vault
+)

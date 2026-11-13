@@ -1,0 +1,9 @@
+`#!/bin/sh
+echo "hello, args: [$*]"
+echo "file: ${DOTENVCTL_FILE##*/}"
+echo "json: $DOTENVCTL_JSON"
+echo "placeholder: $DOTENVCTL_PLACEHOLDER"
+echo "version set: ${DOTENVCTL_VERSION:+yes}"
+printf 'callback: '
+"$DOTENVCTL_BIN" ${DOTENVCTL_BIN_ARGS:-} -f "$DOTENVCTL_FILE" get GREETING
+`

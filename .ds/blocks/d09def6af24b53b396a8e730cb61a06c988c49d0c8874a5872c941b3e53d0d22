@@ -1,0 +1,15 @@
+func requireVar(w io.Writer) error {
+	doc, err := jsonc.Parse([]byte("{\n  \"token\": \"${API_TOKEN:?set API_TOKEN}\"\n}"),
+		jsonc.WithFileName(configName), jsonc.WithLookup(lookup))
+	if err != nil {
+		return err
+	}
+	_, err = doc.GetExpanded("token")
+	var req *expand.RequiredError
+	if !errors.As(err, &req) {
+		return fmt.Errorf("want a RequiredError, got %v", err)
+	}
+	fmt.Fprintln(w, "required:", err)
+	fmt.Fprintln(w, "missing key:", req.Key)
+	return nil
+}

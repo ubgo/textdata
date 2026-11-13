@@ -1,0 +1,54 @@
+== FromStruct -> config.jsonc
+{
+  "$schema": "./config.schema.json",
+
+  // Log verbosity.
+  // One of: debug, info, warn, error.
+  "logLevel": "info",
+
+  // Listen address.
+  // Required, must not be empty.
+  "addr": ":8080",
+
+  // Request timeout.
+  // Duration in nanoseconds.
+  "timeout": 5000000000, // 5s
+  "hosts": [
+    "a.example",
+    "b.example"
+  ],
+
+  // Required. Secret: do not commit a real value.
+  "password": "",
+
+  // Primary database.
+  "db": {
+    "host": "localhost",
+    "port": 5432
+  }
+}
+== decoded
+{LogLevel:info Addr::8080 Timeout:5s Hosts:[a.example b.example] Password: DB:{Host:localhost Port:5432}}
+== by hand, tabs, trailing commas
+// Created by `app init`. Edit freely.
+{
+	// HTTP server
+	"server": {
+		"port": 8080, // default
+		"host": "0.0.0.0",
+	},
+
+	// Hosts allowed to connect.
+
+	"hosts": [
+		"a.example",
+		"b.example",
+	],
+
+	"retry": [1, /* then */ 5],
+}
+== Comments(false)
+{
+    "host": "localhost",
+    "port": 5432
+}

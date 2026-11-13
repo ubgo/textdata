@@ -1,0 +1,100 @@
+<svg viewBox="13 0 869 609" width="869" xmlns="http://www.w3.org/2000/svg">
+<title>textdata architecture</title>
+<style>
+  text { font-family: 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', system-ui, sans-serif; }
+</style>
+<defs>
+<marker id="arrow" markerWidth="8" markerHeight="8" refX="2" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L8,4 L0,8 L2,4 z" fill="#64748b"/></marker>
+<marker id="arrow-blue" markerWidth="8" markerHeight="8" refX="2" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L8,4 L0,8 L2,4 z" fill="#3b82f6"/></marker>
+<marker id="arrow-green" markerWidth="8" markerHeight="8" refX="2" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L8,4 L0,8 L2,4 z" fill="#22c55e"/></marker>
+</defs>
+<!-- Solid white canvas so the diagram reads on both GitHub light and dark themes. -->
+<rect x="13" y="0" width="869" height="609" fill="#ffffff"/>
+<text x="447.5" y="34" font-size="16" fill="#1e293b" text-anchor="middle">textdata: layers and the life of one edit</text>
+<rect x="35" y="56" width="560" height="81" rx="10" fill="#f8fafc" stroke="#94a3b8" stroke-dasharray="6,4"/>
+<text x="45" y="70" font-size="11" fill="#64748b">USERS</text>
+<rect x="35" y="147" width="560" height="99" rx="10" fill="#f8fafc" stroke="#94a3b8" stroke-dasharray="6,4"/>
+<text x="45" y="161" font-size="11" fill="#64748b">CLI LAYER</text>
+<rect x="35" y="256" width="560" height="131" rx="10" fill="#f8fafc" stroke="#94a3b8" stroke-dasharray="6,4"/>
+<text x="45" y="270" font-size="11" fill="#64748b">FORMAT LAYER</text>
+<rect x="35" y="397" width="560" height="99" rx="10" fill="#f8fafc" stroke="#94a3b8" stroke-dasharray="6,4"/>
+<text x="45" y="411" font-size="11" fill="#64748b">BASE LAYER</text>
+<rect x="35" y="506" width="560" height="81" rx="10" fill="#f8fafc" stroke="#94a3b8" stroke-dasharray="6,4"/>
+<text x="45" y="520" font-size="11" fill="#64748b">OUTSIDE</text>
+<rect x="620" y="147" width="240" height="99" rx="10" fill="#f8fafc" stroke="#94a3b8" stroke-dasharray="6,4"/>
+<text x="630" y="161" font-size="11" fill="#64748b">PUSH PROVIDERS</text>
+<rect x="620" y="256" width="240" height="131" rx="10" fill="#f8fafc" stroke="#94a3b8" stroke-dasharray="6,4"/>
+<text x="630" y="270" font-size="11" fill="#64748b">JSONC PACKAGES</text>
+<rect x="620" y="397" width="240" height="99" rx="10" fill="#f8fafc" stroke="#94a3b8" stroke-dasharray="6,4"/>
+<text x="630" y="411" font-size="11" fill="#64748b">VALUE PLUGINS</text>
+<rect x="620" y="506" width="240" height="81" rx="10" fill="#f8fafc" stroke="#94a3b8" stroke-dasharray="6,4"/>
+<text x="630" y="520" font-size="11" fill="#64748b">KEY</text>
+<rect x="50" y="286" width="530" height="86" rx="8" fill="#fef3c7" stroke="#f59e0b"/>
+<path d="M170,127 L 170,275" fill="none" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+<text x="160" y="196" font-size="10" fill="#1e40af" text-anchor="end">1 Open / Parse</text>
+<text x="160" y="211" font-size="10" fill="#1e40af" text-anchor="end">2 Get / Set / Delete</text>
+<path d="M200,281 L 200,133" fill="none" stroke="#22c55e" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+<text x="210" y="196" font-size="10" fill="#166534" text-anchor="start">values, positions,</text>
+<text x="210" y="211" font-size="10" fill="#166534" text-anchor="start">errors with</text>
+<text x="210" y="226" font-size="10" fill="#166534" text-anchor="start">file:line:col</text>
+<path d="M455,127 L 455,166" fill="none" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+<path d="M455,236 L 455,275" fill="none" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+<path d="M190,377 L 190,416" fill="none" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+<text x="200" y="409" font-size="10" fill="#1e40af" text-anchor="start">4 Save</text>
+<path d="M120,531 L 120,383" fill="none" stroke="#22c55e" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+<text x="130" y="409" font-size="10" fill="#166534" text-anchor="start">bytes</text>
+<path d="M305,422 L 305,383" fill="none" stroke="#22c55e" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+<text x="315" y="409" font-size="10" fill="#166534" text-anchor="start">positions</text>
+<path d="M420,377 L 420,416" fill="none" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+<text x="430" y="409" font-size="10" fill="#1e40af" text-anchor="start">3 expand</text>
+<path d="M470,454 L 479,454" fill="none" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+<path d="M190,486 L 190,525" fill="none" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+<text x="200" y="518" font-size="10" fill="#1e40af" text-anchor="start">temp file, fsync, rename</text>
+<path d="M585,204 L 624,204" fill="none" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+<path d="M630,329 L 591,329" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow)"/>
+<path d="M585,454 L 656.5,454" fill="none" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+<path d="M640,536 L 680,536" fill="none" stroke="#3b82f6" stroke-width="1.5"/>
+<text x="692" y="539.5" font-size="10" fill="#1e293b">call flow, numbered</text>
+<path d="M640,553 L 680,553" fill="none" stroke="#22c55e" stroke-width="1.5"/>
+<text x="692" y="556.5" font-size="10" fill="#1e293b">return flow</text>
+<path d="M640,570 L 680,570" fill="none" stroke="#64748b" stroke-width="1.5"/>
+<text x="692" y="573.5" font-size="10" fill="#1e293b">built on jsonc</text>
+<rect x="50" y="86" width="250" height="36" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+<text x="175.0" y="108.2" font-size="12" fill="#1e40af" text-anchor="middle">Your Go code</text>
+<rect x="330" y="86" width="250" height="36" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+<text x="455.0" y="108.2" font-size="12" fill="#1e40af" text-anchor="middle">CLI user (shell, CI)</text>
+<rect x="330" y="177" width="250" height="54" rx="6" fill="#fef3c7" stroke="#f59e0b"/>
+<text x="455.0" y="199.2" font-size="12" fill="#b45309" text-anchor="middle">textdatactl · dotenvctl</text>
+<text x="455.0" y="216.5" font-size="10" fill="#64748b" text-anchor="middle">cobra commands on clikit: --json, dry-run</text>
+<rect x="66" y="302" width="236.5" height="54" rx="6" fill="#ffffff" stroke="#f59e0b"/>
+<text x="184.25" y="324.2" font-size="12" fill="#b45309" text-anchor="middle">dotenv</text>
+<text x="184.25" y="341.5" font-size="10" fill="#64748b" text-anchor="middle">.env, Compose-style interpolation</text>
+<rect x="327.5" y="302" width="236.5" height="54" rx="6" fill="#ffffff" stroke="#f59e0b"/>
+<text x="445.75" y="324.2" font-size="12" fill="#b45309" text-anchor="middle">jsonc</text>
+<text x="445.75" y="341.5" font-size="10" fill="#64748b" text-anchor="middle">JSONC; plain JSON is jsonc.Strict()</text>
+<rect x="145" y="427" width="90" height="54" rx="6" fill="#d1fae5" stroke="#22c55e"/>
+<text x="190.0" y="449.2" font-size="12" fill="#166534" text-anchor="middle">atomicfile</text>
+<text x="190.0" y="466.5" font-size="10" fill="#64748b" text-anchor="middle">safe write</text>
+<rect x="260" y="427" width="90" height="54" rx="6" fill="#d1fae5" stroke="#22c55e"/>
+<text x="305.0" y="449.2" font-size="12" fill="#166534" text-anchor="middle">pos · path</text>
+<text x="305.0" y="466.5" font-size="10" fill="#64748b" text-anchor="middle">file:line:col</text>
+<rect x="375" y="427" width="90" height="54" rx="6" fill="#d1fae5" stroke="#22c55e"/>
+<text x="420.0" y="449.2" font-size="12" fill="#166534" text-anchor="middle">expand</text>
+<text x="420.0" y="466.5" font-size="10" fill="#64748b" text-anchor="middle">${VAR} $(cmd)</text>
+<rect x="490" y="427" width="90" height="54" rx="6" fill="#d1fae5" stroke="#22c55e"/>
+<text x="535.0" y="449.2" font-size="12" fill="#166534" text-anchor="middle">plugin</text>
+<text x="535.0" y="466.5" font-size="10" fill="#64748b" text-anchor="middle">interfaces</text>
+<rect x="50" y="536" width="265" height="36" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+<text x="182.5" y="558.2" font-size="12" fill="#1e40af" text-anchor="middle">Config files on disk</text>
+<rect x="340" y="536" width="240" height="36" rx="6" fill="#fce7f3" stroke="#ec4899"/>
+<text x="460.0" y="558.2" font-size="12" fill="#9d174d" text-anchor="middle">Process env: never touched</text>
+<rect x="635" y="177" width="210" height="54" rx="6" fill="#f3e8ff" stroke="#a855f7"/>
+<text x="740.0" y="199.2" font-size="12" fill="#6b21a8" text-anchor="middle">github · vercel</text>
+<text x="740.0" y="216.5" font-size="10" fill="#64748b" text-anchor="middle">push a selection via gh / vercel</text>
+<rect x="635" y="302" width="210" height="54" rx="6" fill="#f3e8ff" stroke="#a855f7"/>
+<text x="740.0" y="324.2" font-size="12" fill="#6b21a8" text-anchor="middle">format · diff</text>
+<text x="740.0" y="342.2" font-size="12" fill="#6b21a8" text-anchor="middle">schema · generate</text>
+<rect x="667.5" y="427" width="145" height="54" rx="6" fill="#f3e8ff" stroke="#a855f7"/>
+<text x="740.0" y="449.2" font-size="12" fill="#6b21a8" text-anchor="middle">gopass, file,</text>
+<text x="740.0" y="467.2" font-size="12" fill="#6b21a8" text-anchor="middle">extends, vault, aws</text>
+</svg>
