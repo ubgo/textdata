@@ -187,3 +187,23 @@ func FuzzMinify(f *testing.F) {
 		}
 	})
 }
+
+// TestLineEndingIgnoresBlockComments pins where Format takes the line ending:
+// the first line break outside a block comment, so a CRLF inside a comment
+// does not turn an LF file into a CRLF one (and the reverse).
+func TestLineEndingIgnoresBlockComments(t *testing.T) {
+	for _, tc := range []struct{ src, want string }{
+		{"/* a\r\n b */\n{\"x\": 1}\n", "\n"},
+		{"/* a\n b */\r\n{\"x\": 1}\r\n", "\r\n"},
+		{"// a\r\n{\"x\": 1}\n", "\r\n"},
+		{"{\"x\": \"/*\", \"y\": 1}\r\n", "\r\n"},
+		{"{\"x\": 1} /* a\r\n b */", "\r\n"},
+		{"{\"x\": 1}", "\n"},
+		{"//\"\r\n", "\r\n"}, // FuzzFormat f467fbdef5930e46: a quote inside a line comment
+		{"// /*\r\n{}\n", "\r\n"},
+	} {
+		if got := eolOf([]byte(tc.src)); got != tc.want {
+			t.Errorf("eolOf(%q) = %q, want %q", tc.src, got, tc.want)
+		}
+	}
+}

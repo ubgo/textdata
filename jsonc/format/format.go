@@ -102,9 +102,51 @@ func Minify(d *jsonc.Doc) ([]byte, error) {
 // bom is the UTF-8 byte order mark, kept when the document has one.
 const bom = "\xef\xbb\xbf"
 
-// eolOf is the document's line ending: that of its first line break.
+// eolOf is the document's line ending: that of its first line break
+// outside a block comment and a string (a line comment's own break counts),
+// else of its first line break, else
+// LF. A break inside a block comment is the comment's text, not the file's
+// layout, so a file whose only CRLF sits in a comment is formatted as LF.
 func eolOf(src []byte) string {
-	if i := bytes.IndexByte(src, '\n'); i > 0 && src[i-1] == '\r' {
+	first := -1
+	for i := 0; i < len(src); i++ {
+		switch c := src[i]; {
+		case c == '\n':
+			return breakAt(src, i)
+		case c == '"':
+			for i++; i < len(src) && src[i] != '"'; i++ {
+				if src[i] == '\\' {
+					i++
+				}
+			}
+		case c == '/' && i+1 < len(src) && src[i+1] == '/':
+			// A line comment runs to its line break, which is the file's.
+			for i+1 < len(src) && src[i+1] != '\n' {
+				i++
+			}
+		case c == '/' && i+1 < len(src) && src[i+1] == '*':
+			end := bytes.Index(src[i+2:], []byte("*/"))
+			stop := len(src)
+			if end >= 0 {
+				stop = i + 2 + end + 1
+			}
+			if first < 0 {
+				if j := bytes.IndexByte(src[i:stop], '\n'); j >= 0 {
+					first = i + j
+				}
+			}
+			i = stop
+		}
+	}
+	if first >= 0 {
+		return breakAt(src, first)
+	}
+	return "\n"
+}
+
+// breakAt is the line break whose '\n' is at nl: CRLF or LF.
+func breakAt(src []byte, nl int) string {
+	if nl > 0 && src[nl-1] == '\r' {
 		return "\r\n"
 	}
 	return "\n"

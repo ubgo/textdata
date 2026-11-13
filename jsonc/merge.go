@@ -126,7 +126,7 @@ func (d *Doc) carryComments(p path.Path, o *Doc, oit *item) error {
 	}
 	indent := indentOf(d.src, loc.it.start())
 	ls := lineStart(d.src, loc.it.start())
-	eol := d.eolAt(ls)
+	eol := d.eolBefore(ls)
 	var b strings.Builder
 	for _, c := range oit.leading {
 		text := string(o.src[c.start:c.end])
