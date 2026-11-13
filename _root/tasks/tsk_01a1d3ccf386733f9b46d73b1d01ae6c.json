@@ -1,7 +1,7 @@
 {
-  "_hlc": "2026-11-13T07:27:20.281Z/0000/act_7b6e2727126b7bbb9f3a5a9cefc0022f",
+  "_hlc": "2026-11-13T07:44:32.227Z/0000/act_7b6e2727126b7bbb9f3a5a9cefc0022f",
   "_live": {
-    "hlc": "2026-11-13T07:27:20.281Z/0000/act_7b6e2727126b7bbb9f3a5a9cefc0022f",
+    "hlc": "2026-11-13T07:44:32.227Z/0000/act_7b6e2727126b7bbb9f3a5a9cefc0022f",
     "live_since": "2026-11-13T07:26:26Z"
   },
   "_o": {
@@ -31,9 +31,11 @@
     }
   ],
   "commitment": "accepted",
+  "completed_at": "2026-11-13T07:44:31.973823263Z",
   "created_at": "2026-11-13T07:26:26.895000000Z",
   "created_by": "act_7b6e2727126b7bbb9f3a5a9cefc0022f",
   "created_by_actor_id": "act_7b6e2727126b7bbb9f3a5a9cefc0022f",
+  "done_by": "act_7b6e2727126b7bbb9f3a5a9cefc0022f",
   "history": [
     {
       "at": "2026-11-13T07:27:11Z",
@@ -51,10 +53,27 @@
   "project_id": "prj_01a1bb14e8b671d8b096f2815781e6ef",
   "rank": "a5",
   "started_at": "2026-11-13T07:27:11.739589645Z",
-  "status": "in_progress",
+  "status": "done",
   "tasklist_id": "tlt_01a1bb15600f71bd81160920a09e2a72",
+  "time_entries": [
+    {
+      "actor_id": "act_7b6e2727126b7bbb9f3a5a9cefc0022f",
+      "created_at": "2026-11-13T07:44:31.973Z",
+      "created_by": "act_7b6e2727126b7bbb9f3a5a9cefc0022f",
+      "day": "2026-11-13",
+      "end": "2026-11-13T07:44:31.973Z",
+      "id": "tme_01a1d3dd82ef76efbf89b92faf647f54",
+      "kind": "agent",
+      "seconds": 1031,
+      "source": "claim",
+      "source_id": "ct_edcc2",
+      "start": "2026-11-13T07:27:20.000Z",
+      "updated_at": "2026-11-13T07:44:31.973Z",
+      "updated_by": "act_7b6e2727126b7bbb9f3a5a9cefc0022f"
+    }
+  ],
   "title": "Docs B2-5 cli",
-  "updated_at": "2026-11-13T07:27:20.281000000Z",
+  "updated_at": "2026-11-13T07:44:32.227000000Z",
   "updated_by": "act_7b6e2727126b7bbb9f3a5a9cefc0022f",
   "watchers": [
     "act_7b6e2727126b7bbb9f3a5a9cefc0022f"
