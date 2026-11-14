@@ -1,55 +1,24 @@
 {
-  "_hlc": "2026-11-13T05:45:05.535Z/0000/act_afbe7ed1d969752697eebecaac20e9dc",
-  "_o": {
-    "cmd": "task add",
-    "git": {
-      "branch": "main",
-      "commit": "98ab0cf2cb3a7b14e37c9026e54e4359082197c9",
-      "state": "branch"
-    },
-    "project": "prj_01a1bb14e8b671d8b096f2815781e6ef",
-    "store": "repo"
-  },
   "_table": "tasks",
-  "_v": 2,
-  "_w": {
-    "v": "0.1.18-dev+bughunt.ae539cdf"
-  },
+  "_v": 1,
+  "assigned_to_actor_id": null,
   "body": "All modules tagged with volt, repo public, cfgkit v0.1.1 + contrib/format-jsonc v0.1.1, ubgo/dotenv v0.1.3 / cli/v0.1.4 archived. Details in docsi/memory/textdata-status.md.",
-  "close_reason": "completed",
   "commitment": "accepted",
   "completed_at": "2026-11-13T05:45:05.414540397Z",
   "created_at": "2026-11-13T05:44:59.944000000Z",
-  "created_by": "act_afbe7ed1d969752697eebecaac20e9dc",
   "created_by_actor_id": "act_afbe7ed1d969752697eebecaac20e9dc",
+  "deferred_until": null,
   "done_by": "act_afbe7ed1d969752697eebecaac20e9dc",
-  "history": [
-    {
-      "at": "2026-11-13T05:45:05Z",
-      "by": "act_afbe7ed1d969752697eebecaac20e9dc",
-      "field": "status",
-      "from": "todo",
-      "id": "the_01a1d37028867cc8a122f4d18adc274c",
-      "note": "open_items_at_close: 0",
-      "to": "done"
-    },
-    {
-      "at": "2026-11-13T05:45:05Z",
-      "by": "act_afbe7ed1d969752697eebecaac20e9dc",
-      "field": "close_reason",
-      "id": "the_01a1d37028867cd1bdd78acbaa17bcfb",
-      "to": "completed"
-    }
-  ],
+  "due_at": null,
   "id": "tsk_01a1d37012ad7d0ba61f86d5d5c1cbcc",
+  "mission_id": null,
+  "plan_id": null,
   "priority": "medium",
   "project_id": "prj_01a1bb14e8b671d8b096f2815781e6ef",
+  "repo_id": null,
+  "started_at": null,
   "status": "done",
   "tasklist_id": "tlt_01a1bb15600f71bd81160920a09e2a72",
   "title": "Release textdata v0.1.1, jsonc v0.1.2, cfgkit switch, retire ubgo/dotenv",
-  "updated_at": "2026-11-13T05:45:05.535000000Z",
-  "updated_by": "act_afbe7ed1d969752697eebecaac20e9dc",
-  "watchers": [
-    "act_afbe7ed1d969752697eebecaac20e9dc"
-  ]
+  "updated_at": "2026-11-13T05:45:05.535000000Z"
 }

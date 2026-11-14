@@ -1,29 +1,20 @@
 {
-  "_hlc": "2026-11-13T04:36:50.532Z/0000/act_7b6e2727126b7bbb9f3a5a9cefc0022f",
-  "_o": {
-    "cmd": "decision add",
-    "git": {
-      "branch": "main",
-      "commit": "a6e50054b80a13e3d8a69c18b308416d3b155141",
-      "state": "branch"
-    },
-    "project": "prj_01a1bb14e8b671d8b096f2815781e6ef",
-    "store": "repo"
-  },
   "_table": "decisions",
-  "_v": 2,
-  "_w": {
-    "v": "0.1.18-dev+ee.b7e42c1a"
-  },
+  "_v": 1,
+  "archived_at": null,
   "body": "Context: owner rule 2026-11-13, importing one textdata package must never pull deps it does not use. plugins/github and plugins/vercel need cobra and clikit, push env values to a host, and are mounted only by dotenv/cli; the five value plugins required dotenv and jsonc only for cross-format tests. Chosen: github and vercel move to dotenv/cli/providers/github and dotenv/cli/providers/vercel, each still its own module (requires only clikit and cobra), so plugins/ means cross-format value plugins that require only the base, and a binary mounting one provider pulls neither dotenv nor x/term. Cross-format tests and the format examples go to a test-only integration/ module (never imported, never tagged). Alternatives rejected: keep them under plugins/ (no dep problem, but plugins/ would mix base-only value plugins with cobra CLI providers); fold them into the dotenv/cli module as packages (fewer tags, but anyone mounting one provider would pull dotenv, x/term and the rest of dotenv/cli). Nothing is released, so the path change is free now and impossible later. Enforced by integration/deps_test.go (exact direct-require table) and task deps:check (every direct require imported by non-test code), both in task check.",
+  "confidence": null,
   "created_at": "2026-11-13T04:36:50.532000000Z",
-  "created_by": "act_7b6e2727126b7bbb9f3a5a9cefc0022f",
+  "created_by_actor_id": "act_7b6e2727126b7bbb9f3a5a9cefc0022f",
   "id": "dec_01a1d331ace073bb84ec6de352c8fba9",
+  "last_validated_at": null,
   "project_id": "prj_01a1bb14e8b671d8b096f2815781e6ef",
+  "repo_id": null,
   "source_kind": "manual",
+  "source_ref": null,
   "status": "accepted",
+  "superseded_by_id": null,
   "title": "Push providers move to dotenv/cli/providers/<name>, own modules; value plugins require only the base",
   "trust_score": 0.5,
-  "updated_at": "2026-11-13T04:36:50.532000000Z",
-  "updated_by": "act_7b6e2727126b7bbb9f3a5a9cefc0022f"
+  "updated_at": "2026-11-13T04:36:50.532000000Z"
 }
