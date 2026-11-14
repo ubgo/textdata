@@ -15,6 +15,7 @@
 package expand
 
 import (
+	"errors"
 	"fmt"
 	"strings"
 )
@@ -167,6 +168,88 @@ func (e *CommandError) Error() string {
 // Unwrap returns the runner's error.
 func (e *CommandError) Unwrap() error { return e.Err }
 
+// ErrStrict is matched by every error strict mode adds (*UnsetError,
+// *UnknownSchemeError, *CommandOffError), so a caller can tell "a reference
+// did not resolve" from a plugin or command failure with one errors.Is.
+// ds:def id=errstrict-wtxc9pe2 owner=@maintainers stability=stable
+var ErrStrict = errors.New("expand: unresolved reference")
+
+// UnsetError reports, in strict mode, a reference to a name no source defines:
+// $VAR, ${VAR}, or a ${VAR...} form whose operator does not handle unset
+// (${VAR:-d}, ${VAR-d}, ${VAR+a} and ${VAR:+a} do, and ${VAR:?m} keeps its own
+// *RequiredError). It names the variable and where the reference sits, never a
+// value.
+// ds:def id=unseterror-fzc9dngm owner=@maintainers stability=stable
+type UnsetError struct {
+	// Name is the variable that has no value.
+	Name string
+	// Offset is the byte offset, in the string handed to Expand, of the $ that
+	// starts the outermost reference being expanded when this one failed. For a
+	// reference written directly in that string it is the reference itself;
+	// for one reached through another variable's value or an operator argument
+	// it is the reference that led there (see Via).
+	Offset int
+	// Via is the variable whose value held the failing reference, or "" when
+	// the reference is in the input itself or in an operator argument.
+	Via string
+}
+
+func (e *UnsetError) Error() string {
+	return fmt.Sprintf("expand: variable %s is not set (offset %d%s)", e.Name, e.Offset, via(e.Via))
+}
+
+// Is matches ErrStrict.
+func (e *UnsetError) Is(target error) bool { return target == ErrStrict }
+
+// UnknownSchemeError reports, in strict mode, a ${scheme:ref} that no installed
+// Resolver claims and that no source defines as a name either, for example
+// ${vault:db} with no vault plugin, or the typo ${gopas:x}. Offset and Via
+// are as for UnsetError.
+// ds:def id=unknownschemeerror-fg4srxup owner=@maintainers stability=stable
+type UnknownSchemeError struct {
+	// Scheme is the scheme as written, lowercased (see SplitScheme).
+	Scheme string
+	// Ref is the text after the colon.
+	Ref    string
+	Offset int
+	Via    string
+}
+
+func (e *UnknownSchemeError) Error() string {
+	return fmt.Sprintf("expand: no resolver for scheme %q in ${%s:%s} (offset %d%s)", e.Scheme, e.Scheme, e.Ref, e.Offset, via(e.Via))
+}
+
+// Is matches ErrStrict.
+func (e *UnknownSchemeError) Is(target error) bool { return target == ErrStrict }
+
+// CommandOffError reports, in strict mode, a $(command) met while command
+// substitution is off (Engine.Run is nil). Outside strict mode the text is
+// kept as written; strict refuses it because the caller would otherwise
+// receive the literal "$(gopass show x)" where it expected a secret. Cmd is
+// the command text as written, before its own references expand. Offset and
+// Via are as for UnsetError.
+// ds:def id=commandofferror-j9abapdg owner=@maintainers stability=stable
+type CommandOffError struct {
+	Cmd    string
+	Offset int
+	Via    string
+}
+
+func (e *CommandOffError) Error() string {
+	return fmt.Sprintf("expand: command substitution is off: $(%s) (offset %d%s)", e.Cmd, e.Offset, via(e.Via))
+}
+
+// Is matches ErrStrict.
+func (e *CommandOffError) Is(target error) bool { return target == ErrStrict }
+
+// via renders the Via suffix of a strict error message.
+func via(name string) string {
+	if name == "" {
+		return ""
+	}
+	return ", in the value of " + name
+}
+
 // Engine expands strings. Lookup is required; every other field is optional.
 type Engine struct {
 	// Lookup reports what name holds. It is called with the current Stack so
@@ -194,6 +277,25 @@ type Engine struct {
 
 	// MaxDepth overrides DefaultMaxDepth when > 0.
 	MaxDepth int
+
+	// Strict turns every reference that would otherwise expand to "" or stay
+	// verbatim into an error, for a caller that needs certainty (a token read
+	// from a config file must not silently become ""):
+	//
+	//   - an unset name with no operator, or with an operator that does not
+	//     handle unset: *UnsetError. ${VAR:-d} and ${VAR-d} still use their
+	//     default, ${VAR+a} and ${VAR:+a} still yield "" when unset (that is
+	//     what they ask for), ${VAR:?m} still returns its *RequiredError, and
+	//     a name that is set to "" is set, not an error;
+	//   - a ${scheme:ref} no Resolver claims and no source defines:
+	//     *UnknownSchemeError;
+	//   - a $(command) while Run is nil: *CommandOffError.
+	//
+	// Every strict error matches ErrStrict. Off by default: the zero Engine
+	// keeps the Compose behaviour. Text that is not a reference at all stays
+	// as written in both modes: $$, a lone or trailing $, and an unbalanced
+	// ${ or $( (there is no reference to resolve, so nothing is uncertain).
+	Strict bool
 }
 
 // Expand resolves every reference in s. st may be nil; a caller expanding the
@@ -203,7 +305,16 @@ func (e *Engine) Expand(s string, st *Stack) (string, error) {
 	if st == nil {
 		st = NewStack()
 	}
-	return e.expand(s, 0, st)
+	return e.expand(s, 0, st, where{})
+}
+
+// where is the position context strict errors report: the offset of the
+// outermost reference in the string handed to Expand, and the variable whose
+// value is being expanded ("" for the input itself). At depth 0 the offset is
+// taken per reference; deeper calls inherit it.
+type where struct {
+	offset int
+	via    string
 }
 
 func (e *Engine) maxDepth() int {
@@ -213,7 +324,7 @@ func (e *Engine) maxDepth() int {
 	return DefaultMaxDepth
 }
 
-func (e *Engine) expand(s string, depth int, st *Stack) (string, error) {
+func (e *Engine) expand(s string, depth int, st *Stack, w where) (string, error) {
 	if depth >= e.maxDepth() || !strings.ContainsRune(s, '$') {
 		return s, nil
 	}
@@ -229,13 +340,16 @@ func (e *Engine) expand(s string, depth int, st *Stack) (string, error) {
 			continue
 		}
 
+		if depth == 0 {
+			w.offset = i
+		}
 		switch next := s[i+1]; {
 		case next == '$':
 			b.WriteByte('$') // $$ is the escape for a literal dollar
 			i++
 
 		case next == '(':
-			consumed, out, err := e.command(s[i:], depth, st)
+			consumed, out, err := e.command(s[i:], depth, st, w)
 			if err != nil {
 				return "", err
 			}
@@ -249,7 +363,7 @@ func (e *Engine) expand(s string, depth int, st *Stack) (string, error) {
 				b.WriteByte('$')
 				continue
 			}
-			out, err := e.token(s[i+2:i+1+end], depth, st)
+			out, err := e.token(s[i+2:i+1+end], depth, st, w)
 			if err != nil {
 				return "", err
 			}
@@ -261,7 +375,7 @@ func (e *Engine) expand(s string, depth int, st *Stack) (string, error) {
 			for i+1+n < len(s) && IsNameChar(s[i+1+n]) {
 				n++
 			}
-			out, err := e.resolve(ParseRef(s[i+1:i+1+n]), depth, st)
+			out, err := e.resolve(ParseRef(s[i+1:i+1+n]), depth, st, w, "")
 			if err != nil {
 				return "", err
 			}
@@ -277,17 +391,20 @@ func (e *Engine) expand(s string, depth int, st *Stack) (string, error) {
 
 // command handles a $(command) starting at s[0] and returns how many bytes it
 // consumed.
-func (e *Engine) command(s string, depth int, st *Stack) (consumed int, out string, err error) {
+func (e *Engine) command(s string, depth int, st *Stack, w where) (consumed int, out string, err error) {
 	end := MatchParen(s[1:])
 	if end < 0 {
 		return 1, "$", nil // unbalanced: a literal dollar
 	}
 	whole := s[:end+2]
 	if e.Run == nil {
+		if e.Strict {
+			return 0, "", &CommandOffError{Cmd: s[2 : end+1], Offset: w.offset, Via: w.via}
+		}
 		return len(whole), whole, nil
 	}
 	// The command may itself reference variables.
-	cmd, err := e.expand(s[2:end+1], depth+1, st)
+	cmd, err := e.expand(s[2:end+1], depth+1, st, w)
 	if err != nil {
 		return 0, "", err
 	}
@@ -300,23 +417,35 @@ func (e *Engine) command(s string, depth int, st *Stack) (consumed int, out stri
 
 // token evaluates the inside of ${...}: a scheme reference when a resolver
 // claims it, an ordinary reference otherwise.
-func (e *Engine) token(tok string, depth int, st *Stack) (string, error) {
-	if e.Resolve != nil {
-		if scheme, ref, ok := SplitScheme(tok); ok {
-			v, handled, err := e.Resolve(scheme, ref)
-			if err != nil {
-				return "", err
-			}
-			if handled {
-				return e.observed(scheme+":"+ref, v, nil)
-			}
+//
+// Strict mode treats an unclaimed ${scheme:ref} as one opaque name: it is
+// looked up whole (so installing or removing a resolver never changes how a
+// defined name reads) and, when unset, reported as *UnknownSchemeError, since
+// "no resolver for vault" is the useful diagnosis. It is never split on an
+// operator: outside strict mode ${vault:db-pass} with no vault plugin reads as
+// the name "vault:db" with the default "pass", which is exactly the silent
+// guess strict mode exists to refuse.
+func (e *Engine) token(tok string, depth int, st *Stack, w where) (string, error) {
+	scheme, ref, isScheme := SplitScheme(tok)
+	if isScheme && e.Resolve != nil {
+		v, handled, err := e.Resolve(scheme, ref)
+		if err != nil {
+			return "", err
+		}
+		if handled {
+			return e.observed(scheme+":"+ref, v, nil)
 		}
 	}
-	return e.resolve(ParseRef(tok), depth, st)
+	if isScheme && e.Strict {
+		return e.resolve(Ref{Name: tok}, depth, st, w, scheme)
+	}
+	return e.resolve(ParseRef(tok), depth, st, w, "")
 }
 
-// resolve evaluates one parsed reference.
-func (e *Engine) resolve(ref Ref, depth int, st *Stack) (string, error) {
+// resolve evaluates one parsed reference. unknownScheme is the scheme of a
+// ${scheme:ref} token no resolver claimed ("" otherwise); strict mode reports
+// an unset name from such a token as *UnknownSchemeError.
+func (e *Engine) resolve(ref Ref, depth int, st *Stack, w where, unknownScheme string) (string, error) {
 	v, err := e.Lookup(ref.Name, st)
 	if err != nil {
 		return "", err
@@ -353,20 +482,36 @@ func (e *Engine) resolve(ref Ref, depth int, st *Stack) (string, error) {
 	}
 
 	// An unresolved reference with no operator expands to "", never an error:
-	// Compose treats an unset variable as empty.
+	// Compose treats an unset variable as empty. Strict mode refuses it; the
+	// operators above have already handled every form that asks for unset to
+	// mean something (default, alternate, required).
+	if !useArg && !v.Set && e.Strict {
+		return "", e.unsetError(ref.Name, unknownScheme, w)
+	}
 	var out string
 	switch {
 	case useArg:
-		out, err = e.expand(ref.Arg, depth+1, st)
+		out, err = e.expand(ref.Arg, depth+1, st, w)
 	case !v.Set:
 	case v.Literal:
 		out = v.Value
 	default:
 		leave := st.Enter(ref.Name, v.At)
-		out, err = e.expand(v.Value, depth+1, st)
+		out, err = e.expand(v.Value, depth+1, st, where{offset: w.offset, via: ref.Name})
 		leave()
 	}
 	return e.observed(ref.Name, out, err)
+}
+
+// unsetError builds strict mode's error for a name that has no value: an
+// *UnknownSchemeError when the token was a ${scheme:ref} nobody claimed, an
+// *UnsetError otherwise.
+func (e *Engine) unsetError(name, unknownScheme string, w where) error {
+	if unknownScheme != "" {
+		_, ref, _ := strings.Cut(name, ":")
+		return &UnknownSchemeError{Scheme: unknownScheme, Ref: ref, Offset: w.offset, Via: w.via}
+	}
+	return &UnsetError{Name: name, Offset: w.offset, Via: w.via}
 }
 
 func (e *Engine) required(name, msg string, empty bool) error {

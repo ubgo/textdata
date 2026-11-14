@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/ubgo/textdata/expand"
+	"github.com/ubgo/textdata/pos"
 	"github.com/ubgo/textdata/shell"
 )
 
@@ -166,10 +167,33 @@ func (f *File) expandEntry(i int) (string, error) {
 		seen.Enter(e.Key, i)
 		v, err = f.expandFor(e.Key, e.Value, seen)
 		if err != nil {
+			if errors.Is(err, expand.ErrStrict) {
+				return "", f.strictErr(i, err)
+			}
 			return "", err
 		}
 	}
 	return f.transform(e.Key, v)
+}
+
+// strictErr places a strict-mode expansion error (expand.ErrStrict) at the
+// line:col where entry i's value starts, so it reads file:line:col like every
+// other textdata error. Only strict errors are
+// wrapped: RequiredError and CommandError keep the shape callers already
+// match on. The column counts bytes, as pos does, and points at the opening
+// quote of a quoted value.
+func (f *File) strictErr(i int, err error) error {
+	line := 1
+	for _, e := range f.entries[:i] {
+		line += len(e.Raw)
+	}
+	e := f.entries[i]
+	return &pos.Error{
+		File: f.Path,
+		Pos:  pos.Pos{Line: line, Col: len(e.prefix) + 1},
+		Msg:  "expand " + e.Key,
+		Err:  err,
+	}
 }
 
 // transform runs the ValueTransformer chain over a value that has already been

@@ -98,6 +98,7 @@ func (f *File) expandFor(key, s string, seen *expand.Stack) (string, error) {
 		Lookup:   f.source,
 		Required: requiredError,
 		MaxDepth: maxExpandDepth,
+		Strict:   f.opts.strictExpand,
 	}
 	if f.opts.allowShell {
 		eng.Run = f.opts.command()

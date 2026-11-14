@@ -23,7 +23,8 @@ const errPrefix = "jsonc"
 // through the installed Lookupers (WithLookup, plugins) — the package never
 // reads the environment; an unknown name is "". ${scheme:ref} goes to the
 // Resolver that owns the scheme. $(command) runs only with command
-// substitution on. $$ is a literal dollar. Keys are never expanded. After
+// substitution on. WithStrictExpand turns each unresolved reference into an
+// error instead. $$ is a literal dollar. Keys are never expanded. After
 // expansion every string passes through the ValueTransformers, with its
 // canonical path.
 func (d *Doc) Expanded() (*Doc, error) {
@@ -80,7 +81,7 @@ func (d *Doc) GetExpanded(p string) (any, error) {
 // so errors.Is / errors.As still reach expand.RequiredError, plugin.Error and
 // the plugin sentinels.
 func (d *Doc) expandString(n *node, at string) (string, error) {
-	eng := expand.Engine{Lookup: d.lookupVar}
+	eng := expand.Engine{Lookup: d.lookupVar, Strict: d.opts.strictExpand}
 	if d.opts.shell {
 		eng.Run = d.opts.command()
 	}
