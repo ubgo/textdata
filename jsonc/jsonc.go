@@ -91,6 +91,8 @@ type options struct {
 	file   string // name used in error messages, when not from Open
 	expand bool   // Read expands before decoding
 	shell  bool   // $(command) substitution allowed
+	// strictExpand makes unresolved references errors (WithStrictExpand).
+	strictExpand bool
 	// run is the installed CommandRunner, or nil for the default shell
 	// runner; read it through command, never directly.
 	run func(string) (string, error)
@@ -121,6 +123,21 @@ func WithFileName(name string) Option { return func(o *options) { o.file = name 
 // methods are unaffected: Get and JSON always return raw values, Expanded and
 // GetExpanded always expand.
 func WithExpand() Option { return func(o *options) { o.expand = true } }
+
+// WithStrictExpand makes expansion (Expanded, GetExpanded, and Read with
+// WithExpand) refuse every reference that would otherwise read as "" or stay
+// as written: an unset name (*expand.UnsetError; ${VAR:-d} and ${VAR-d} still
+// apply their default and ${VAR:?msg} keeps its *expand.RequiredError), a
+// ${scheme:ref} no installed Resolver claims (*expand.UnknownSchemeError), and
+// a $(command) while command substitution is off (*expand.CommandOffError).
+// The error is a *pos.Error at the string's file:line:col wrapping the typed
+// error, which names the variable and its byte offset inside the decoded
+// string, never a value; every one matches expand.ErrStrict. Off by default.
+//
+// Named WithStrictExpand, not Strict, because Strict already means "parse as
+// plain JSON".
+// ds:def id=withstrictexpand-tnccxzjq owner=@maintainers stability=stable
+func WithStrictExpand() Option { return func(o *options) { o.strictExpand = true } }
 
 // WithLookup supplies values for ${NAME} references, e.g. os.LookupEnv. The
 // package never reads the environment on its own.

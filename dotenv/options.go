@@ -57,6 +57,8 @@ type options struct {
 	// commandCtx bounds the default shell runner (WithCommandContext); nil is
 	// context.Background(), today's unbounded behaviour.
 	commandCtx context.Context
+	// strictExpand makes unresolved references errors (WithStrictExpand).
+	strictExpand bool
 
 	// err is the first option error, such as a plugin with no ability dotenv
 	// supports. Parse has no error return, so it is kept here and reported by
@@ -230,6 +232,27 @@ func (o *options) command() func(string) (string, error) {
 	}
 	ctx := o.commandCtx
 	return func(cmd string) (string, error) { return shell.Run(ctx, cmd) }
+}
+
+// WithStrictExpand makes GetExpanded, ExpandedMap and Read refuse every
+// reference that would otherwise read as "" or stay as written, for a caller
+// that needs certainty:
+//
+//   - a name neither the file nor a Lookuper defines: *expand.UnsetError.
+//     ${VAR:-d} and ${VAR-d} still apply their default, ${VAR:?msg} keeps its
+//     *RequiredError, and a key set to an empty value is set;
+//   - a ${scheme:ref} no installed Resolver claims: *expand.UnknownSchemeError;
+//   - a $(command) while command substitution is off: *expand.CommandOffError
+//     (without strict the text is kept as written).
+//
+// The error is a *pos.Error naming the file and the line:col where the
+// entry's value starts, wrapping the typed error (variable name and byte
+// offset inside the decoded value, never a value); every one matches
+// expand.ErrStrict. Single-quoted and backtick values are literal and never
+// expanded, so they never fail. Off by default.
+// ds:def id=withstrictexpand-at8hy283 owner=@maintainers stability=stable
+func WithStrictExpand() Option {
+	return func(o *options) { o.strictExpand = true }
 }
 
 // WithCommandRunner overrides how $(command) is executed.

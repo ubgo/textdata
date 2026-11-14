@@ -63,6 +63,9 @@ type options struct {
 	commands bool
 	runner   plugin.CommandRunner
 
+	// strict makes unresolved references errors (expand.Engine.Strict).
+	strict bool
+
 	// err is the first option error, reported by Expand.
 	err error
 }
@@ -110,6 +113,26 @@ func WithRunner(r plugin.CommandRunner) Option {
 		o.commands = true
 		o.runner = r
 	}
+}
+
+// WithStrict makes every reference that would otherwise read as "" or stay as
+// written an error, for a caller that needs certainty (a token taken from a
+// config file must never silently become ""):
+//
+//   - an unset name: *expand.UnsetError. ${VAR:-d} and ${VAR-d} still apply
+//     their default, ${VAR:?msg} keeps its *expand.RequiredError, ${VAR:+a}
+//     still yields "" when unset, and a name set to "" is set;
+//   - a ${scheme:ref} no installed Resolver claims (${vault:x} without the
+//     vault plugin, the typo ${gopas:x}): *expand.UnknownSchemeError;
+//   - a $(command) without WithCommands or WithRunner:
+//     *expand.CommandOffError, instead of returning the command text.
+//
+// Each error names the variable, scheme or command and the byte offset of
+// the reference in s, never a value, and matches expand.ErrStrict. Off unless
+// given.
+// ds:def id=withstrict-puc4zm2j owner=@maintainers stability=stable
+func WithStrict() Option {
+	return func(o *options) { o.strict = true }
 }
 
 // WithPlugins installs value plugins (for example the gopass, vault, aws and
@@ -177,7 +200,8 @@ func unsupported(p plugin.Plugin, reg *plugin.Registry) error {
 //
 // Variables come from the sources given (WithEnv, WithLookup, plugin
 // Lookupers), first answer wins; an unknown name is "", as in Compose, and
-// ${VAR:?msg} turns that into an *expand.RequiredError. A value a source
+// ${VAR:?msg} turns that into an *expand.RequiredError (with WithStrict, every
+// unresolved reference is an error). A value a source
 // returns is expanded in turn, and a reference back to a name being expanded
 // reads as unset, so every chain ends. ${scheme:ref} goes to the Resolver
 // that owns the scheme; an unowned scheme is an ordinary reference.
@@ -198,7 +222,7 @@ func Expand(ctx context.Context, s string, opts ...Option) (string, error) {
 		ctx = context.Background()
 	}
 
-	eng := expand.Engine{Lookup: o.lookup}
+	eng := expand.Engine{Lookup: o.lookup, Strict: o.strict}
 	if o.commands {
 		eng.Run = o.run(ctx)
 	}
