@@ -1,11 +1,13 @@
 package dotenv
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"strings"
 
 	"github.com/ubgo/textdata/plugin"
+	"github.com/ubgo/textdata/shell"
 )
 
 // EscapeMode selects how backslash sequences inside double-quoted values are
@@ -49,7 +51,12 @@ func (m EscapeMode) String() string {
 type options struct {
 	escapes    EscapeMode
 	allowShell bool
+	// runCommand is the installed CommandRunner, or nil for the default
+	// shell runner; read it through command, never directly.
 	runCommand func(string) (string, error)
+	// commandCtx bounds the default shell runner (WithCommandContext); nil is
+	// context.Background(), today's unbounded behaviour.
+	commandCtx context.Context
 
 	// err is the first option error, such as a plugin with no ability dotenv
 	// supports. Parse has no error return, so it is kept here and reported by
@@ -184,18 +191,52 @@ func WithEscapes(m EscapeMode) Option {
 // calling application must make knowingly about files it trusts, not something
 // a parser should do silently.
 //
-// When enabled, commands run through `sh -c`. A command that exits non-zero
-// makes GetExpanded and ExpandedMap return an *expand.CommandError naming it,
-// so a failed secret lookup never reads as an empty value.
+// When enabled, commands run through shell.Run (package
+// github.com/ubgo/textdata/shell): `sh -c` on Unix-likes; on Windows `pwsh`
+// when on PATH, else `powershell.exe`. A .env written with sh syntax may need
+// WithCommandRunner(shell.Runner{Shell: ...}.RunCommand) on Windows. Stdin is
+// the null device, so a prompting command fails instead of hanging. A command
+// that exits non-zero makes GetExpanded and ExpandedMap return an
+// *expand.CommandError naming it, so a failed secret lookup never reads as an
+// empty value. WithCommandContext bounds how long a command may run.
 func WithCommandSubstitution(enabled bool) Option {
 	return func(o *options) { o.allowShell = enabled }
+}
+
+// ds:def id=withcommandcontext-v6889xsb owner=@maintainers stability=stable
+
+// WithCommandContext bounds $(command) substitution with ctx: when ctx is
+// cancelled or its deadline passes, the running command is killed and
+// expansion fails with an *expand.CommandError wrapping shell.ErrTimeout (a
+// deadline) or context.Canceled. Use context.WithTimeout for a time limit.
+//
+// It applies to the default shell runner only; a runner installed with
+// WithCommandRunner or a CommandRunner plugin is called as is. It does not
+// turn substitution on. Without it, commands are unbounded, as before. The
+// context is kept for the life of the File, so pass one that outlives the
+// reads that should honour it.
+func WithCommandContext(ctx context.Context) Option {
+	return func(o *options) { o.commandCtx = ctx }
+}
+
+// command returns the $(command) runner: the installed CommandRunner, or the
+// default shell runner bounded by WithCommandContext.
+func (o *options) command() func(string) (string, error) {
+	if o.runCommand != nil {
+		return o.runCommand
+	}
+	if o.commandCtx == nil {
+		return shellRun
+	}
+	ctx := o.commandCtx
+	return func(cmd string) (string, error) { return shell.Run(ctx, cmd) }
 }
 
 // WithCommandRunner overrides how $(command) is executed.
 //
 // Exists so tests can exercise substitution without spawning a shell, and so an
-// application can supply a sandboxed or allow-listed runner instead of raw
-// `sh -c`. Implies WithCommandSubstitution(true).
+// application can supply a sandboxed or allow-listed runner instead of the
+// default shell. Implies WithCommandSubstitution(true).
 //
 // Sugar for WithPlugin over a CommandRunner — a one-function hook should not
 // require declaring a type.
@@ -318,16 +359,16 @@ func WithLookup(fn func(name string) (string, bool)) Option {
 
 // newOptions applies opts over the defaults.
 //
-// runCommand starts as shellRun and is only ever replaced by a CommandRunner's
-// method value, so it cannot end up nil — no post-loop guard is needed.
+// runCommand starts nil (the default shell runner, see command) and is only
+// ever replaced by a CommandRunner's method value.
 //
-// A caller CAN defeat that by installing a typed-nil plugin —
+// A caller CAN install a typed-nil plugin —
 // WithPlugin((*MyPlugin)(nil)) satisfies the interface and panics on call. Only
 // reflection distinguishes that from a real value, which is not worth carrying
 // on every install for a mistake the compiler already makes obvious at the call
 // site.
 func newOptions(opts []Option) options {
-	o := options{escapes: EscapeExtended, runCommand: shellRun}
+	o := options{escapes: EscapeExtended}
 	for _, opt := range opts {
 		opt(&o)
 	}

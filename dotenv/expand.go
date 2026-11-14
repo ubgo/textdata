@@ -100,7 +100,7 @@ func (f *File) expandFor(key, s string, seen *expand.Stack) (string, error) {
 		MaxDepth: maxExpandDepth,
 	}
 	if f.opts.allowShell {
-		eng.Run = f.opts.runCommand
+		eng.Run = f.opts.command()
 	}
 	if len(f.opts.resolvers) > 0 {
 		eng.Resolve = f.resolveScheme
