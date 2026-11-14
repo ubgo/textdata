@@ -1,12 +1,10 @@
 {
-  "_hlc": "2026-11-08T12:41:18.244Z/0000/",
   "_table": "decisions",
-  "_v": 2,
+  "_v": 1,
   "archived_at": null,
   "body": "Chosen: plugin.Plugin, Lookuper, CommandRunner, ValueTransformer(path,value), ExpandObserver, Capability and Info are the base types and dotenv aliases them, so every existing dotenv plugin compiles unchanged. dotenv keeps EntryObserver (needs *Entry) and its own SaveGuard GuardSave(*File); it also detects the cross-format plugin.SaveGuard GuardSave(plugin.Document), which *dotenv.File implements. New base abilities: Resolver for ${scheme:ref} (only consulted when a resolver for that scheme is installed, so existing files read the same), Validator, Includer.",
   "confidence": null,
   "created_at": "2026-11-08T12:41:18.244127058Z",
-  "created_by": "act_afbe7ed1d969752697eebecaac20e9dc",
   "created_by_actor_id": "act_afbe7ed1d969752697eebecaac20e9dc",
   "id": "dec_01a1bb2d6aa4729aa1d241a4a9937bd7",
   "last_validated_at": null,
@@ -18,6 +16,5 @@
   "superseded_by_id": null,
   "title": "Base plugin interfaces: dotenv aliases most, keeps EntryObserver and SaveGuard(*File)",
   "trust_score": 0.5,
-  "updated_at": "2026-11-08T12:41:18.244127382Z",
-  "updated_by": "act_00000000000070008000000000000000"
+  "updated_at": "2026-11-08T12:41:18.244127382Z"
 }
