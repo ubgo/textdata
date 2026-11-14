@@ -1,12 +1,13 @@
 package dotenv
 
 import (
+	"context"
 	"errors"
 	"fmt"
-	"os/exec"
 	"strings"
 
 	"github.com/ubgo/textdata/expand"
+	"github.com/ubgo/textdata/shell"
 )
 
 // ds:def id=erranchornotfound-7696gb9k owner=@maintainers stability=stable
@@ -21,18 +22,16 @@ import (
 // defeat the call while reporting success.
 var ErrAnchorNotFound = errors.New("dotenv: anchor key not found")
 
-// shellRun executes a $(command) substitution through sh -c.
+// shellRun executes a $(command) substitution through the shared runner,
+// shell.Run, with no deadline: `sh -c` on Unix-likes, PowerShell on Windows.
+// WithCommandContext bounds it; see options.command.
 //
 // Trailing newlines are trimmed because a command's output almost always ends
 // with one and almost never wants it: $(whoami) in a connection string must not
 // embed a line break. A non-zero exit is an error, which expansion reports as an
 // *expand.CommandError naming the command rather than reading it as "".
 func shellRun(cmd string) (string, error) {
-	out, err := exec.Command("sh", "-c", cmd).Output()
-	if err != nil {
-		return "", err
-	}
-	return strings.TrimRight(string(out), "\r\n"), nil
+	return shell.Run(context.Background(), cmd)
 }
 
 // Pair is a key/value snapshot.
