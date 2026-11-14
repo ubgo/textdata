@@ -223,6 +223,39 @@ func symlink(w io.Writer, dir string) error {
 ```
 <!-- /ds:block hash=758166 -->
 
+## Step 6 — Update a file several processes write
+
+`Open`, `Set` and `Save` are safe for one writer. When several processes write the same `.env` (a CLI and its background worker, two runs at once), each `Save` is atomic, but the later one writes back a copy read before the earlier one landed, and that edit is lost. [`dotenv.Update(ctx, path, fn)`](ds:block?id=update-yzkcq24k) closes the gap: it takes the cross-process lock for `path` ([`atomicfile.Lock`](../base/atomicfile.md#step-5--lock-around-a-read-modify-write)), opens the file, calls `fn`, saves if `fn` changed something, and releases the lock. The runnable program is [`examples/dotenv/update-env`](../../../examples/dotenv/update-env/): five workers each set their own key and bump a shared counter at once, and every edit survives ([pinned](ds:block?id=testupdateconcurrentkeepseveryedit-c2pyfsjq&assert=true)).
+
+<!-- ds:block id=dotenv-update-recorddeploy-c7r3n9fs -->
+**recordDeploy** · [`examples/dotenv/update-env/main.go:78-91`](../../../examples/dotenv/update-env/main.go#L78-L91)
+
+```go
+func recordDeploy(path, worker string) error {
+	ctx, cancel := context.WithTimeout(context.Background(), lockWait)
+	defer cancel()
+	return dotenv.Update(ctx, path, func(f *dotenv.File) error {
+		v, _ := f.Get("DEPLOYS")
+		n, err := strconv.Atoi(v)
+		if err != nil {
+			return err
+		}
+		f.Set(worker, "done")
+		f.Set("DEPLOYS", strconv.Itoa(n+1))
+		return nil
+	})
+}
+```
+<!-- /ds:block hash=a3cf49 -->
+
+```text
+DEPLOYS=5
+keys: 6
+comment kept: true
+```
+
+The rules: `ctx` bounds only the wait for the lock (its deadline gives an error wrapping `atomicfile.ErrLockTimeout`); a missing file opens empty and is created at `0600` only if `fn` adds something; when `fn` returns an error nothing is written and that error is returned; when `fn` changes nothing nothing is written; save guards run as for `Save`. The lock is advisory, so every writer of the file has to use `Update` (or `atomicfile.Lock`). `fn` must not keep `f` or change `f.Path`.
+
 ## Try it
 
 ```sh
@@ -262,9 +295,10 @@ The modes are Unix permission bits. More tested examples: `ExampleFile_Save`, `E
 - **A read-only file is still replaced.** The save is a rename in the directory, so a `0400` file in a writable directory is overwritten (and keeps `0400`), as the example shows. File permissions do not protect a `.env` from `Save`; directory permissions do.
 - **The mode comes from `Open` time.** `Save` reapplies the mode read when the file was opened. If someone `chmod`s the file between your `Open` and your `Save`, the save puts the old mode back.
 - **The temp file needs a writable directory.** It is created next to the destination (next to the symlink's target for a link), so `Save` fails in a directory you can read but not write, even if the file itself is writable. Saving into a directory that does not exist fails too; it is not created for you.
-- **The temp name is fixed.** Two processes saving the same path at the same moment use the same `<path>.dotenv-tmp` name. Serialise saves to one file yourself.
+- **The temp name is fixed.** Two processes saving the same path at the same moment use the same `<path>.dotenv-tmp` name. Serialise them with `Update` (Step 6).
 - **Editing a line in a mixed-ending file changes its terminator.** In a file with any `\r\n` line, a line you change is written with `\r\n` even if it had `\n` (`mixed` above). Untouched lines keep theirs.
 - **An unterminated quote swallows what you append.** If the source's last value opens a quote that never closes, appended content is read back as part of that value. See [editing.md › Pitfalls](editing.md#pitfalls).
+- **`Update` leaves a `.lock` file next to the target.** It is the lock's sidecar (`.env.lock`), a few bytes, created once and never removed; deleting it while another process waits could let two writers in. Add it to `.gitignore` next to the `.env`.
 - **Modes are Unix modes.** Windows has no Unix permission bits, so the mode rules hold only on Unix-like systems.
 
 ## Related
@@ -274,5 +308,5 @@ The modes are Unix permission bits. More tested examples: `ExampleFile_Save`, `E
 - [plugins.md](plugins.md): save guards, which can refuse a save.
 - Module README: [Saving safely](../../../dotenv/README.md#saving-safely) and [Line endings and trailing newlines](../../../dotenv/README.md#line-endings-and-trailing-newlines).
 - Base package: [root README › atomicfile](../../../README.md#atomicfile).
-- Example: [`examples/dotenv/saving`](../../../examples/dotenv/saving/).
+- Examples: [`examples/dotenv/saving`](../../../examples/dotenv/saving/), [`examples/dotenv/update-env`](../../../examples/dotenv/update-env/).
 - API: [pkg.go.dev/github.com/ubgo/textdata/dotenv#File.Save](https://pkg.go.dev/github.com/ubgo/textdata/dotenv#File.Save).

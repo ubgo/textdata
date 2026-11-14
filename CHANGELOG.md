@@ -4,6 +4,17 @@ All notable changes to `github.com/ubgo/textdata` are listed here. The format fo
 
 ## [Unreleased]
 
+### Added
+
+- `expand`: opt-in strict mode, `Engine.Strict`. An unset name with no operator that handles unset is `*UnsetError`, a `${scheme:ref}` no resolver claims (and no lookup defines) is `*UnknownSchemeError`, and a `$(cmd)` while `Run` is nil is `*CommandOffError`; each names the reference, its byte `Offset` in the input and the variable it was reached through (`Via`), never a value, and matches `ErrStrict`. `${VAR:-d}`, `${VAR-d}`, `${VAR+a}`, `${VAR:+a}` keep their meaning and `${VAR:?m}` keeps `*RequiredError`. In strict mode an unclaimed scheme token is one opaque name, never split on an operator. The zero Engine is unchanged.
+- `value`: `WithStrict()` turns on the engine's strict mode for one value.
+- `atomicfile`: `Lock(ctx, path) (*FileLock, error)`, an exclusive advisory cross-process lock for read-modify-write, on a `<resolved path>.lock` sidecar that is never removed. `flock` on Linux, macOS and the BSDs, `LockFileEx` on Windows through the standard library's lazy kernel32 loader, so the module stays stdlib only; the OS releases it when the holder dies. A context deadline gives `ErrLockTimeout` (with `context.DeadlineExceeded`), other platforms `ErrLockUnsupported`. `FileLock.Close` is idempotent and nil-safe; `FileLock.Path` names the sidecar.
+
+### Documentation
+
+- Guides: [expand § Step 7](docs/guides/base/expand.md#step-7--refuse-unresolved-references-with-enginestrict), [value § Step 7](docs/guides/base/value.md#step-7--make-unresolved-references-errors-with-withstrict), [atomicfile § Step 5](docs/guides/base/atomicfile.md#step-5--lock-around-a-read-modify-write); runnable examples `examples/value/strict`, `examples/base/file-lock`, `examples/dotenv/{strict-env,update-env}`, `examples/jsonc/{strict-config,update-config}`, `examples/jsonc-tools/strict-keys`; 8 rows in the feature index.
+
+
 ## [0.1.5] - 2026-11-14
 
 ### Added

@@ -1,15 +1,27 @@
-# docsync refs format=2 extract=1 repo=textdata commit=3e26b01 scanned_at=2026-11-14T09:30:10Z
+# docsync refs format=2 extract=1 repo=textdata commit=2271212 scanned_at=2026-11-14T11:52:48Z
 id	repo	doc	line	verb	carrier	acked_hash	seen_hash	sentence_hash	env	args
-writenew-wxy7xh4t	textdata	docs/guides/base/atomicfile.md	29	block	block		68befeccd74cdd1c7f90d30f83412eb20a4354fee3677faeedc51200d947e6fb			id=writenew-wxy7xh4t
-keepmode-6ehrb3xd	textdata	docs/guides/base/atomicfile.md	47	block	block		049c69344cc01ff1445e306de8c6be9126f6eef5f3a5713cfa937c43bbd0d40b			id=keepmode-6ehrb3xd
-throughsymlink-ynna9fr8	textdata	docs/guides/base/atomicfile.md	68	block	block		464edfa73db28b85f36cd8128bebbddb87eed249dd9a3f33b6beb8379d1df29b			id=throughsymlink-ynna9fr8
-failedrename-2zj7reuu	textdata	docs/guides/base/atomicfile.md	98	block	block		94427ad54f96dd5feb73b2795b64a79ca35a2d50b51633a23fc31275eec3ea82			id=failedrename-2zj7reuu
+writenew-wxy7xh4t	textdata	docs/guides/base/atomicfile.md	31	block	block		68befeccd74cdd1c7f90d30f83412eb20a4354fee3677faeedc51200d947e6fb			id=writenew-wxy7xh4t
+keepmode-6ehrb3xd	textdata	docs/guides/base/atomicfile.md	49	block	block		049c69344cc01ff1445e306de8c6be9126f6eef5f3a5713cfa937c43bbd0d40b			id=keepmode-6ehrb3xd
+throughsymlink-ynna9fr8	textdata	docs/guides/base/atomicfile.md	70	block	block		464edfa73db28b85f36cd8128bebbddb87eed249dd9a3f33b6beb8379d1df29b			id=throughsymlink-ynna9fr8
+failedrename-2zj7reuu	textdata	docs/guides/base/atomicfile.md	100	block	block		94427ad54f96dd5feb73b2795b64a79ca35a2d50b51633a23fc31275eec3ea82			id=failedrename-2zj7reuu
+lock-hhsrdwus	textdata	docs/guides/base/atomicfile.md	123	block	link		a7838573a7739783273c5cc02824a253c9db533b5345c103ae55c9e48926851b	183e050fe04b137ea185355ef15058891ccaa2a21ea49fa3b8fcc9d580ff8970		id=lock-hhsrdwus
+filelock-bump-h3m8q2vz	textdata	docs/guides/base/atomicfile.md	125	block	block		1ee4eec3b2ed7fc7d58bb9d98f3a8fdaf47b60c45b8b635f64e690b26ea8f60c			id=filelock-bump-h3m8q2vz
+testlockreleasedwhenholderdies-w6jdfhs9	textdata	docs/guides/base/atomicfile.md	149	block	link		fc3729ff976f4ee8916325d95ea50af0a92fbc19a963a7c999766b564f3b9a61	e960dadba70be58c7e39fa571df168586293612d2c270c716bd3d9516e1d7f92		assert=true id=testlockreleasedwhenholderdies-w6jdfhs9
+testlockprocessesdonotloseedits-vtgj7tkj	textdata	docs/guides/base/atomicfile.md	150	block	link		572cdfbfc426f895c3b1805e1c17f22b71ca943401826c3905f489566c1d0c1d	956c7e79941f61f19d4427a5dbe6d8dd9398af528ea8d0c21cfc33b8fdae8991		assert=true id=testlockprocessesdonotloseedits-vtgj7tkj
+errlocktimeout-vstm9t8y	textdata	docs/guides/base/atomicfile.md	153	block	link		6d248a490aaa7cafa23bdce9eeda33d4faffe18bced2eb0016a038549eab3e60	053c81404482afb7cf5e43d720d241318767ca3f1fbac1a0904d58d6cf0e1d77		id=errlocktimeout-vstm9t8y
+testlocktimeout-ahj9bk9q	textdata	docs/guides/base/atomicfile.md	153	block	link		7b1c3313614df6bb6ebe0c44239060d296e7058baf55393e5f5cbbce378a69c8	053c81404482afb7cf5e43d720d241318767ca3f1fbac1a0904d58d6cf0e1d77		assert=true id=testlocktimeout-ahj9bk9q
+filelock-timeout-p6t2w9kc	textdata	docs/guides/base/atomicfile.md	155	block	block		6eff1c9f43f7aff14b876b35297dddf01ff7af1883ef4298799976a6d1edcdb4			id=filelock-timeout-p6t2w9kc
 maplookup-bhxv9kp2	textdata	docs/guides/base/expand.md	17	block	block		c9d5d512035782b9d1e9aa26e0a03e75442c2ecd5ac5c493d0de1d28ceff5b67			id=maplookup-bhxv9kp2
 operators-re38k7u7	textdata	docs/guides/base/expand.md	48	block	block		3577e2b65c4b0f2b5e19ebe8208dabf4a3dc440300b9b61faef25909c2870d2a			id=operators-re38k7u7
 schemes-74khhwz9	textdata	docs/guides/base/expand.md	80	block	block		0f972a2c6050a3bcb5e5bdb0b51892fd33b43c0153a0048fbe50c420ee04b100			id=schemes-74khhwz9
 commands-7z2aksvq	textdata	docs/guides/base/expand.md	111	block	block	cffe2bdd28dcc9cedbcecb4a764c1915b80c4a4b76e23d4a76e0313a5e999d25	e3abaa38fc2874cf4c55e81eb6a2bce5912e3d687266d912feaa6c7783310d6a			id=commands-7z2aksvq
 cycles-fh85r3fe	textdata	docs/guides/base/expand.md	152	block	block		9fd537e392cf26782d66f7010947c1149a350ceb26709bcfd9d80875e3da32c1			id=cycles-fh85r3fe
 required-q5qdggzy	textdata	docs/guides/base/expand.md	181	block	block		9fdce601478e18c536ba44810ed401f7ddc6f08c4402e726ae38daeef3ce3268			id=required-q5qdggzy
+errstrict-wtxc9pe2	textdata	docs/guides/base/expand.md	200	block	link		9ff9e59e9f859f704ac405bd65ee4e459e4c89dbfe011969dbb61b971c135813	74e9de098d242fc5040b4dfa006f3de726cbbb0196f91c49494685c7b3ab9d43		id=errstrict-wtxc9pe2
+unseterror-fzc9dngm	textdata	docs/guides/base/expand.md	204	block	link		3c274bc33275c66c595cb82080d81f13e05aa2759ec06a09f623a1fdaca80dec	0b88e77fffc63e2a7a10d1e0da4583faf737a3cd011a616e0d50d0f0ee147408		id=unseterror-fzc9dngm
+unknownschemeerror-fg4srxup	textdata	docs/guides/base/expand.md	205	block	link		ae3c085da12cfaf0eec4975d0cca0e393f569d45b21e6afcab9e700801b5c124	50b22d3c070c35a4afff7724a87ec369ac9bd16a0012ac42b90efaa194f0565f		id=unknownschemeerror-fg4srxup
+commandofferror-j9abapdg	textdata	docs/guides/base/expand.md	206	block	link		15ca998b8e86af81502e7b1eb9c3cd2e94d4e256164ee09e111abe4327fc4fed	b3983ee9d991606ab2a271dda1542886e475d0e298583fce7b5b2b1204c69a38		id=commandofferror-j9abapdg
+teststrictrefuses-8m4ujeu7	textdata	docs/guides/base/expand.md	210	block	link		9def038a62cb8dfb180da7bd293010cdee5b3df34d2ffa08952bc66b56e976a2	d1d1651c10e0b8e93575bade2a0f5ab7671b0b975c98a9fbe4cab5a3b61c65f4		assert=true id=teststrictrefuses-8m4ujeu7
 store-wgesjcub	textdata	docs/guides/base/plugin.md	30	block	block		70bce445fda9262ae4aa6d79ba613768d2f1a477c3a32326536af554b91e04e6			id=store-wgesjcub
 store-lookup-2fkdgvx4	textdata	docs/guides/base/plugin.md	40	block	block		c969a5c7166029cfc4f1f8db35fe8f0ed2a38c1d56ba72eae333dcc9a41eb353			id=store-lookup-2fkdgvx4
 store-resolve-b55eetqv	textdata	docs/guides/base/plugin.md	58	block	block		7c07b356ee8e7ad4ad03f8a2fc06cf33fd08599a671c5ba32a645d1b79dd3302			id=store-resolve-b55eetqv
@@ -47,18 +59,27 @@ fuzzroundtrip-56575zwy	textdata	docs/guides/base/texttest.md	103	block	block		d0
 testsetleavesotherbytes-sraxrcv2	textdata	docs/guides/base/texttest.md	120	block	block		245933b91f265239df6ac3fbf0a64b2d8f91113d7812444909217d0733a9d7fc			id=testsetleavesotherbytes-sraxrcv2
 testuntouchedcatchesreflow-2cczecty	textdata	docs/guides/base/texttest.md	138	block	block		82a3df18f75125bcac76577186779ed4d2cb9bc4742616fa7ba115a0264f9c89			id=testuntouchedcatchesreflow-2cczecty
 testdiffwindow-nqg6djv4	textdata	docs/guides/base/texttest.md	158	block	block		35ad3b133a7cd570f25da5060d3d5b8652902eb23194d9207974e3befed30a05			id=testdiffwindow-nqg6djv4
-value-fromenv-t3q8w5kd	textdata	docs/guides/base/value.md	27	block	block		8871e0b22b61fd2c9ebca7992f36ab4b91d5cf8de6ed3ef7e7908ca23465049d			id=value-fromenv-t3q8w5kd
-value-defaults-m6x2c9vb	textdata	docs/guides/base/value.md	52	block	block		58ee4332e116c33b855d7254a59c8f89602a4044e0e818ef502416b55df0f8a2			id=value-defaults-m6x2c9vb
-value-layered-j9n4r7fs	textdata	docs/guides/base/value.md	77	block	block		eadf37ce0b2b769ae1346465c1cdad940ad2a8de2a3cc6875f7cfa39165b98b2			id=value-layered-j9n4r7fs
-value-offbydefault-w8d3h6zq	textdata	docs/guides/base/value.md	104	block	block		c7c4bf2b25cea24d1ff9eb7312158a77abf8bdcd66cfaa22b9f6409a44a99d66			id=value-offbydefault-w8d3h6zq
-withcommands-jhgmdcyp	textdata	docs/guides/base/value.md	119	block	link		bf0ed77b0c0ec625982eaaa0a141d49f4e170a7d8df7ba650acf08534e2cf96e	7921b5261ab9bdd9230a3e5a81fb39721acaaf80a748678cbbe7952f61de5b85		id=withcommands-jhgmdcyp
-value-commandson-q2v7m4xe	textdata	docs/guides/base/value.md	121	block	block		5b24b7bf7e249cf6747650d05b9d006b4951c5fb5f37c5d3a56b7f67f3005ca0			id=value-commandson-q2v7m4xe
-value-bounded-f6k9p2ns	textdata	docs/guides/base/value.md	147	block	block		ad5a8e6a1587de76b730a0e5371d950e5098e0055c8490e7d1a0551b3365a99d			id=value-bounded-f6k9p2ns
-value-allowlist-c4t8j1wr	textdata	docs/guides/base/value.md	169	block	block		b3076c3cd8db7c8fb954ebf664b484ddac201dbbf0c91ad083c3b57d7d0a5b9e			id=value-allowlist-c4t8j1wr
-value-newplugins-u7h3x9ma	textdata	docs/guides/base/value.md	191	block	block		2042c7c36a19344e2bdf3868a03ccf1ccb524859c89d8ab5145e183cbbc4a24e			id=value-newplugins-u7h3x9ma
-value-expandsecrets-s2p6d4kc	textdata	docs/guides/base/value.md	217	block	block		74c4cb68bf60152033c2840287ef39e23119c1f023ab5b4437145293cf841278			id=value-expandsecrets-s2p6d4kc
-value-requirederror-b5y1k8hp	textdata	docs/guides/base/value.md	252	block	block		a54d2962ae5589ec4c6b9659e2bc8f0689b2d68b06134a57b09e276667147874			id=value-requirederror-b5y1k8hp
-value-pluginerrors-g8r5n1vt	textdata	docs/guides/base/value.md	268	block	block		ae2c0d529fd9993871054c8ffac223b2241d06049ed1dedde345737e9b7b946b			id=value-pluginerrors-g8r5n1vt
+value-fromenv-t3q8w5kd	textdata	docs/guides/base/value.md	28	block	block		8871e0b22b61fd2c9ebca7992f36ab4b91d5cf8de6ed3ef7e7908ca23465049d			id=value-fromenv-t3q8w5kd
+value-defaults-m6x2c9vb	textdata	docs/guides/base/value.md	53	block	block		58ee4332e116c33b855d7254a59c8f89602a4044e0e818ef502416b55df0f8a2			id=value-defaults-m6x2c9vb
+value-layered-j9n4r7fs	textdata	docs/guides/base/value.md	78	block	block		eadf37ce0b2b769ae1346465c1cdad940ad2a8de2a3cc6875f7cfa39165b98b2			id=value-layered-j9n4r7fs
+value-offbydefault-w8d3h6zq	textdata	docs/guides/base/value.md	105	block	block		c7c4bf2b25cea24d1ff9eb7312158a77abf8bdcd66cfaa22b9f6409a44a99d66			id=value-offbydefault-w8d3h6zq
+withcommands-jhgmdcyp	textdata	docs/guides/base/value.md	120	block	link		bf0ed77b0c0ec625982eaaa0a141d49f4e170a7d8df7ba650acf08534e2cf96e	7921b5261ab9bdd9230a3e5a81fb39721acaaf80a748678cbbe7952f61de5b85		id=withcommands-jhgmdcyp
+value-commandson-q2v7m4xe	textdata	docs/guides/base/value.md	122	block	block		5b24b7bf7e249cf6747650d05b9d006b4951c5fb5f37c5d3a56b7f67f3005ca0			id=value-commandson-q2v7m4xe
+value-bounded-f6k9p2ns	textdata	docs/guides/base/value.md	148	block	block		ad5a8e6a1587de76b730a0e5371d950e5098e0055c8490e7d1a0551b3365a99d			id=value-bounded-f6k9p2ns
+value-allowlist-c4t8j1wr	textdata	docs/guides/base/value.md	170	block	block		b3076c3cd8db7c8fb954ebf664b484ddac201dbbf0c91ad083c3b57d7d0a5b9e			id=value-allowlist-c4t8j1wr
+value-newplugins-u7h3x9ma	textdata	docs/guides/base/value.md	192	block	block		2042c7c36a19344e2bdf3868a03ccf1ccb524859c89d8ab5145e183cbbc4a24e			id=value-newplugins-u7h3x9ma
+value-expandsecrets-s2p6d4kc	textdata	docs/guides/base/value.md	218	block	block		74c4cb68bf60152033c2840287ef39e23119c1f023ab5b4437145293cf841278			id=value-expandsecrets-s2p6d4kc
+value-requirederror-b5y1k8hp	textdata	docs/guides/base/value.md	254	block	block		a54d2962ae5589ec4c6b9659e2bc8f0689b2d68b06134a57b09e276667147874			id=value-requirederror-b5y1k8hp
+value-pluginerrors-g8r5n1vt	textdata	docs/guides/base/value.md	270	block	block		ae2c0d529fd9993871054c8ffac223b2241d06049ed1dedde345737e9b7b946b			id=value-pluginerrors-g8r5n1vt
+withstrict-puc4zm2j	textdata	docs/guides/base/value.md	288	block	link		78fd6f4b82c665f3743b2a0e6ce50899b2ccf4edd543f6fa93e6bf3bf0eefd81	da9932dd40cc2e27b443eca854cea134f31d014e9b59216a086fca03bb9c34e5		id=withstrict-puc4zm2j
+value-strictresolves-k4w9p2td	textdata	docs/guides/base/value.md	290	block	block		6c63bdb8e0b96a5fd6b073476b2592fe3609d0fdd639a7be99a58680934e38f0			id=value-strictresolves-k4w9p2td
+errstrict-wtxc9pe2	textdata	docs/guides/base/value.md	311	block	link		9ff9e59e9f859f704ac405bd65ee4e459e4c89dbfe011969dbb61b971c135813	080b456230c9acf6231979e2517f8071c009cac33b6f1fc1f7e5ea8b088760f5		id=errstrict-wtxc9pe2
+unseterror-fzc9dngm	textdata	docs/guides/base/value.md	315	block	link		3c274bc33275c66c595cb82080d81f13e05aa2759ec06a09f623a1fdaca80dec	498e5aab6e2932093126a3e7a31979d6528c6ab396960e3f753c6dc94e023d48		id=unseterror-fzc9dngm
+unknownschemeerror-fg4srxup	textdata	docs/guides/base/value.md	316	block	link		ae3c085da12cfaf0eec4975d0cca0e393f569d45b21e6afcab9e700801b5c124	e68c3094e9b846ad97e33e22fc058d8f502af26d8a5bab77cd26814342bbf348		id=unknownschemeerror-fg4srxup
+commandofferror-j9abapdg	textdata	docs/guides/base/value.md	317	block	link		15ca998b8e86af81502e7b1eb9c3cd2e94d4e256164ee09e111abe4327fc4fed	8676e141a06cd292237cca3402ba6e2ed1d70357b8607ef821227c8e667dfa7b		id=commandofferror-j9abapdg
+teststrict-uemkh2yq	textdata	docs/guides/base/value.md	319	block	link		1d699611306a54e4c48ee553014b01c61c6b322f2cf748015ad60055afdf0cc7	5af7b0354d7c561e7d41cac501569a0d47c0bd368970a07b7423329b177b5154		assert=true id=teststrict-uemkh2yq
+teststrictrefuses-8m4ujeu7	textdata	docs/guides/base/value.md	319	block	link		9def038a62cb8dfb180da7bd293010cdee5b3df34d2ffa08952bc66b56e976a2	5af7b0354d7c561e7d41cac501569a0d47c0bd368970a07b7423329b177b5154		assert=true id=teststrictrefuses-8m4ujeu7
+value-strictrefuses-r7n3c5hm	textdata	docs/guides/base/value.md	321	block	block		9328ca01fc55236d82e2cfb32d891d29a80f8c0c302d5482efe10fefeaa43715			id=value-strictrefuses-r7n3c5hm
 dotenvtour-np6rj397	textdata	docs/guides/cli/dotenvctl.md	67	block	block		b2a17951d729bd1b398e19be9c5f1576e0753257642b8027200adc51f08ecdc5			id=dotenvtour-np6rj397
 exitcodes-msf66qpb	textdata	docs/guides/cli/dotenvctl.md	114	block	block		87cbec4e99b749e26b851719c182f8a9f8f7f97b79ae64fa67cb9078fc8d6c3a			id=exitcodes-msf66qpb
 runchild-7dpqrucc	textdata	docs/guides/cli/dotenvctl.md	366	block	block		1b61db509c1f2311f37a3648bee8f937ba4f3851194a1ae45e165b3555fc1940			id=runchild-7dpqrucc
@@ -114,6 +135,9 @@ requiredvars-n7tf2c5k	textdata	docs/guides/dotenv/expansion.md	198	block	block		
 withcommandsubstitution-5kmt8q5c	textdata	docs/guides/dotenv/expansion.md	226	block	link		165166aaef0915b8b43b719bee8311c0629df12ea72564aed1ce52cfd016dade	761c6117ae49e34d82c3aad7ed4c8d2dda6c461b208820ab8180d8b3de38a191		id=withcommandsubstitution-5kmt8q5c
 withcommandcontext-v6889xsb	textdata	docs/guides/dotenv/expansion.md	235	block	link		bf84d403242f3a4292e00dae80c97507a3f471383ebba4073a2cc87b22d74dff	a640ff0c7a29c08fceee08256fed7231c2e4bece5d9c26ed200d3b9c04e4302d		id=withcommandcontext-v6889xsb
 commands-w5pk9d3r	textdata	docs/guides/dotenv/expansion.md	239	block	block	01c6c0a79b11b6480415fdd14448ce2401f74d33813f9708ac4786a8c43636ba	0b1fc7389e6ec568c3f0d09e939a0d69c345910ccb7176f78cdfa115b1a5d7f2			id=commands-w5pk9d3r
+withstrictexpand-at8hy283	textdata	docs/guides/dotenv/expansion.md	283	block	link		c4a3b0dd7f51e2fda2562da57e925567971940906956a3a5fd9455d32cd7e6e9	47c261a6b4043a724e9acf19978d0306bfab4c178582bac705aa6e2908ac6289		id=withstrictexpand-at8hy283
+teststrictexpand-59jbhqpv	textdata	docs/guides/dotenv/expansion.md	291	block	link		85da0ac77fe62be7d200e3e99fe9affc14419aa9fb81176d14f58673bcf45f24	d1be4777c4dd4fb2320b2e0e5c3545edbfbae799bb3b62289dc7f0f0eafa9204		assert=true id=teststrictexpand-59jbhqpv
+dotenv-strict-run-m2v8k5qa	textdata	docs/guides/dotenv/expansion.md	293	block	block		9e05aeac80167715560b989160e6c877f160160eac3293a37b41a2d630a7e5ac			id=dotenv-strict-run-m2v8k5qa
 functionoptions-u5cr9k2w	textdata	docs/guides/dotenv/plugins.md	39	block	block	6a4635135fc80d060cc585ab5c394f8f2d70389e142cda3160be77562024a2d0	f05e97e65841524c3cd4fdc71422e42f546437e25a77321414cd1b208b0907e3			id=functionoptions-u5cr9k2w
 memstoreresolve-h5nx8q2w	textdata	docs/guides/dotenv/plugins.md	84	block	block		2558e14b5198a4dfa6243898be3dad41abf72351a3cb4456709c7fcec93b0a3f			id=memstoreresolve-h5nx8q2w
 resolver-g8wn2v5j	textdata	docs/guides/dotenv/plugins.md	97	block	block		d5915591b7c90ceb51b3db272bba4f884a97b66df8a7d7e62adfeafcf974fd0f			id=resolver-g8wn2v5j
@@ -151,6 +175,9 @@ lineendings-n5dk7w3x	textdata	docs/guides/dotenv/saving.md	132	block	block		b7ab
 saveas-tpakytbt	textdata	docs/guides/dotenv/saving.md	160	block	link	8198842054f3da33b08861c88df695eb60e59be13339b49aa158e01c99474c79	ef3d8462e544c0f8f930c64e3e5abe907e6fa234f5c5919ca263c47e13bdc89c	3db8c6fba1521dd40ce2d6bcf86acc34123529ec7de14f124f0f76941a79f1e6		id=saveas-tpakytbt
 saveas-c2hr6p9t	textdata	docs/guides/dotenv/saving.md	162	block	block		c1641a1d2c65d36500208a084687efa59199fcd286b09e397140ec1abbb2e1dc			id=saveas-c2hr6p9t
 symlink-x4bj8m2f	textdata	docs/guides/dotenv/saving.md	191	block	block		758166bbff943efa01b0a8b85671939156ea27e7f9ae0747da42a6d0b894e356			id=symlink-x4bj8m2f
+testupdateconcurrentkeepseveryedit-c2pyfsjq	textdata	docs/guides/dotenv/saving.md	228	block	link		61d4fdf14a755e25d68dba3725abe534e65afd4f10d1c339963e54add0c853a0	dcb8d3fb062c503b31b2984f9d998ece6d155c3e19fc1c19985787a74c261e0c		assert=true id=testupdateconcurrentkeepseveryedit-c2pyfsjq
+update-yzkcq24k	textdata	docs/guides/dotenv/saving.md	228	block	link		5b9a1d2d5e43b74d0f2fe4ad6be82431a9ab00d9294e006e6b01741d57e8df06	9ac10871a3bad108154f2678bd31c17c22e4530b5bc246f29ab2a89a185c47ac		id=update-yzkcq24k
+dotenv-update-recorddeploy-c7r3n9fs	textdata	docs/guides/dotenv/saving.md	230	block	block		a3cf49595fa4d52395779f0e2c11ec776b5af2f2d0a82feb61dbcef4d1c3476e			id=dotenv-update-recorddeploy-c7r3n9fs
 synshow-q4tz8m2d	textdata	docs/guides/dotenv/syntax.md	17	block	block		103dbbaccbae8bbf06121a7f568216b7842ca418756b00d5247f7429b48cd2e0			id=synshow-q4tz8m2d
 quoting-c7wn3k5e	textdata	docs/guides/dotenv/syntax.md	48	block	block		ba3c6f73883accf72424c0bf72ff9d4a406d3ef316c07ae57c79e33bfdea2b65			id=quoting-c7wn3k5e
 multiline-v6pb9t1x	textdata	docs/guides/dotenv/syntax.md	74	block	block		f2a32e3e8aae80c202447b1af1545964c976f7ab06f71e390782f8eed3a01b8d			id=multiline-v6pb9t1x
@@ -199,6 +226,10 @@ jt-schema-validate-jtqgg2uk	textdata	docs/guides/jsonc-tools/schema.md	81	block	
 jt-schema-parse-fy6ebs7g	textdata	docs/guides/jsonc-tools/schema.md	107	block	block		b9a248d4da74bc2a9b359e8f080e769364ab0f995e6f29c202c14e932a8fa954			id=jt-schema-parse-fy6ebs7g
 jt-schema-plugin-tmevwhee	textdata	docs/guides/jsonc-tools/schema.md	136	block	block		7f5ca658df85d0922045575492c4c661361467617c988f9c117282ff757d3a30			id=jt-schema-plugin-tmevwhee
 jt-schema-save-4fhp9stf	textdata	docs/guides/jsonc-tools/schema.md	161	block	block	d41e57e822e7d5e3261410be923c95f2bb58634d13e0a3302fec324b8d8a2c92	03ef48171c5cc339acc592ccef7b4871108dc72ea865cdf6e9d8a3caee96ddb1			id=jt-schema-save-4fhp9stf
+strictkeys-z4ruxr9j	textdata	docs/guides/jsonc-tools/schema.md	192	block	link		645fab1c4c80d3748f4c45e81ca183d90e5c998191aacdb94a187e3622ab9dd2	f7f7ecb2d05f2fefb61da36fef72e9a1a3154043536ee0f1bf70a36335b9d613		id=strictkeys-z4ruxr9j
+testagxshapestrictkeys-46m8nuv5	textdata	docs/guides/jsonc-tools/schema.md	192	block	link		86d295da4b75f7c048fd6ec7388c90ef97aa1cd35bd0f6fb10ade78b2369e28d	f7f7ecb2d05f2fefb61da36fef72e9a1a3154043536ee0f1bf70a36335b9d613		assert=true id=testagxshapestrictkeys-46m8nuv5
+jt-strictkeys-config-w3f7h2pe	textdata	docs/guides/jsonc-tools/schema.md	196	block	block		369f43d9924263b87a140804f5dc4b40f1109e3440c14b1c3f2dc9d22a06a4d8			id=jt-strictkeys-config-w3f7h2pe
+jt-strictkeys-run-q9d4m6vt	textdata	docs/guides/jsonc-tools/schema.md	219	block	block		da3ca04ae2267f90fb51a507b1afe71336571c906d1d2f26e62e14c4ded5bfa9			id=jt-strictkeys-run-q9d4m6vt
 before-hqbcqwjn	textdata	docs/guides/jsonc/disable-restore.md	13	block	block		226c25197464bed88a6fb14797b32d3fb983153808eaed1d610ca954fd37506a			id=before-hqbcqwjn
 disablekey-xhvfs3up	textdata	docs/guides/jsonc/disable-restore.md	37	block	block		216866f1f8e6a0ecd61e0f05cea3e78f40b9dd4840c52a61075234fc2817203d			id=disablekey-xhvfs3up
 restorekey-j3679hwq	textdata	docs/guides/jsonc/disable-restore.md	63	block	block		cdc6781983b4c20e6449b012ab0b5f0c04428d55666165cf2c66f359f8817881			id=restorekey-j3679hwq
@@ -229,6 +260,9 @@ withplugins-3au5u4sa	textdata	docs/guides/jsonc/expansion-and-plugins.md	221	blo
 withcommandcontext-3z9bvvrh	textdata	docs/guides/jsonc/expansion-and-plugins.md	254	block	link		bf84d403242f3a4292e00dae80c97507a3f471383ebba4073a2cc87b22d74dff	7117ee213b2639666ceb3a3d3e30f8f76689dc0ec69d22f1ddec9c5e65071657		id=withcommandcontext-3z9bvvrh
 commandsubstitution-npg99swj	textdata	docs/guides/jsonc/expansion-and-plugins.md	256	block	block		58d71023d458bebaed339deff333c2ab214a4a2a41cb2a00e372afc5bea0500c			id=commandsubstitution-npg99swj
 readexpanded-n5grq4ta	textdata	docs/guides/jsonc/expansion-and-plugins.md	279	block	block	fc896ae7d85f4b33f5620b73a808c78643f03a1f665284f1923fbf481ec031f8	8626dc1304cd22a3a244228dbd193e7933df39723064800b8b1df18b78a98256			id=readexpanded-n5grq4ta
+withstrictexpand-tnccxzjq	textdata	docs/guides/jsonc/expansion-and-plugins.md	308	block	link		c4a3b0dd7f51e2fda2562da57e925567971940906956a3a5fd9455d32cd7e6e9	ab3729b298cab919233c72bb0330fa386345970e0cd14214b0c83b8f30e52fc2		id=withstrictexpand-tnccxzjq
+teststrictexpand-8h7qa9nr	textdata	docs/guides/jsonc/expansion-and-plugins.md	316	block	link		f4a1e6bc5ee5a86f658c1b37472c2b767d2c3be6cb4552670d906195f3c7cfa8	e9cac4f9c2cfc0e10939217358d2a73aa75b961536c2bf097456dc3443de9b27		assert=true id=teststrictexpand-8h7qa9nr
+jsonc-strict-load-b8n4t6wd	textdata	docs/guides/jsonc/expansion-and-plugins.md	318	block	block		a8d83a0d290ab98542051c45a12280e6a3d6968107767cf9ae125be434bba411			id=jsonc-strict-load-b8n4t6wd
 files-6kdabnqd	textdata	docs/guides/jsonc/extends.md	14	block	block		55d22b18c80871b2e57473937ce0e19aa3af4faea9dabab131020ee127d72306			id=files-6kdabnqd
 openwithincluder-67anw3rh	textdata	docs/guides/jsonc/extends.md	41	block	block		6362170521b7dc4a445b0dec620006e07a44000e8f2e18660a784e686a3d3af5			id=openwithincluder-67anw3rh
 extend-93jurhr8	textdata	docs/guides/jsonc/extends.md	59	block	block		12b4e1127ad627595685f7515f747398e0c78c0a5649a7a20efe3c3cabdc1979			id=extend-93jurhr8
@@ -272,6 +306,9 @@ noplaintextsecret-tngjgu3d	textdata	docs/guides/jsonc/save.md	138	block	block		c
 noplaintextsecret-name-xjvfd6gh	textdata	docs/guides/jsonc/save.md	146	block	block		f10e9a2aae3327606986296463d6369a4d3e6535bafb8136f8e6a5f73604da44			id=noplaintextsecret-name-xjvfd6gh
 noplaintextsecret-guardsave-222q27ev	textdata	docs/guides/jsonc/save.md	154	block	block		5872c228033e598eeeb33d152e2908f22b636b58df377ca8dc6e6abf86f6c814			id=noplaintextsecret-guardsave-222q27ev
 guardsave-t9bk2qdw	textdata	docs/guides/jsonc/save.md	168	block	block		174a8d6e85d6f21df3894338599eb55d74d3c87453b1cf0c39d49f26bf3a0c98			id=guardsave-t9bk2qdw
+testupdateconcurrentkeepseveryedit-eugnqggz	textdata	docs/guides/jsonc/save.md	198	block	link		bb563ca4e03d02d891682a3be155836220f270c95bf8cdf7d846fb33912f0970	9a88a477ff47084256f8f920c7def9d23f75f174be9dd94027b58cbae14e495e		assert=true id=testupdateconcurrentkeepseveryedit-eugnqggz
+update-v2hk4zns	textdata	docs/guides/jsonc/save.md	198	block	link		afe8abc20998a78316fcaffb502ddbb7dcc75f5988a574948d333e394902c8ca	cd62dfc071920206c4242da33a097660a38232abd6f7465cadf644e24f2c8ed9		id=update-v2hk4zns
+jsonc-update-recordrun-v5k2m8xq	textdata	docs/guides/jsonc/save.md	200	block	block		8d00bf1d56bc4da78c76e1ea2beeda78c6384d089461879b6b845d0b697e821d			id=jsonc-update-recordrun-v5k2m8xq
 aws-newplugin-ax28y3p7	textdata	docs/guides/plugins/aws.md	36	block	block		50e58c3f291bfbc0a4674fbe92f5450a44ffcba237e7edcaf99c068de31f9a5a			id=aws-newplugin-ax28y3p7
 aws-signedfor-jpc597t6	textdata	docs/guides/plugins/aws.md	73	block	block		e0b4089f2011484ec7f2113b23a3f1231580674ce0d2b3147642d255a347514b			id=aws-signedfor-jpc597t6
 aws-readdotenv-c8y6j8u7	textdata	docs/guides/plugins/aws.md	94	block	block		8274774f8e614161fccb0d98f1d9d4ff88577a1195b1ee8674f85f37dbceb4f0			id=aws-readdotenv-c8y6j8u7
@@ -342,7 +379,9 @@ partialfailure-fttx3dk7	textdata	docs/guides/providers/write-a-provider.md	228	b
 unset-ahj88kj2	textdata	dotenv/README.md	248	block	link		b082fc28d0e6735d3da8bfd612c6e8f5374e203acab606295f916bc49b7d76cc	11fbd2ad2b8617a8c175c3f6fa609de8a0fd1bb8d434d283b6014f84a2bc4d91		id=unset-ahj88kj2
 writeto-eemankjv	textdata	dotenv/README.md	248	block	link		84bf5f117b5aa7a25660b2e75adc49fc97a3ce64bad64ba22d71c9a0343ca2f0	11fbd2ad2b8617a8c175c3f6fa609de8a0fd1bb8d434d283b6014f84a2bc4d91		id=writeto-eemankjv
 withcommandcontext-v6889xsb	textdata	dotenv/README.md	845	block	link		bf84d403242f3a4292e00dae80c97507a3f471383ebba4073a2cc87b22d74dff	d140ca97dddd27105dde6e45833cf7d0813e9e25663002221c66b3d445d95efc		id=withcommandcontext-v6889xsb
-eol-eefm88t3	textdata	dotenv/README.md	938	block	link		580722e96a99ad3de27d5eee22d9e6ef288376b4c277bf4f003f0880f9d12bb6	ad27c37c8d2f815bcf01b793f7a632117f4c9dc33c03a7cf1a8b5389530652a1		id=eol-eefm88t3
+withstrictexpand-at8hy283	textdata	dotenv/README.md	916	block	link		c4a3b0dd7f51e2fda2562da57e925567971940906956a3a5fd9455d32cd7e6e9	2fe23b3345212fd3b563dde633ef0e2d3d7d03ab1a24ba42eb55a9b0456bab18		id=withstrictexpand-at8hy283
+update-yzkcq24k	textdata	dotenv/README.md	934	block	link		5b9a1d2d5e43b74d0f2fe4ad6be82431a9ab00d9294e006e6b01741d57e8df06	cc57d88aa40a0d487bb9936cf9e4585ca174e456ef98368e37fae01c9f9a3f91		id=update-yzkcq24k
+eol-eefm88t3	textdata	dotenv/README.md	942	block	link		580722e96a99ad3de27d5eee22d9e6ef288376b4c277bf4f003f0880f9d12bb6	ad27c37c8d2f815bcf01b793f7a632117f4c9dc33c03a7cf1a8b5389530652a1		id=eol-eefm88t3
 envelope-44255rwu	textdata	dotenv/cli/README.md	87	block	link		697f37ef5bd7782b4d451e3448d6af997f510663f309d7b423cbfd789312f6a6	e22d537650df76dd85f0a92077ffedb0f0236f31b229266f33b36099a4bdb6da		id=envelope-44255rwu
 ghresolvetarget-4a2bqvwq	textdata	dotenv/cli/providers/github/README.md	36	block	link		47ff13fc7c458d2413d146260e21104ab1d9d8570bec9cd0ce7ee08b4d09c105	d2f39d99c573806c3e17fd9c8231ca57e0bd4cdf960aecb0d60ba881388c7891		id=ghresolvetarget-4a2bqvwq
 confirm-wvppa3w3	textdata	dotenv/cli/providers/github/README.md	51	block	link	c8bfa4a9dafa063c459fc6bc5fe838020609751362b724721b5d64dfe3a50915	b521fabbdc10a663f762031dd907c3a489d3f611a89c5fbdd8d22f573465dda7	44fef6c8082b299c60361941a64c12412eafdac99f0cd7b047015f06caa695f2		id=confirm-wvppa3w3
@@ -350,4 +389,7 @@ tokenenvvars-egswkuty	textdata	dotenv/cli/providers/github/README.md	61	block	li
 secretnamere-844cw9m5	textdata	dotenv/cli/providers/github/README.md	81	block	link		0dd876f29c7d53c9f704bf2f5efc156fd9e78c812b569e054c3310ea854aef31	aa008d380c4bf8c966fe16c99cd8dc93871f2fbb0011be19e87e46260a479cf1		id=secretnamere-844cw9m5
 verceldefaulttarget-w4c9y8nf	textdata	dotenv/cli/providers/vercel/README.md	46	block	link		cdd045107527a60fcf58a287a29c03695dab735806998a565da4353b66fe0d95	01fa97c8f16e201c6c2ee893f39a243182535ad3aa39aecc1723ef1c6e9c2b35		id=verceldefaulttarget-w4c9y8nf
 vercelresolveproject-6w9rnap9	textdata	dotenv/cli/providers/vercel/README.md	59	block	link		943ff8f92758db2c2f67553b480605d167e00cff01cde2e47f0ed88b31081361	19d37a8972da321e001483fcab9d59a2d3a9db3ae404a46e9fc5ac7d4497f7e6		id=vercelresolveproject-6w9rnap9
-withcommandcontext-3z9bvvrh	textdata	jsonc/README.md	153	block	link		bf84d403242f3a4292e00dae80c97507a3f471383ebba4073a2cc87b22d74dff	dc5ca236cc705104378c87dea139b327fc847f89ecde0fd69521117af2352d21		id=withcommandcontext-3z9bvvrh
+update-v2hk4zns	textdata	jsonc/README.md	145	block	link		afe8abc20998a78316fcaffb502ddbb7dcc75f5988a574948d333e394902c8ca	36324e10d191f047ea8ca7598790fa17623578e1d35c11dba264c6703a17beb3		id=update-v2hk4zns
+withcommandcontext-3z9bvvrh	textdata	jsonc/README.md	155	block	link		bf84d403242f3a4292e00dae80c97507a3f471383ebba4073a2cc87b22d74dff	dc5ca236cc705104378c87dea139b327fc847f89ecde0fd69521117af2352d21		id=withcommandcontext-3z9bvvrh
+withstrictexpand-tnccxzjq	textdata	jsonc/README.md	246	block	link		c4a3b0dd7f51e2fda2562da57e925567971940906956a3a5fd9455d32cd7e6e9	c01ebfb57459e83bc42d185da044366d4609117c87834d9af8e7d93495a25578		id=withstrictexpand-tnccxzjq
+strictkeys-z4ruxr9j	textdata	jsonc/schema/README.md	68	block	link		645fab1c4c80d3748f4c45e81ca183d90e5c998191aacdb94a187e3622ab9dd2	dec356e015b7d94f11e61d4d4cf88325b33c56972c2c07944462274600c8a972		id=strictkeys-z4ruxr9j

@@ -1,4 +1,4 @@
-# docsync ledger format=2 extract=1 repo=textdata commit=3e26b01 scanned_at=2026-11-14T09:30:10Z
+# docsync ledger format=2 extract=1 repo=textdata commit=2271212 scanned_at=2026-11-14T11:52:48Z
 id	repo	kind	file	symbol	lines	hash	owner	stability	env	args
 appendraw-x7zj7axp	textdata	func	examples/jsonc/arrays-comments/main.go	appendRaw	80-82	e577261816442ef2676e963f049fbe4f2bcd1690ae5ff832e5223e7264c662d6		stable		id=appendraw-x7zj7axp
 appendvsset-h7nr4x2c	textdata	func	examples/dotenv/editing/main.go	appendVsSet	168-175	1c7702644a20b8b11b51341910e614ebd6ae10d716ad588376504b1748740623		stable		id=appendvsset-h7nr4x2c
@@ -18,10 +18,11 @@ capabilities-kmsggtyr	textdata	const	dotenv/plugin.go	CapLookup	118-128	d035fc0b
 childenvironment-5m6hvqgp	textdata	func	examples/cli/envkit-ops/main.go	childEnvironment	192-201	c632141ad2c865d585cf81a1a2b46cdb143cf78d1a0c6064c0444166cd4b0e9d		stable		id=childenvironment-5m6hvqgp
 colondelimiter-u8dh4n6q	textdata	func	examples/dotenv/syntax/main.go	colonDelimiter	126-132	e12b4cf26b2c6c3fd19944837f6e698c6f641fb8919d8a833a36f90be8b5b4b5		stable		id=colondelimiter-u8dh4n6q
 colonprose-cthvdumn	textdata	func	dotenv/parse.go	colonProse	211-228	c587f08423cdaa61df8a57bee11e131c66b60ff2e2ba75b5a140158d959c3521	@maintainers	stable		id=colonprose-cthvdumn owner=@maintainers stability=stable
+commandofferror-j9abapdg	textdata	type	expand/expand.go	CommandOffError	232-236	15ca998b8e86af81502e7b1eb9c3cd2e94d4e256164ee09e111abe4327fc4fed	@maintainers	stable		id=commandofferror-j9abapdg owner=@maintainers stability=stable
 commands-7z2aksvq	textdata	func	examples/base/expand-engine/main.go	commands	108-137	cffe2bdd28dcc9cedbcecb4a764c1915b80c4a4b76e23d4a76e0313a5e999d25		stable		id=commands-7z2aksvq
 commands-w5pk9d3r	textdata	func	examples/dotenv/expansion/main.go	commands	197-229	01c6c0a79b11b6480415fdd14448ce2401f74d33813f9708ac4786a8c43636ba		stable		id=commands-w5pk9d3r
 commandsubstitution-npg99swj	textdata	func	examples/jsonc/expand/plugins.go	commandSubstitution	92-103	58d71023d458bebaed339deff333c2ab214a4a2a41cb2a00e372afc5bea0500c		stable		id=commandsubstitution-npg99swj
-commentmarker-6gh5ejhx	textdata	const	dotenv/edit.go	commentMarker	322	1e6e0a49e30682666ddac4140829526075f8ab13dedb22bafaac34a514574cd5	@maintainers	stable		id=commentmarker-6gh5ejhx owner=@maintainers stability=stable
+commentmarker-6gh5ejhx	textdata	const	dotenv/edit.go	commentMarker	346	1e6e0a49e30682666ddac4140829526075f8ab13dedb22bafaac34a514574cd5	@maintainers	stable		id=commentmarker-6gh5ejhx owner=@maintainers stability=stable
 comments-k2rf5y8j	textdata	func	examples/dotenv/syntax/main.go	comments	107-120	2dd049da009668df8fd87e727a86fce0cd16c43714cbe876892e7b67f93732b0		stable		id=comments-k2rf5y8j
 config-apr2nsth	textdata	type	examples/getting-started/first-read/main.go	Config	26-32	44786d831a92ff9357d067e001a19f2a1e3a19e9f4db878fc008322344e97ac8		stable		id=config-apr2nsth
 config-e43h99u8	textdata	type	examples/jsonc/read-config/main.go	Config	233-239	3ed8528bd26cbda6068547ef65ca24060954ad4a9bbf6621023e1d399aa2cd5c		stable		id=config-e43h99u8
@@ -52,6 +53,8 @@ doc-pbus3bse	textdata	type	examples/base/property-harness/main.go	Doc	34	e479bd6
 doc-set-m9smkbsq	textdata	func	examples/base/property-harness/main.go	Doc.Set	66-73	f87d7367530e1757f887e8d38d5a78eeeeae86859262fe3bb0a2ccfc94a8d4ed		stable		id=doc-set-m9smkbsq
 doc-valuespan-mxcapbk5	textdata	func	examples/base/property-harness/main.go	Doc.valueSpan	47-60	9fc8399535e60bb26195bd38dc0a5c8bd01e8c421f4605920fcbf8de27a12330		stable		id=doc-valuespan-mxcapbk5
 dollars-k6vb3n9s	textdata	func	examples/dotenv/expansion/main.go	dollars	117-125	cdea5f36a2c8d5cee1d28fc14d5bfb53b1cee987488a1bf8de84e49683a64c22		stable		id=dollars-k6vb3n9s
+dotenv-strict-run-m2v8k5qa	textdata	func	examples/dotenv/strict-env/main.go	run	38-53	9e05aeac80167715560b989160e6c877f160160eac3293a37b41a2d630a7e5ac		stable		id=dotenv-strict-run-m2v8k5qa
+dotenv-update-recorddeploy-c7r3n9fs	textdata	func	examples/dotenv/update-env/main.go	recordDeploy	78-91	a3cf49595fa4d52395779f0e2c11ec776b5af2f2d0a82feb61dbcef4d1c3476e		stable		id=dotenv-update-recorddeploy-c7r3n9fs
 dotenvtour-np6rj397	textdata	func	examples/cli/verb-tour/main.go	dotenvTour	105-114	b2a17951d729bd1b398e19be9c5f1576e0753257642b8027200adc51f08ecdc5		stable		id=dotenvtour-np6rj397
 driftmatrix-anaguvzr	textdata	func	examples/cli/envkit-ops/main.go	driftMatrix	167-186	c3a1424a36a7f7de7ce8af58f98dfbaf40c5e8c9f0a57ef0f4dec84894d13e56		stable		id=driftmatrix-anaguvzr
 duplicates-n3ge6r9b	textdata	func	examples/dotenv/syntax/main.go	duplicates	156-161	cd08b2dd526ffbc3bf1424cf6ce85f8898b3a8d122328f9a0d4583263001c47f		stable		id=duplicates-n3ge6r9b
@@ -63,11 +66,13 @@ encrypted-w9js1f4h	textdata	func	examples/dotenv/syntax/main.go	encrypted	167-17
 envcommand-whd27a9r	textdata	func	examples/cli/embed-dotenvctl/main.go	envCommand	94-108	638b17801e5d96f5575e70256d51ae996cfd9b270fc4e05fc3541a1f3b31d404		stable		id=envcommand-whd27a9r
 envelope-44255rwu	textdata	type	clikit/outfmt/outfmt.go	envelope	117-121	697f37ef5bd7782b4d451e3448d6af997f510663f309d7b423cbfd789312f6a6	@maintainers	stable		id=envelope-44255rwu owner=@maintainers stability=stable
 eol-eefm88t3	textdata	func	dotenv/dotenv.go	File.eol	491-496	580722e96a99ad3de27d5eee22d9e6ef288376b4c277bf4f003f0880f9d12bb6	@maintainers	stable		id=eol-eefm88t3 owner=@maintainers stability=stable
-erranchornotfound-7696gb9k	textdata	const	dotenv/edit.go	ErrAnchorNotFound	23	e802980e32fe34ba23d72a570743566a6ded4227844c8e813f0a40e0e01aa81d	@maintainers	stable		id=erranchornotfound-7696gb9k owner=@maintainers stability=stable
+erranchornotfound-7696gb9k	textdata	const	dotenv/edit.go	ErrAnchorNotFound	24	e802980e32fe34ba23d72a570743566a6ded4227844c8e813f0a40e0e01aa81d	@maintainers	stable		id=erranchornotfound-7696gb9k owner=@maintainers stability=stable
 errcodes-tjhb87tm	textdata	const	clikit/outfmt/outfmt.go	CodeNotFound	34-58	b08bacd2278d89dcae71d3d730aa8b01b58b236e4970ed583f21f53d3bda3be4	@maintainers	stable		id=errcodes-tjhb87tm owner=@maintainers stability=stable
+errlocktimeout-vstm9t8y	textdata	const	atomicfile/lock.go	ErrLockTimeout	28	6d248a490aaa7cafa23bdce9eeda33d4faffe18bced2eb0016a038549eab3e60	@maintainers	stable		id=errlocktimeout-vstm9t8y owner=@maintainers stability=stable
 errmissingowner-8q6x3kye	textdata	const	examples/jsonc/lint/main.go	errMissingOwner	79	23ced55e8d881cedd2835c2a117a66d752e1e6841077dcd726962e583613253d		stable		id=errmissingowner-8q6x3kye
 errorlists-4uyzaxz7	textdata	func	examples/base/paths/main.go	errorLists	92-100	275122711bb87235a20abe1a8144e17175fed12017c0d4dec4e53b7bd546d4f9		stable		id=errorlists-4uyzaxz7
 errplaintextsecret-9xt5krkp	textdata	const	examples/jsonc/edit-config/guard.go	errPlaintextSecret	22	79e7718b26e7f1d471d6de4f7ae4e39c29765ce56de3c0724dfd73a05d2cc898		stable		id=errplaintextsecret-9xt5krkp
+errstrict-wtxc9pe2	textdata	const	expand/expand.go	ErrStrict	175	9ff9e59e9f859f704ac405bd65ee4e459e4c89dbfe011969dbb61b971c135813	@maintainers	stable		id=errstrict-wtxc9pe2 owner=@maintainers stability=stable
 escapemodes-b4kt7p2m	textdata	func	examples/dotenv/syntax/main.go	escapeModes	184-194	850711e1a94e8438393fc2a30e367b4a1b560610974e00514c0bd6ffdc324039		stable		id=escapemodes-b4kt7p2m
 escapemodes-pqfu7w85	textdata	const	dotenv/options.go	EscapeExtended	25-36	8b52f488c392b6ca035028d72ac98036266c10ad55c804acbf71298996c4984f	@maintainers	stable		id=escapemodes-pqfu7w85 owner=@maintainers stability=stable
 everykey-u4bhavam	textdata	func	examples/providers/selection/main.go	everyKey	111-113	ed0f4f8e7dc00627ac889e8dd9c8ad9cd9e03e34377d7ea18dab851283479f9d		stable		id=everykey-u4bhavam
@@ -95,6 +100,8 @@ fakevercel-tdjduh94	textdata	type	examples/providers/vercel/main.go	fakeVercel	8
 file-readconfined-mx9js8hm	textdata	func	examples/plugins/file-confined/main.go	readConfined	68-91	866bca226209f94888dc763c94d881a004b13a47bb2e18f20f83e485a6f86d29		stable		id=file-readconfined-mx9js8hm
 file-readwithlimits-es378e6n	textdata	func	examples/plugins/file-confined/main.go	readWithLimits	97-109	e9a4cbf17b450922ef01dcc1d0c762373b776c1e8728ef953531fb02ac91eb7a		stable		id=file-readwithlimits-es378e6n
 file-widenroot-45ec6u4b	textdata	func	examples/plugins/file-confined/main.go	widenRoot	115-134	6cea86663de75a880abe990830bfbd94071e6c7d375f4739d3b8e49cab4e6727		stable		id=file-widenroot-45ec6u4b
+filelock-bump-h3m8q2vz	textdata	func	examples/base/file-lock/main.go	bump	80-93	1ee4eec3b2ed7fc7d58bb9d98f3a8fdaf47b60c45b8b635f64e690b26ea8f60c		stable		id=filelock-bump-h3m8q2vz
+filelock-timeout-p6t2w9kc	textdata	func	examples/base/file-lock/main.go	timeout	99-112	6eff1c9f43f7aff14b876b35297dddf01ff7af1883ef4298799976a6d1edcdb4		stable		id=filelock-timeout-p6t2w9kc
 filelookuper-m9dv3k7s	textdata	type	examples/dotenv/typed-config/main.go	fileLookuper	148	b00933678de272398abe0ef805b3242c32475e553189f9d8dbad50ee4e4c26c3		stable		id=filelookuper-m9dv3k7s
 filelookuperlookup-q6mb3r8z	textdata	func	examples/dotenv/typed-config/main.go	fileLookuper.Lookup	151-157	35423187f15b31a3f128d5765b442911d024c398026f85c18a129814ef65b871		stable		id=filelookuperlookup-q6mb3r8z
 files-6kdabnqd	textdata	const	examples/jsonc/extends/main.go	files	29-44	55d22b18c80871b2e57473937ce0e19aa3af4faea9dabab131020ee127d72306		stable		id=files-6kdabnqd
@@ -116,13 +123,15 @@ guardinbothformats-jr8cm64t	textdata	func	examples/base/registry/main.go	guardIn
 guardjsonc-hzz8h899	textdata	func	examples/base/registry/main.go	guardJSONC	231-247	05cf336240ea1ad72408b089a6c34de356ad290c32351c86cada2616dc246cc3		stable		id=guardjsonc-hzz8h899
 guardsave-t9bk2qdw	textdata	func	examples/jsonc/edit-config/guard.go	guardSave	47-65	174a8d6e85d6f21df3894338599eb55d74d3c87453b1cf0c39d49f26bf3a0c98		stable		id=guardsave-t9bk2qdw
 hasbuiltin-ck96jzwc	textdata	func	dotenv/cli/dotenvcmd/execplugin.go	hasBuiltin	146-154	f3b04e5121babee8ab03ff39c5515304a9b5c6cec599363d85b009bdcc1fa357	@maintainers	stable		id=hasbuiltin-ck96jzwc owner=@maintainers stability=stable
-hascapability-tcbcz8hy	textdata	func	dotenv/options.go	hasCapability	142-153	984d52ca3fb8f976f3a422eb344dabfddfc0b07bd56c9ca29816efd4c56242f2	@maintainers	stable		id=hascapability-tcbcz8hy owner=@maintainers stability=stable
+hascapability-tcbcz8hy	textdata	func	dotenv/options.go	hasCapability	144-155	984d52ca3fb8f976f3a422eb344dabfddfc0b07bd56c9ca29816efd4c56242f2	@maintainers	stable		id=hascapability-tcbcz8hy owner=@maintainers stability=stable
 helloscript-jcm2k9nu	textdata	const	examples/cli/exec-plugin/main.go	helloScript	62-70	cc69206f022cf34f9d1a30e59f3a532bafd9fb7cdbf7e13c57abce4c6472c510		stable		id=helloscript-jcm2k9nu
 inherited-j4wz6c8p	textdata	func	examples/dotenv/editing/main.go	inherited	123-136	43cc18a569891dff3f0bca284f6706da42dcccb528192cabf7a154dfa1b867d3		stable		id=inherited-j4wz6c8p
 inlinecommentre-5km4985g	textdata	const	dotenv/parse.go	inlineCommentRe	68	4da8f4c028398b0420c3562231e7359f17bad9225752fed21a1dcb1d8061a688	@maintainers	stable		id=inlinecommentre-5km4985g owner=@maintainers stability=stable
 inspectstructure-73xc6dju	textdata	func	examples/jsonc/read-config/main.go	inspectStructure	131-149	10283b53d5f7f1725b9c0ce1c031dc37be21c0c07bccb87930cbe3a55e2d783a		stable		id=inspectstructure-73xc6dju
 install-w3tj8c5n	textdata	func	examples/dotenv/write-a-plugin/main.go	install	149-165	3c6ca546bc54a41c3d525f7bca1bde27e9f73bde436881f3e303cb49a13d47da		stable		id=install-w3tj8c5n
 installplugins-hxu85kcd	textdata	func	examples/cli/exec-plugin/main.go	installPlugins	135-143	f8d49843604dcede417daa79594abfb553956628102cd94ce35368dbcb0e35eb		stable		id=installplugins-hxu85kcd
+jsonc-strict-load-b8n4t6wd	textdata	func	examples/jsonc/strict-config/main.go	load	75-90	a8d83a0d290ab98542051c45a12280e6a3d6968107767cf9ae125be434bba411		stable		id=jsonc-strict-load-b8n4t6wd
+jsonc-update-recordrun-v5k2m8xq	textdata	func	examples/jsonc/update-config/main.go	recordRun	85-98	8d00bf1d56bc4da78c76e1ea2beeda78c6384d089461879b6b845d0b697e821d		stable		id=jsonc-update-recordrun-v5k2m8xq
 jsoncerrorposition-xdqrn438	textdata	func	examples/base/paths/main.go	jsoncErrorPosition	106-114	38622160726576cd498c80a4c28acea8b76e01ae06d5d1c4f962ba600e7dda90		stable		id=jsoncerrorposition-xdqrn438
 jsonctour-mjjstg7x	textdata	func	examples/cli/verb-tour/main.go	jsoncTour	88-99	fbd42cdf3b784178ac9ae3c0ad366900db702b9cecec7e35cdeb0b58727b2fd0		stable		id=jsonctour-mjjstg7x
 jt-diff-count-y4exrkhe	textdata	func	examples/jsonc-tools/diff/main.go	countChanges	136-139	2152b6c6f5fde1f2e31d14d7db5763f797ec97f32db0225af7248c51d324b777		stable		id=jt-diff-count-y4exrkhe
@@ -145,6 +154,8 @@ jt-schema-plugin-tmevwhee	textdata	func	examples/jsonc-tools/schema-plugin/main.
 jt-schema-save-4fhp9stf	textdata	func	examples/jsonc-tools/schema-plugin/main.go	guardSave	189-210	d41e57e822e7d5e3261410be923c95f2bb58634d13e0a3302fec324b8d8a2c92		stable		id=jt-schema-save-4fhp9stf
 jt-schema-validate-jtqgg2uk	textdata	func	examples/jsonc-tools/schema-plugin/main.go	validateFile	129-143	1619b576b717d92113e2f48764edb0b0208ce6856c4f0f0dbc9189e810b37780		stable		id=jt-schema-validate-jtqgg2uk
 jt-schema-write-zcrt59ud	textdata	func	examples/jsonc-tools/schema-plugin/main.go	writeSchema	113-123	ab1803ec1ebfa3e4ec5720a24727773aa9d0d465f385890e3d97f5afe10165f5		stable		id=jt-schema-write-zcrt59ud
+jt-strictkeys-config-w3f7h2pe	textdata	type	examples/jsonc-tools/strict-keys/main.go	Profile	31-46	369f43d9924263b87a140804f5dc4b40f1109e3440c14b1c3f2dc9d22a06a4d8		stable		id=jt-strictkeys-config-w3f7h2pe
+jt-strictkeys-run-q9d4m6vt	textdata	func	examples/jsonc-tools/strict-keys/main.go	run	69-95	da3ca04ae2267f90fb51a507b1afe71336571c906d1d2f26e62e14c4ded5bfa9		stable		id=jt-strictkeys-run-q9d4m6vt
 keepmode-6ehrb3xd	textdata	func	examples/base/atomic-write/main.go	keepMode	73-82	049c69344cc01ff1445e306de8c6be9126f6eef5f3a5713cfa937c43bbd0d40b		stable		id=keepmode-6ehrb3xd
 keyclass-46et9zsb	textdata	const	dotenv/parse.go	keyClass	26	dd9a29adb80ddc5984e52af3e01c52b15ba0931e68bbc88602b2ddada6a19b7f	@maintainers	stable		id=keyclass-46et9zsb owner=@maintainers stability=stable
 keynames-a5mx2c7w	textdata	func	examples/dotenv/syntax/main.go	keyNames	138-150	f1a18cffe3a76473b24a9ca2523741a02d1d6eb9911b14a2108d6ab2f2f2c9ca		stable		id=keynames-a5mx2c7w
@@ -157,6 +168,7 @@ lintsome-ey8ud5cw	textdata	func	examples/jsonc/lint/main.go	lintSome	68-74	0af65
 listformats-pccwjeek	textdata	func	examples/getting-started/embed-cli/main.go	listFormats	52-56	fef708649adade158a56078ff23f1179c89e557d6159629c5caee178f9b0196c		stable		id=listformats-pccwjeek
 listplugins-xgpent5s	textdata	func	examples/cli/exec-plugin/main.go	listPlugins	177-194	e44445c9140db45f49675c083aa0f0873c1d2cb35fb9befb0604642bfb7ca7b3		stable		id=listplugins-xgpent5s
 load-c5hx8n3v	textdata	func	examples/dotenv/typed-config/main.go	load	96-102	744804955f28806d63b2033b95f847d2be671b7ab24df8057539ba1409489ae9		stable		id=load-c5hx8n3v
+lock-hhsrdwus	textdata	func	atomicfile/lock.go	Lock	77-111	a7838573a7739783273c5cc02824a253c9db533b5345c103ae55c9e48926851b	@maintainers	stable		id=lock-hhsrdwus owner=@maintainers stability=stable
 lookup-cyykhfrd	textdata	func	examples/jsonc/expand/main.go	lookup	45-48	3421fa7de8865fa787c8d21f2dd6ccd19da850f6d03e35403fe35aed4621e9e4		stable		id=lookup-cyykhfrd
 lookupinbothformats-cyx5gztt	textdata	func	examples/base/registry/main.go	lookupInBothFormats	170-198	fcfa16defc31b344b75cf23bacf744f5ca300950e08a053249194bb8b4385d37		stable		id=lookupinbothformats-cyx5gztt
 maplookup-bhxv9kp2	textdata	func	examples/base/expand-engine/main.go	mapLookup	44-52	c9d5d512035782b9d1e9aa26e0a03e75442c2ecd5ac5c493d0de1d28ceff5b67		stable		id=maplookup-bhxv9kp2
@@ -242,7 +254,7 @@ requireowner-rd48xv57	textdata	type	examples/jsonc/lint/main.go	requireOwner	85	
 requireowner-validate-84ecf37m	textdata	func	examples/jsonc/lint/main.go	requireOwner.Validate	91-96	26c3aeb3bae0ecdac853549820e32a4535cafeaca99cde3b60475602152b40c9		stable		id=requireowner-validate-84ecf37m
 requirevar-fxndfpjq	textdata	func	examples/jsonc/expand/main.go	requireVar	119-133	d09def6af24b53b396a8e730cb61a06c988c49d0c8874a5872c941b3e53d0d22		stable		id=requirevar-fxndfpjq
 resolver-g8wn2v5j	textdata	func	examples/dotenv/plugin-hooks/main.go	resolver	126-140	d5915591b7c90ceb51b3db272bba4f884a97b66df8a7d7e62adfeafcf974fd0f		stable		id=resolver-g8wn2v5j
-restore-jyvxum4p	textdata	func	dotenv/edit.go	File.Restore	468-482	9658f3161177a26ca8e2bb4ed12474a62a2a1cfd980e3e4599c549374cf7b0a9	@maintainers	stable		id=restore-jyvxum4p owner=@maintainers stability=stable
+restore-jyvxum4p	textdata	func	dotenv/edit.go	File.Restore	492-506	9658f3161177a26ca8e2bb4ed12474a62a2a1cfd980e3e4599c549374cf7b0a9	@maintainers	stable		id=restore-jyvxum4p owner=@maintainers stability=stable
 restorekey-j3679hwq	textdata	func	examples/jsonc/edit-config/main.go	restoreKey	129-140	cdc6781983b4c20e6449b012ab0b5f0c04428d55666165cf2c66f359f8817881		stable		id=restorekey-j3679hwq
 runashost-f5w6cdqm	textdata	func	examples/cli/embed-dotenvctl/main.go	runAsHost	84-86	67933242440688bb2d694e4aaa336c2758f7e6da2cfe42fedcaeaf9f9511ef34		stable		id=runashost-f5w6cdqm
 runchild-7dpqrucc	textdata	func	examples/cli/run-child/main.go	runChild	97-100	1b61db509c1f2311f37a3648bee8f937ba4f3851194a1ae45e165b3555fc1940		stable		id=runchild-7dpqrucc
@@ -267,7 +279,7 @@ schemes-74khhwz9	textdata	func	examples/base/expand-engine/main.go	schemes	83-10
 secretnamere-844cw9m5	textdata	const	dotenv/cli/providers/github/github.go	secretNameRe	49	0dd876f29c7d53c9f704bf2f5efc156fd9e78c812b569e054c3310ea854aef31	@maintainers	stable		id=secretnamere-844cw9m5 owner=@maintainers stability=stable
 selectdeploykeys-6ztzpzuk	textdata	func	examples/cli/envkit-ops/main.go	selectDeployKeys	95-111	50f5b82b66604194379760849adf024115dd7781bbcc6b8445529888bcd79a86		stable		id=selectdeploykeys-6ztzpzuk
 serveashost-3adxb4gf	textdata	func	examples/cli/exec-plugin/main.go	serveAsHost	96-101	1cf7e044329c93763e8d97a17f91acdfce995c12fa68881f339ba5ecd2d71eec		stable		id=serveashost-3adxb4gf
-set-jusdwzq7	textdata	func	dotenv/edit.go	File.Set	249-265	c59e80361624bda28827d1e2cd94285e674892caa6e9ccf886433f50509dc78a	@maintainers	stable		id=set-jusdwzq7 owner=@maintainers stability=stable
+set-jusdwzq7	textdata	func	dotenv/edit.go	File.Set	273-289	c59e80361624bda28827d1e2cd94285e674892caa6e9ccf886433f50509dc78a	@maintainers	stable		id=set-jusdwzq7 owner=@maintainers stability=stable
 setvalues-fuvbnztb	textdata	func	examples/jsonc/edit-config/main.go	setValues	93-98	70f6acdac0cca36cc7fb325e5e75f9be038321b603340bce132da29472369fb7		stable		id=setvalues-fuvbnztb
 setvalues-m6tc9w2k	textdata	func	examples/dotenv/editing/main.go	setValues	61-76	c4e4cb4fc6a028f4bde49f065885549a53205db1b984c80b8c01f9278850e43e		stable		id=setvalues-m6tc9w2k
 shell-exitcode-r5g2m9kw	textdata	func	examples/shell/errors/main.go	exitCode	51-59	bc110a148857b2d1d27313ecac73cbed1b4cd767197985ab93b6c937535e7c2a		stable		id=shell-exitcode-r5g2m9kw
@@ -288,14 +300,25 @@ store-lookup-2fkdgvx4	textdata	func	examples/base/registry/main.go	store.Lookup	
 store-resolve-b55eetqv	textdata	func	examples/base/registry/main.go	store.Resolve	82-91	7c07b356ee8e7ad4ad03f8a2fc06cf33fd08599a671c5ba32a645d1b79dd3302		stable		id=store-resolve-b55eetqv
 store-wgesjcub	textdata	type	examples/base/registry/main.go	store	64	70bce445fda9262ae4aa6d79ba613768d2f1a477c3a32326536af554b91e04e6		stable		id=store-wgesjcub
 storedown-p8gw3m6d	textdata	func	examples/dotenv/write-a-plugin/main.go	storeDown	203-209	94e768eea377343a112b7524c4c4a9a4bea751b02d87e35c5211024eed1c85ee		stable		id=storedown-p8gw3m6d
+strictkeys-z4ruxr9j	textdata	func	jsonc/schema/validate.go	StrictKeys	120	645fab1c4c80d3748f4c45e81ca183d90e5c998191aacdb94a187e3622ab9dd2	@maintainers	stable		id=strictkeys-z4ruxr9j owner=@maintainers stability=stable
 surprises-d2pw8k5v	textdata	func	examples/dotenv/entries/main.go	surprises	109-121	a1149d1f6d5a756c3c36a59fc409bc0d4b3fae08ec61d27da9a0d6abc0eaf7f6		stable		id=surprises-d2pw8k5v
 symlink-x4bj8m2f	textdata	func	examples/dotenv/saving/main.go	symlink	203-230	758166bbff943efa01b0a8b85671939156ea27e7f9ae0747da42a6d0b894e356		stable		id=symlink-x4bj8m2f
 synshow-q4tz8m2d	textdata	func	examples/dotenv/syntax/main.go	show	56-66	103dbbaccbae8bbf06121a7f568216b7842ca418756b00d5247f7429b48cd2e0		stable		id=synshow-q4tz8m2d
 tempsuffix-vba443ms	textdata	const	dotenv/dotenv.go	tempSuffix	111	c0b6e0e50535ab9e6e21b9eb66e8ddaf573c145797909ac25a25876d14a22c03	@maintainers	stable		id=tempsuffix-vba443ms owner=@maintainers stability=stable
+testagxshapestrictkeys-46m8nuv5	textdata	func	jsonc/schema/agx_shape_test.go	TestAgxShapeStrictKeys	245-294	86d295da4b75f7c048fd6ec7388c90ef97aa1cd35bd0f6fb10ade78b2369e28d	@maintainers	stable		id=testagxshapestrictkeys-46m8nuv5 owner=@maintainers stability=stable
 testdiffwindow-nqg6djv4	textdata	func	examples/base/property-harness/harness_test.go	TestDiffWindow	67-76	35ad3b133a7cd570f25da5060d3d5b8652902eb23194d9207974e3befed30a05		stable		id=testdiffwindow-nqg6djv4
+testlockprocessesdonotloseedits-vtgj7tkj	textdata	func	atomicfile/lock_test.go	TestLockProcessesDoNotLoseEdits	92-115	572cdfbfc426f895c3b1805e1c17f22b71ca943401826c3905f489566c1d0c1d	@maintainers	stable		id=testlockprocessesdonotloseedits-vtgj7tkj owner=@maintainers stability=stable
+testlockreleasedwhenholderdies-w6jdfhs9	textdata	func	atomicfile/lock_test.go	TestLockReleasedWhenHolderDies	184-202	fc3729ff976f4ee8916325d95ea50af0a92fbc19a963a7c999766b564f3b9a61	@maintainers	stable		id=testlockreleasedwhenholderdies-w6jdfhs9 owner=@maintainers stability=stable
+testlocktimeout-ahj9bk9q	textdata	func	atomicfile/lock_test.go	TestLockTimeout	140-162	7b1c3313614df6bb6ebe0c44239060d296e7058baf55393e5f5cbbce378a69c8	@maintainers	stable		id=testlocktimeout-ahj9bk9q owner=@maintainers stability=stable
 testroundtrip-yatrkq2c	textdata	func	examples/base/property-harness/harness_test.go	TestRoundTrip	17-22	4a30d754e868517a4b30b5645d4e024a59107f89860ad7759f016eab5a8709cb		stable		id=testroundtrip-yatrkq2c
 testsetleavesotherbytes-sraxrcv2	textdata	func	examples/base/property-harness/harness_test.go	TestSetLeavesOtherBytes	39-47	245933b91f265239df6ac3fbf0a64b2d8f91113d7812444909217d0733a9d7fc		stable		id=testsetleavesotherbytes-sraxrcv2
+teststrict-uemkh2yq	textdata	func	value/strict_test.go	TestStrict	14-51	1d699611306a54e4c48ee553014b01c61c6b322f2cf748015ad60055afdf0cc7	@maintainers	stable		id=teststrict-uemkh2yq owner=@maintainers stability=stable
+teststrictexpand-59jbhqpv	textdata	func	dotenv/strict_test.go	TestStrictExpand	15-53	85da0ac77fe62be7d200e3e99fe9affc14419aa9fb81176d14f58673bcf45f24	@maintainers	stable		id=teststrictexpand-59jbhqpv owner=@maintainers stability=stable
+teststrictexpand-8h7qa9nr	textdata	func	jsonc/strict_expand_test.go	TestStrictExpand	14-61	f4a1e6bc5ee5a86f658c1b37472c2b767d2c3be6cb4552670d906195f3c7cfa8	@maintainers	stable		id=teststrictexpand-8h7qa9nr owner=@maintainers stability=stable
+teststrictrefuses-8m4ujeu7	textdata	func	expand/strict_test.go	TestStrictRefuses	58-92	9def038a62cb8dfb180da7bd293010cdee5b3df34d2ffa08952bc66b56e976a2	@maintainers	stable		id=teststrictrefuses-8m4ujeu7 owner=@maintainers stability=stable
 testuntouchedcatchesreflow-2cczecty	textdata	func	examples/base/property-harness/harness_test.go	TestUntouchedCatchesReflow	53-61	82a3df18f75125bcac76577186779ed4d2cb9bc4742616fa7ba115a0264f9c89		stable		id=testuntouchedcatchesreflow-2cczecty
+testupdateconcurrentkeepseveryedit-c2pyfsjq	textdata	func	dotenv/update_test.go	TestUpdateConcurrentKeepsEveryEdit	19-66	61d4fdf14a755e25d68dba3725abe534e65afd4f10d1c339963e54add0c853a0	@maintainers	stable		id=testupdateconcurrentkeepseveryedit-c2pyfsjq owner=@maintainers stability=stable
+testupdateconcurrentkeepseveryedit-eugnqggz	textdata	func	jsonc/update_test.go	TestUpdateConcurrentKeepsEveryEdit	21-68	bb563ca4e03d02d891682a3be155836220f270c95bf8cdf7d846fb33912f0970	@maintainers	stable		id=testupdateconcurrentkeepseveryedit-eugnqggz owner=@maintainers stability=stable
 throughsymlink-ynna9fr8	textdata	func	examples/base/atomic-write/main.go	throughSymlink	88-106	464edfa73db28b85f36cd8128bebbddb87eed249dd9a3f33b6beb8379d1df29b		stable		id=throughsymlink-ynna9fr8
 toggle-r8kb2q6v	textdata	func	examples/dotenv/editing/main.go	toggle	105-116	5e9b7ca6c5929922912c0bae114d1074203aebd8eaee6f40dad0e09383172408		stable		id=toggle-r8kb2q6v
 tokenenvvars-egswkuty	textdata	const	dotenv/cli/providers/github/github.go	tokenEnvVars	56	1f875118a8c674f370cbc7079e3e115542cc645143153cc50b84d39c878a3294	@maintainers	stable		id=tokenenvvars-egswkuty owner=@maintainers stability=stable
@@ -303,7 +326,11 @@ tokenoverride-2yhnvfrs	textdata	func	examples/providers/github/main.go	tokenOver
 toplainjson-fgubdyv8	textdata	func	examples/jsonc/read-config/main.go	toPlainJSON	212-227	f23455f7cff5ade821b86d94174dae968321584ba28b56500340c9a5991c814a		stable		id=toplainjson-fgubdyv8
 trimspace-butyt4h4	textdata	type	examples/jsonc/expand/plugins.go	trimSpace	41	1de054278d529671c5afb58a2c4214e1d476f60929bf9fa1e6e1464007c55c4c		stable		id=trimspace-butyt4h4
 trimspace-transformvalue-6yurxd5v	textdata	func	examples/jsonc/expand/plugins.go	trimSpace.TransformValue	46-48	01b5ccbdbe1a36197bd6fe588d8889bd0b48907510d98bb461e946aaa4058d5f		stable		id=trimspace-transformvalue-6yurxd5v
-unset-ahj88kj2	textdata	func	dotenv/edit.go	File.Unset	492-510	b082fc28d0e6735d3da8bfd612c6e8f5374e203acab606295f916bc49b7d76cc	@maintainers	stable		id=unset-ahj88kj2 owner=@maintainers stability=stable
+unknownschemeerror-fg4srxup	textdata	type	expand/expand.go	UnknownSchemeError	209-216	ae3c085da12cfaf0eec4975d0cca0e393f569d45b21e6afcab9e700801b5c124	@maintainers	stable		id=unknownschemeerror-fg4srxup owner=@maintainers stability=stable
+unset-ahj88kj2	textdata	func	dotenv/edit.go	File.Unset	516-534	b082fc28d0e6735d3da8bfd612c6e8f5374e203acab606295f916bc49b7d76cc	@maintainers	stable		id=unset-ahj88kj2 owner=@maintainers stability=stable
+unseterror-fzc9dngm	textdata	type	expand/expand.go	UnsetError	183-195	3c274bc33275c66c595cb82080d81f13e05aa2759ec06a09f623a1fdaca80dec	@maintainers	stable		id=unseterror-fzc9dngm owner=@maintainers stability=stable
+update-v2hk4zns	textdata	func	jsonc/update.go	Update	30-52	afe8abc20998a78316fcaffb502ddbb7dcc75f5988a574948d333e394902c8ca	@maintainers	stable		id=update-v2hk4zns owner=@maintainers stability=stable
+update-yzkcq24k	textdata	func	dotenv/update.go	Update	28-50	5b9a1d2d5e43b74d0f2fe4ad6be82431a9ab00d9294e006e6b01741d57e8df06	@maintainers	stable		id=update-yzkcq24k owner=@maintainers stability=stable
 upper-eumvk3jg	textdata	type	examples/base/registry/main.go	upper	115	35111aacdc6db52db0622e168688437b81d2b2b50d7df9b3ce5d4b32fe31a600		stable		id=upper-eumvk3jg
 validate-tnfzj9rp	textdata	func	examples/jsonc/lint/main.go	validate	102-115	fa05732502f901d23dd7233e7d1ba06e3c9821ead4f1bbf7a89ddc3a68f97abf		stable		id=validate-tnfzj9rp
 value-allowlist-c4t8j1wr	textdata	func	examples/value/commands/main.go	allowListed	111-121	b3076c3cd8db7c8fb954ebf664b484ddac201dbbf0c91ad083c3b57d7d0a5b9e		stable		id=value-allowlist-c4t8j1wr
@@ -317,6 +344,8 @@ value-newplugins-u7h3x9ma	textdata	func	examples/value/secrets/main.go	newPlugin
 value-offbydefault-w8d3h6zq	textdata	func	examples/value/commands/main.go	offByDefault	46-53	c7c4bf2b25cea24d1ff9eb7312158a77abf8bdcd66cfaa22b9f6409a44a99d66		stable		id=value-offbydefault-w8d3h6zq
 value-pluginerrors-g8r5n1vt	textdata	func	examples/value/secrets/main.go	pluginErrors	137-145	ae2c0d529fd9993871054c8ffac223b2241d06049ed1dedde345737e9b7b946b		stable		id=value-pluginerrors-g8r5n1vt
 value-requirederror-b5y1k8hp	textdata	func	examples/value/env/main.go	requiredError	122-130	a54d2962ae5589ec4c6b9659e2bc8f0689b2d68b06134a57b09e276667147874		stable		id=value-requirederror-b5y1k8hp
+value-strictrefuses-r7n3c5hm	textdata	func	examples/value/strict/main.go	strictRefuses	72-100	9328ca01fc55236d82e2cfb32d891d29a80f8c0c302d5482efe10fefeaa43715		stable		id=value-strictrefuses-r7n3c5hm
+value-strictresolves-k4w9p2td	textdata	func	examples/value/strict/main.go	strictResolves	52-65	6c63bdb8e0b96a5fd6b073476b2592fe3609d0fdd639a7be99a58680934e38f0		stable		id=value-strictresolves-k4w9p2td
 vars-h9p7r6fq	textdata	const	examples/jsonc/expand/main.go	vars	40	b9f4b8db34dfb2ce7c0ef12a0e84c1ce41c0bb5b479ddc8355e4ee56d015ec9b		stable		id=vars-h9p7r6fq
 vault-connectfromenv-9bnckh59	textdata	func	examples/plugins/vault-httptest/main.go	connectFromEnv	109-111	65a2b8fccee816a87d979c9ba42b5bdc5f76df916d94875c6ea97c100c5cfa55		stable		id=vault-connectfromenv-9bnckh59
 vault-newfakevault-wnk7tqk8	textdata	func	examples/plugins/vault-httptest/main.go	newFakeVault	64-82	64a6839f157e9b32b285a9af385c0766b5e198b57f427098f85f1018f11ccc27		stable		id=vault-newfakevault-wnk7tqk8
@@ -330,12 +359,15 @@ vaulttype-c4nm8r2t	textdata	type	examples/dotenv/write-a-plugin/main.go	vault	40
 verceldefaulttarget-w4c9y8nf	textdata	const	dotenv/cli/providers/vercel/vercel.go	defaultTarget	38	cdd045107527a60fcf58a287a29c03695dab735806998a565da4353b66fe0d95	@maintainers	stable		id=verceldefaulttarget-w4c9y8nf owner=@maintainers stability=stable
 vercelresolveproject-6w9rnap9	textdata	func	dotenv/cli/providers/vercel/vercel.go	vercelStore.resolveProject	203-216	943ff8f92758db2c2f67553b480605d167e00cff01cde2e47f0ed88b31081361	@maintainers	stable		id=vercelresolveproject-6w9rnap9 owner=@maintainers stability=stable
 wherefrom-h2xw7b4n	textdata	func	examples/dotenv/reading/main.go	whereFrom	182-205	ee88b618efd9aadd2edb98608fc50e89178fca9b8291c06f3cc9f1dd4852a23f		stable		id=wherefrom-h2xw7b4n
-withcommandcontext-3z9bvvrh	textdata	func	jsonc/jsonc.go	WithCommandContext	158-160	bf84d403242f3a4292e00dae80c97507a3f471383ebba4073a2cc87b22d74dff	@maintainers	stable		id=withcommandcontext-3z9bvvrh owner=@maintainers stability=stable
-withcommandcontext-v6889xsb	textdata	func	dotenv/options.go	WithCommandContext	218-220	bf84d403242f3a4292e00dae80c97507a3f471383ebba4073a2cc87b22d74dff	@maintainers	stable		id=withcommandcontext-v6889xsb owner=@maintainers stability=stable
-withcommands-jhgmdcyp	textdata	func	value/value.go	WithCommands	97-99	bf0ed77b0c0ec625982eaaa0a141d49f4e170a7d8df7ba650acf08534e2cf96e	@maintainers	stable		id=withcommands-jhgmdcyp owner=@maintainers stability=stable
-withcommandsubstitution-5kmt8q5c	textdata	func	dotenv/options.go	WithCommandSubstitution	202-204	165166aaef0915b8b43b719bee8311c0629df12ea72564aed1ce52cfd016dade	@maintainers	stable		id=withcommandsubstitution-5kmt8q5c owner=@maintainers stability=stable
+withcommandcontext-3z9bvvrh	textdata	func	jsonc/jsonc.go	WithCommandContext	175-177	bf84d403242f3a4292e00dae80c97507a3f471383ebba4073a2cc87b22d74dff	@maintainers	stable		id=withcommandcontext-3z9bvvrh owner=@maintainers stability=stable
+withcommandcontext-v6889xsb	textdata	func	dotenv/options.go	WithCommandContext	220-222	bf84d403242f3a4292e00dae80c97507a3f471383ebba4073a2cc87b22d74dff	@maintainers	stable		id=withcommandcontext-v6889xsb owner=@maintainers stability=stable
+withcommands-jhgmdcyp	textdata	func	value/value.go	WithCommands	100-102	bf0ed77b0c0ec625982eaaa0a141d49f4e170a7d8df7ba650acf08534e2cf96e	@maintainers	stable		id=withcommands-jhgmdcyp owner=@maintainers stability=stable
+withcommandsubstitution-5kmt8q5c	textdata	func	dotenv/options.go	WithCommandSubstitution	204-206	165166aaef0915b8b43b719bee8311c0629df12ea72564aed1ce52cfd016dade	@maintainers	stable		id=withcommandsubstitution-5kmt8q5c owner=@maintainers stability=stable
 withoutincluder-scxbxr8t	textdata	func	examples/jsonc/extends/main.go	withoutIncluder	112-120	d43198ea48bd51b2c5bc7fef92e60b0a2bc32b310da4384c0b2daf2b219acb1f		stable		id=withoutincluder-scxbxr8t
 withplugins-3au5u4sa	textdata	func	examples/jsonc/expand/plugins.go	withPlugins	67-86	6011cf21236a52ae0681d1341c780edd9156a1fd18a5d6e0e8a22f437afb9302		stable		id=withplugins-3au5u4sa
+withstrict-puc4zm2j	textdata	func	value/value.go	WithStrict	134-136	78fd6f4b82c665f3743b2a0e6ce50899b2ccf4edd543f6fa93e6bf3bf0eefd81	@maintainers	stable		id=withstrict-puc4zm2j owner=@maintainers stability=stable
+withstrictexpand-at8hy283	textdata	func	dotenv/options.go	WithStrictExpand	254-256	c4a3b0dd7f51e2fda2562da57e925567971940906956a3a5fd9455d32cd7e6e9	@maintainers	stable		id=withstrictexpand-at8hy283 owner=@maintainers stability=stable
+withstrictexpand-tnccxzjq	textdata	func	jsonc/jsonc.go	WithStrictExpand	140	c4a3b0dd7f51e2fda2562da57e925567971940906956a3a5fd9455d32cd7e6e9	@maintainers	stable		id=withstrictexpand-tnccxzjq owner=@maintainers stability=stable
 writematrix-4fdg4qba	textdata	func	examples/providers/output-and-reports/main.go	writeMatrix	182-205	36db5d58b05dcbd47f3da96ae0cff423edd6a19b50d546d5ecc84119b40909a7		stable		id=writematrix-4fdg4qba
 writenew-wxy7xh4t	textdata	func	examples/base/atomic-write/main.go	writeNew	61-67	68befeccd74cdd1c7f90d30f83412eb20a4354fee3677faeedc51200d947e6fb		stable		id=writenew-wxy7xh4t
 writereports-6k27b2uy	textdata	func	examples/providers/output-and-reports/main.go	writeReports	153-175	abbef84d6e85182cd9e46a2b7ea4f985714b95d425fe9917fc25e620590d99f2		stable		id=writereports-6k27b2uy

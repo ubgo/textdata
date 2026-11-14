@@ -16,7 +16,7 @@ Every snippet is a function from the runnable example [`examples/dotenv/expansio
 
 ## Step 1 — Get the raw or the expanded value
 
-`GetExpanded(key)` returns `(value, ok, err)`. `ok` is false only when the key has no active pair. `err` is non-nil only for an unsatisfied `${VAR:?msg}` or `${VAR?msg}` ([Step 6](#step-6--fail-loudly-with-requirederror)), or when an installed lookup, resolver or value transformer fails. A plain reference to a key that does not exist is `""`, never an error.
+`GetExpanded(key)` returns `(value, ok, err)`. `ok` is false only when the key has no active pair. `err` is non-nil only for an unsatisfied `${VAR:?msg}` or `${VAR?msg}` ([Step 6](#step-6--fail-loudly-with-requirederror)), or when an installed lookup, resolver or value transformer fails. A plain reference to a key that does not exist is `""`, never an error, unless you pass `WithStrictExpand()` ([Step 8](#step-8--refuse-unresolved-references-with-withstrictexpand)).
 
 Both forms work: `${NAME}` and `$NAME`. Use braces when a name is followed by more name characters (`${HOST}_backup`), or when you need an operator. Order in the file does not matter: a reference can point at a key defined further down.
 
@@ -278,6 +278,50 @@ func commands(w io.Writer) error {
 
 Command runners are also plugins (`CommandRunner`); the last one installed wins. See [plugins.md](plugins.md#step-5--combine-several-plugins).
 
+## Step 8 — Refuse unresolved references with `WithStrictExpand`
+
+A program that reads a token or a connection string needs to know it got a real value. With [`WithStrictExpand()`](ds:block?id=withstrictexpand-at8hy283), `GetExpanded`, `ExpandedMap` and `Read` fail instead of reading a reference as `""` or keeping it as text:
+
+| Reference | Without | With `WithStrictExpand()` |
+|---|---|---|
+| a name neither the file nor a lookup defines (`${DB_HOTS}`) | `""` | `*expand.UnsetError` |
+| a `${scheme:ref}` no installed resolver claims (`${vault:…}` with no vault plugin) | `""` | `*expand.UnknownSchemeError` |
+| `$(command)` with substitution off | kept as written | `*expand.CommandOffError` |
+
+`${VAR:-d}` and `${VAR-d}` still use their default, `${VAR:?msg}` keeps its `*RequiredError`, and a key set to an empty value is set. Single-quoted and backtick values are never expanded, so they never fail. The error is a `*pos.Error` at the `file:line:col` where the entry's value starts, wrapping the typed error, which names the variable and its byte offset inside the decoded value (never a value); every one matches `expand.ErrStrict` ([pinned](ds:block?id=teststrictexpand-59jbhqpv&assert=true)). The runnable program is [`examples/dotenv/strict-env`](../../../examples/dotenv/strict-env/):
+
+<!-- ds:block id=dotenv-strict-run-m2v8k5qa -->
+**run** · [`examples/dotenv/strict-env/main.go:38-53`](../../../examples/dotenv/strict-env/main.go#L38-L53)
+
+```go
+func run(w io.Writer) error {
+	f := dotenv.Parse(src, dotenv.WithStrictExpand())
+	f.Path = ".env" // the name errors report
+	for _, key := range []string{"DSN", "REPLICA", "TOKEN", "STAMP"} {
+		v, _, err := f.GetExpanded(key)
+		if err == nil {
+			fmt.Fprintf(w, "%-8s %s\n", key, v)
+			continue
+		}
+		if !errors.Is(err, expand.ErrStrict) {
+			return err
+		}
+		fmt.Fprintf(w, "%-8s %v\n", key, err)
+	}
+	return nil
+}
+```
+<!-- /ds:block hash=9e05ae -->
+
+```text
+DSN      postgres://db.internal/app
+REPLICA  .env:4:9: expand REPLICA: expand: variable DB_HOTS is not set (offset 11)
+TOKEN    .env:5:7: expand TOKEN: expand: no resolver for scheme "vault" in ${vault:secret/app#token} (offset 0)
+STAMP    .env:6:7: expand STAMP: expand: command substitution is off: $(date +%s) (offset 0)
+```
+
+The same switch for a single value is [`value.WithStrict()`](../base/value.md#step-7--make-unresolved-references-errors-with-withstrict); the engine underneath is `expand.Engine.Strict` ([expand](../base/expand.md#step-7--refuse-unresolved-references-with-enginestrict)).
+
 ## Try it
 
 ```sh
@@ -345,6 +389,7 @@ More tested examples: `ExampleFile_GetExpanded_operators`, `ExampleFile_GetExpan
 - **`WithCommandRunner(nil)` runs real shell commands.** It enables substitution with the default shell runner (`sh -c`, or PowerShell on Windows), not a no-op runner.
 - **`WithCommandContext` bounds the default runner only.** A runner you install with `WithCommandRunner` is called as is; give it its own limit, for example `shell.Runner{Timeout: 5 * time.Second}.RunCommand`.
 - **A failing command fails the read.** Any runner error or non-zero exit is an `*expand.CommandError` naming the command (`WHO` above), so one bad `$(…)` stops `ExpandedMap` and `Read`. If a command may fail harmlessly, make it succeed in the shell (`$(cmd || true)`) or have your runner return a fallback value instead of an error.
+- **A typo'd reference is `""` by default.** `${DB_HOTS}` for `${DB_HOST}` reads as empty and nothing complains; `WithStrictExpand()` makes it an error at its line.
 - **`ExpandedMap` reports only the first missing variable.** Fix it and rerun to see the next one.
 - **A lookup error beats a default.** `${DB_PASSWORD:-}` still fails when a `Lookuper` returns an error, so an unreachable secret store never reads as empty ([plugins.md](plugins.md#step-3--write-a-plugin-type)).
 
@@ -355,5 +400,5 @@ More tested examples: `ExampleFile_GetExpanded_operators`, `ExampleFile_GetExpan
 - [plugins.md](plugins.md): `WithLookup` for an environment or secret-store fallback, `${scheme:ref}` resolvers, value transformers, `CommandRunner`, and `ExpandObserver`.
 - [typed-config.md](typed-config.md): binding the expanded values to a struct.
 - Module README: [Variable expansion](../../../dotenv/README.md#variable-expansion) and [Interpolation](../../../dotenv/README.md#interpolation).
-- Example: [`examples/dotenv/expansion`](../../../examples/dotenv/expansion/).
+- Examples: [`examples/dotenv/expansion`](../../../examples/dotenv/expansion/), [`examples/dotenv/strict-env`](../../../examples/dotenv/strict-env/).
 - API: [pkg.go.dev/github.com/ubgo/textdata/dotenv#File.GetExpanded](https://pkg.go.dev/github.com/ubgo/textdata/dotenv#File.GetExpanded).

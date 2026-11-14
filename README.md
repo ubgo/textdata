@@ -126,7 +126,7 @@ See [textdatactl](docs/guides/getting-started/textdatactl.md) for every verb.
 
 - **[Learning path](docs/README.md#learning-path)**: 14 steps from a first read to the full production setup, each with a guide and a runnable program under [`examples/`](examples).
 - **[Choosing](docs/choosing/README.md)**: which format and modules, which method, which secret backend, which options for your kind of app, library or CLI.
-- **[Feature index](docs/reference/features.md)**: all 145 features, each with its package, the guide step that teaches it and an example that runs it.
+- **[Feature index](docs/reference/features.md)**: all 153 features, each with its package, the guide step that teaches it and an example that runs it.
 - **[All guides](docs/README.md#all-pages)**: getting started, dotenv, jsonc, jsonc tools, value plugins, the command line, push providers, base packages.
 
 ![textdata architecture: users at the top, then the CLI layer, the dotenv and jsonc formats, the base packages and files on disk, with push providers, jsonc packages and value plugins in a side column](docs/assets/architecture.svg)
@@ -198,7 +198,7 @@ The plugin interfaces every format accepts. A plugin has a `Name()` and implemen
 
 ### expand
 
-One expansion engine, string in, string out: `$VAR`, `${VAR}`, the six operators (`${VAR-d}`, `${VAR:-d}`, `${VAR+a}`, `${VAR:+a}`, `${VAR?e}`, `${VAR:?e}`), nesting (`${A:-${B:-c}}`), `$$` as a literal dollar, `$(cmd)` and `${scheme:ref}`. It knows no file format: an `Engine{Lookup, Resolve, Run, Observe, Required, MaxDepth}` takes callbacks, and the format keeps its own rules (which quoting suppresses expansion, which definition a self-reference sees, which error type `${VAR:?e}` produces). `Run == nil` keeps `$(cmd)` verbatim; a failing command is a `*expand.CommandError`. A `Stack` of the names being expanded cuts cycles; depth 32 is a backstop. Hand-written because `os.Expand` cannot express `$$` or nesting.
+One expansion engine, string in, string out: `$VAR`, `${VAR}`, the six operators (`${VAR-d}`, `${VAR:-d}`, `${VAR+a}`, `${VAR:+a}`, `${VAR?e}`, `${VAR:?e}`), nesting (`${A:-${B:-c}}`), `$$` as a literal dollar, `$(cmd)` and `${scheme:ref}`. It knows no file format: an `Engine{Lookup, Resolve, Run, Observe, Required, MaxDepth}` takes callbacks, and the format keeps its own rules (which quoting suppresses expansion, which definition a self-reference sees, which error type `${VAR:?e}` produces). `Run == nil` keeps `$(cmd)` verbatim; a failing command is a `*expand.CommandError`. A `Stack` of the names being expanded cuts cycles; depth 32 is a backstop. `Strict: true` turns an unset name, an unclaimed `${scheme:ref}` and a `$(cmd)` with no runner into typed errors (`*UnsetError`, `*UnknownSchemeError`, `*CommandOffError`, all matching `ErrStrict`) instead of `""` or the text as written. Hand-written because `os.Expand` cannot express `$$` or nesting.
 
 <!-- snippet: exempt — no Example test in package expand yet; verified by hand against the code on 2026-11-12 -->
 ```go
@@ -219,11 +219,11 @@ fmt.Println(out, err) // postgres://db.internal:5432/app costs 5$ <nil>
 
 ### value
 
-`value.Expand(ctx, s, opts...)` expands one string with the formats' engine and rules, for a value that does not live in a `.env` or JSONC file: `WithEnv()` and `WithLookup(fn)` for variables, `WithPlugins(...)` for `${gopass:…}`, `${vault:…}`, `${aws:…}`, `${file:…}`, and `WithCommands()` (through `shell.Run`, bounded by `ctx`) or `WithRunner(r)` for `$(cmd)`. Nothing is read or run unless asked: without a command option `$(…)` is kept as written. Errors are the formats' types: `*expand.RequiredError`, `*expand.CommandError`, `*plugin.Error`. Guide: [value](docs/guides/base/value.md); examples: [`value/env`](examples/value/env), [`value/commands`](examples/value/commands), [`value/secrets`](examples/value/secrets).
+`value.Expand(ctx, s, opts...)` expands one string with the formats' engine and rules, for a value that does not live in a `.env` or JSONC file: `WithEnv()` and `WithLookup(fn)` for variables, `WithPlugins(...)` for `${gopass:…}`, `${vault:…}`, `${aws:…}`, `${file:…}`, and `WithCommands()` (through `shell.Run`, bounded by `ctx`) or `WithRunner(r)` for `$(cmd)`. Nothing is read or run unless asked: without a command option `$(…)` is kept as written. Errors are the formats' types: `*expand.RequiredError`, `*expand.CommandError`, `*plugin.Error`. `WithStrict()` makes every unresolved reference an error (the formats call it `WithStrictExpand()`). Guide: [value](docs/guides/base/value.md); examples: [`value/env`](examples/value/env), [`value/commands`](examples/value/commands), [`value/secrets`](examples/value/secrets), [`value/strict`](examples/value/strict).
 
 ### atomicfile
 
-`Write(path, data, Options{Mode, KeepMode, TempSuffix, NoFollow, Chmod, Rename})` saves a file safely: it resolves symlinks first so the real file is replaced and the link survives (`NoFollow` replaces the link itself), writes a sibling temp file at 0600, fsyncs it, chmods it to the target mode explicitly (umask filters `os.WriteFile`'s mode), renames it over the target and fsyncs the folder best-effort. `KeepMode` keeps an existing target's permissions. A crash leaves the old file intact; a failed write removes the temp file.
+`Write(path, data, Options{Mode, KeepMode, TempSuffix, NoFollow, Chmod, Rename})` saves a file safely: it resolves symlinks first so the real file is replaced and the link survives (`NoFollow` replaces the link itself), writes a sibling temp file at 0600, fsyncs it, chmods it to the target mode explicitly (umask filters `os.WriteFile`'s mode), renames it over the target and fsyncs the folder best-effort. `KeepMode` keeps an existing target's permissions. A crash leaves the old file intact; a failed write removes the temp file. `Lock(ctx, path)` takes an exclusive cross-process lock (on a `<path>.lock` sidecar, through `flock` or `LockFileEx`, stdlib only) for a read-modify-write; the OS releases it when the holder dies, and a context deadline gives `ErrLockTimeout`. `dotenv.Update` and `jsonc.Update` hold it across open, edit and save. Guide: [atomicfile](docs/guides/base/atomicfile.md); examples: [`base/atomic-write`](examples/base/atomic-write), [`base/file-lock`](examples/base/file-lock).
 
 ### pos
 

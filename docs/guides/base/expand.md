@@ -195,6 +195,22 @@ func required(w io.Writer) error {
 ```
 <!-- /ds:block hash=9fdce6 -->
 
+## Step 7 — Refuse unresolved references with `Engine.Strict`
+
+Set `Engine.Strict = true` when the caller must never receive a silently empty or unexpanded value. Three things that are not errors by default become errors, each a type that matches [`expand.ErrStrict`](ds:block?id=errstrict-wtxc9pe2):
+
+| Reference | Default | Strict |
+|---|---|---|
+| a name `Lookup` reports unset, with no operator (or `?`/`:?`, which keep their `*RequiredError`) | `""` | [`*UnsetError`](ds:block?id=unseterror-fzc9dngm) |
+| a `${scheme:ref}` no `Resolve` claims and `Lookup` does not define as a name | read as an ordinary name, usually `""` | [`*UnknownSchemeError`](ds:block?id=unknownschemeerror-fg4srxup) |
+| a `$(command)` while `Run` is nil | kept as written | [`*CommandOffError`](ds:block?id=commandofferror-j9abapdg) |
+
+The operators that say what unset means still apply: `${VAR:-d}` and `${VAR-d}` use their default, `${VAR+a}` and `${VAR:+a}` give `""`. A name set to `""` is set. Text that is not a reference stays as written in both modes: `$$`, a lone `$`, an unbalanced `${` or `$(`.
+
+Each error carries `Offset`, the byte offset in the string passed to `Expand` of the outermost reference being expanded when it failed, and `Via`, the name whose value held the failing reference (empty when it is in the input or an operator argument). Neither carries a value, so the error is safe to log ([pinned](ds:block?id=teststrictrefuses-8m4ujeu7&assert=true)). A format maps `Offset` to its own position; dotenv and jsonc wrap the error in a `*pos.Error` at the value's `file:line:col`.
+
+An unclaimed `${scheme:ref}` is looked up whole in strict mode and never split on an operator: without strict, `${vault:db-pass}` with no vault resolver reads as the name `vault:db` with the default `pass`, which is the silent guess strict mode exists to refuse.
+
 ## Try it
 
 ```sh
@@ -222,7 +238,7 @@ key=TOKEN empty=true
 
 - **The engine does not cut cycles by itself.** It records names on the Stack, but only your `Lookup` can decide that a re-entry reads as unset (or as an earlier definition, as dotenv does). A Lookup that ignores the Stack still terminates, through `MaxDepth`, but `A=$A$A` then branches at every level: up to 2^32 expansions at the default depth.
 - **When the depth bound is hit, the rest is left verbatim.** A chain deeper than `MaxDepth` returns its remaining `$X` text unexpanded, not an error.
-- **Unset is not an error.** `${VAR}` with nothing defining `VAR` expands to `""`, as in Compose. Use `${VAR:?message}` when a missing value must stop the program.
+- **Unset is not an error by default.** `${VAR}` with nothing defining `VAR` expands to `""`, as in Compose. Use `${VAR:?message}` when one missing value must stop the program, or `Strict` (Step 7) to refuse every unresolved reference.
 - **`-` and `:-` differ on empty values.** `${EMPTY-unset}` gives `""` because `EMPTY` is set; only `${EMPTY:-empty}` treats empty like unset.
 - **Scheme names are matched without case, and the operators win.** `${GoPass:x}` reaches the resolver as scheme `gopass`; `${VAR:-d}` is never a scheme because a scheme's colon cannot be followed by `-`, `+` or `?`.
 - **An unbalanced `${` or `$(` is kept as text.** `${A` and `$(echo` are emitted as written rather than guessed at; a `$` followed by anything that cannot start a name (`$5`, `$ `) is a literal dollar.
