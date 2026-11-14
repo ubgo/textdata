@@ -52,6 +52,23 @@ tasks:
         set -e
         for m in {{.MODULES}}; do echo "── $m"; (cd "$m" && go vet ./...); done
 
+  windows:check:
+    desc: 'go vet and compile every test binary of every module for GOOS=windows (there is no Windows CI: this proves the Windows code paths build; it runs nothing)'
+    cmds:
+      - |
+        set -e
+        out=$(mktemp -d); trap 'rm -rf "$out"' EXIT
+        for m in {{.MODULES}}; do
+          # plugins/file: file_test.go calls syscall.Mkfifo, which Windows
+          # lacks, so its tests do not build there (known, not yet fixed).
+          # Its non-test code is still built.
+          if [ "$m" = "./plugins/file" ]; then
+            echo "── $m (build only)"; (cd "$m" && GOOS=windows go build ./...); continue
+          fi
+          echo "── $m"
+          (cd "$m" && GOOS=windows go vet ./... && GOOS=windows go test -c -o "$out/" ./...)
+        done
+
   fmt:
     desc: gofmt the tree
     cmds:
@@ -137,11 +154,12 @@ tasks:
         exit $bad
 
   check:
-    desc: The full gate, once before a commit — gofmt, go mod tidy, dependency rules, vet, race tests, short fuzz of every target
+    desc: The full gate, once before a commit — gofmt, go mod tidy, dependency rules, vet, Windows vet and test build, race tests, short fuzz of every target
     cmds:
       - task: fmt:check
       - task: tidy:check
       - task: deps:check
       - task: vet
+      - task: windows:check
       - task: test:race
       - task: fuzz:all
