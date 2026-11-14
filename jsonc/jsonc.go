@@ -27,6 +27,7 @@
 package jsonc
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"io"
@@ -36,6 +37,7 @@ import (
 
 	"github.com/ubgo/textdata/plugin"
 	"github.com/ubgo/textdata/pos"
+	"github.com/ubgo/textdata/shell"
 )
 
 // FormatName is what Doc.FormatName reports to plugins.
@@ -89,8 +91,13 @@ type options struct {
 	file   string // name used in error messages, when not from Open
 	expand bool   // Read expands before decoding
 	shell  bool   // $(command) substitution allowed
-	run    func(string) (string, error)
-	reg    plugin.Registry
+	// run is the installed CommandRunner, or nil for the default shell
+	// runner; read it through command, never directly.
+	run func(string) (string, error)
+	// commandCtx bounds the default shell runner (WithCommandContext); nil
+	// is context.Background(), today's unbounded behaviour.
+	commandCtx context.Context
+	reg        plugin.Registry
 
 	lookupers    []plugin.Lookuper
 	resolvers    []plugin.Resolver
@@ -126,16 +133,43 @@ func WithLookup(fn func(name string) (string, bool)) Option {
 }
 
 // WithCommandSubstitution enables $(command) in expanded values, run through
-// `sh -c`. Off by default: with it on, expanding a file runs commands, so turn
-// it on only for files you trust. A failing command is an error that
-// unwraps to *expand.CommandError.
+// shell.Run (package github.com/ubgo/textdata/shell): `sh -c` on Unix-likes;
+// on Windows `pwsh` when on PATH, else `powershell.exe`. Off by default: with
+// it on, expanding a file runs commands, so turn it on only for files you
+// trust. Stdin is the null device, so a prompting command fails instead of
+// hanging. A failing command is an error that unwraps to
+// *expand.CommandError. WithCommandContext bounds how long a command may run.
 func WithCommandSubstitution(enabled bool) Option {
-	return func(o *options) {
-		o.shell = enabled
-		if enabled && o.run == nil {
-			o.run = shellRun
-		}
+	return func(o *options) { o.shell = enabled }
+}
+
+// ds:def id=withcommandcontext-3z9bvvrh owner=@maintainers stability=stable
+
+// WithCommandContext bounds $(command) substitution with ctx: when ctx is
+// cancelled or its deadline passes, the running command is killed and
+// expansion fails with an error unwrapping to *expand.CommandError and to
+// shell.ErrTimeout (a deadline) or context.Canceled. Use context.WithTimeout
+// for a time limit.
+//
+// It applies to the default shell runner only; a CommandRunner plugin is
+// called as is. It does not turn substitution on. Without it, commands are
+// unbounded, as before. The context is kept for the life of the Doc (and its
+// clones), so pass one that outlives the reads that should honour it.
+func WithCommandContext(ctx context.Context) Option {
+	return func(o *options) { o.commandCtx = ctx }
+}
+
+// command returns the $(command) runner: the installed CommandRunner, or the
+// default shell runner bounded by WithCommandContext.
+func (o *options) command() func(string) (string, error) {
+	if o.run != nil {
+		return o.run
 	}
+	ctx := o.commandCtx
+	if ctx == nil {
+		return shellRun
+	}
+	return func(cmd string) (string, error) { return shell.Run(ctx, cmd) }
 }
 
 // WithPlugin installs plugins; their capabilities (package

@@ -1,14 +1,15 @@
 package jsonc
 
 import (
+	"context"
 	"fmt"
-	"os/exec"
 	"strings"
 
 	"github.com/ubgo/textdata/expand"
 	"github.com/ubgo/textdata/path"
 	"github.com/ubgo/textdata/plugin"
 	"github.com/ubgo/textdata/pos"
+	"github.com/ubgo/textdata/shell"
 )
 
 // errPrefix names this package in plugin errors.
@@ -81,7 +82,7 @@ func (d *Doc) GetExpanded(p string) (any, error) {
 func (d *Doc) expandString(n *node, at string) (string, error) {
 	eng := expand.Engine{Lookup: d.lookupVar}
 	if d.opts.shell {
-		eng.Run = d.opts.run
+		eng.Run = d.opts.command()
 	}
 	if len(d.opts.resolvers) > 0 {
 		eng.Resolve = d.resolveScheme
@@ -180,12 +181,9 @@ func (d *Doc) Validate() error {
 	return nil
 }
 
-// shellRun is the default command runner: `sh -c`, trailing newlines trimmed
-// like a shell substitution.
+// shellRun is the default command runner: shell.Run with no deadline, which
+// trims trailing newlines like a shell substitution. WithCommandContext bounds
+// it; see options.command.
 func shellRun(cmd string) (string, error) {
-	out, err := exec.Command("sh", "-c", cmd).Output()
-	if err != nil {
-		return "", err
-	}
-	return strings.TrimRight(string(out), "\n"), nil
+	return shell.Run(context.Background(), cmd)
 }
