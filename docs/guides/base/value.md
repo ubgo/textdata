@@ -8,7 +8,7 @@ Package `github.com/ubgo/textdata/value` expands a single string with the same e
 go get github.com/ubgo/textdata@latest
 ```
 
-`value` is in the base module (standard library only). The value plugins are separate modules, so a program that uses one adds it, for example `go get github.com/ubgo/textdata/plugins/gopass@latest`. The runnable programs are [`examples/value/env`](../../../examples/value/env), [`examples/value/commands`](../../../examples/value/commands) (needs a Unix shell) and [`examples/value/secrets`](../../../examples/value/secrets).
+`value` is in the base module (standard library only). The value plugins are separate modules, so a program that uses one adds it, for example `go get github.com/ubgo/textdata/plugins/gopass@latest`. The runnable programs are [`examples/value/env`](../../../examples/value/env), [`examples/value/commands`](../../../examples/value/commands) (needs a Unix shell), [`examples/value/secrets`](../../../examples/value/secrets) and [`examples/value/strict`](../../../examples/value/strict).
 
 `value.Expand(ctx, s, opts...)` reads and runs nothing unless an option asks for it:
 
@@ -19,6 +19,7 @@ go get github.com/ubgo/textdata@latest
 | `WithCommands()` | `$(command)` through [`shell.Run`](shell.md), bounded by `ctx` |
 | `WithRunner(r)` | `$(command)` through your `plugin.CommandRunner` instead of the shell |
 | `WithPlugins(ps...)` | value plugins: Lookupers, Resolvers for `${scheme:ref}`, a CommandRunner, ValueTransformers, ExpandObservers |
+| `WithStrict()` | every unresolved reference is an error instead of `""` or the text as written (Step 7) |
 
 ## Step 1 — Expand from the environment
 
@@ -248,6 +249,7 @@ func expandSecrets(w io.Writer, plugins []plugin.Plugin) error {
 | `*expand.CommandError` | a `$(command)` failed; it unwraps to `*shell.ExitError`, `shell.ErrTimeout`, `shell.ErrNoShell` or your runner's error |
 | `*plugin.Error` | a plugin failed; it names the plugin and unwraps to its error, such as `plugin.ErrNotFound` or `plugin.ErrUnavailable` |
 | `value.ErrUnsupportedPlugin` (wrapped) | a plugin passed to `WithPlugins` has no ability a single value can use (a SaveGuard or Validator alone) |
+| `*expand.UnsetError`, `*expand.UnknownSchemeError`, `*expand.CommandOffError` | only with `WithStrict`: an unset name, an unclaimed `${scheme:ref}`, a `$(command)` with commands off (Step 7); all match `expand.ErrStrict` |
 
 <!-- ds:block id=value-requirederror-b5y1k8hp -->
 **requiredError** · [`examples/value/env/main.go:122-130`](../../../examples/value/env/main.go#L122-L130)
@@ -280,6 +282,79 @@ func pluginErrors(w io.Writer, plugins []plugin.Plugin) error {
 }
 ```
 <!-- /ds:block hash=ae2c0d -->
+
+## Step 7 — Make unresolved references errors with `WithStrict`
+
+By default a reference nothing answers reads as `""`, as in Compose, and a `$(command)` with commands off stays as written. A caller that needs certainty, such as a tool reading an API token from its config, would then send an empty token or the literal text `$(gopass show x)`. [`WithStrict()`](ds:block?id=withstrict-puc4zm2j) turns each of those into an error. Everything that resolves reads exactly as before: a defined name, a name set to `""`, `${VAR:-d}` and `${VAR-d}` (their default), and `${VAR:+a}` (`""` when unset is what it asks for).
+
+<!-- ds:block id=value-strictresolves-k4w9p2td -->
+**strictResolves** · [`examples/value/strict/main.go:52-65`](../../../examples/value/strict/main.go#L52-L65)
+
+```go
+func strictResolves(w io.Writer) error {
+	for _, in := range []string{
+		"Bearer ${API_TOKEN}",
+		"[${EMPTY}]",
+		"${REGION:-eu-west-1}",
+	} {
+		out, err := value.Expand(context.Background(), in, value.WithStrict(), value.WithLookup(lookup))
+		if err != nil {
+			return err
+		}
+		fmt.Fprintf(w, "%-24s => %s\n", in, out)
+	}
+	return nil
+}
+```
+<!-- /ds:block hash=6c63bd -->
+
+What it refuses, each as its own type that matches [`expand.ErrStrict`](ds:block?id=errstrict-wtxc9pe2):
+
+| Reference | Error |
+|---|---|
+| a name no source defines (`$TOKEN`, `${TOKEN}`, a typo) | [`*expand.UnsetError`](ds:block?id=unseterror-fzc9dngm) with `Name` |
+| a `${scheme:ref}` no installed plugin claims (`${vault:x}` without the vault plugin, `${gopas:x}`) | [`*expand.UnknownSchemeError`](ds:block?id=unknownschemeerror-fg4srxup) with `Scheme` and `Ref` |
+| a `$(command)` without `WithCommands` or `WithRunner` | [`*expand.CommandOffError`](ds:block?id=commandofferror-j9abapdg) with `Cmd` |
+
+`${VAR:?msg}` keeps its own `*expand.RequiredError`, which does not match `ErrStrict`. Each error carries `Offset`, the byte offset in `s` of the reference that failed, and `Via`, the variable whose value held it when the reference was reached through another one; never a value ([pinned in the engine](ds:block?id=teststrictrefuses-8m4ujeu7&assert=true) and [through `value`](ds:block?id=teststrict-uemkh2yq&assert=true)). An unclaimed `${scheme:ref}` is treated as one name in strict mode: `${vault:db-pass}` is refused, never read as the name `vault:db` with the default `pass` as it is without `WithStrict`.
+
+<!-- ds:block id=value-strictrefuses-r7n3c5hm -->
+**strictRefuses** · [`examples/value/strict/main.go:72-100`](../../../examples/value/strict/main.go#L72-L100)
+
+```go
+func strictRefuses(w io.Writer) error {
+	for _, in := range []string{
+		"Bearer ${API_TOKN}",         // a typo: unset
+		"${gopas:work/api}",          // a scheme no plugin claims
+		"$(gopass show -o work/api)", // commands are off
+		"${API_SECRET:?set it}",      // required: its own error
+	} {
+		_, err := value.Expand(context.Background(), in, value.WithStrict(), value.WithLookup(lookup))
+		var (
+			unset   *expand.UnsetError
+			scheme  *expand.UnknownSchemeError
+			cmdOff  *expand.CommandOffError
+			require *expand.RequiredError
+		)
+		kind := "none"
+		switch {
+		case errors.As(err, &unset):
+			kind = "unset " + unset.Name
+		case errors.As(err, &scheme):
+			kind = "unknown scheme " + scheme.Scheme
+		case errors.As(err, &cmdOff):
+			kind = "command off"
+		case errors.As(err, &require):
+			kind = "required " + require.Key
+		}
+		fmt.Fprintf(w, "%-28s strict=%-5t %s\n  %v\n", in, errors.Is(err, expand.ErrStrict), kind, err)
+	}
+	return nil
+}
+```
+<!-- /ds:block hash=9328ca -->
+
+The formats have the same switch, named `WithStrictExpand()` there because jsonc's `Strict()` already means "parse as plain JSON": [dotenv expansion](../dotenv/expansion.md), [jsonc expansion](../jsonc/expansion-and-plugins.md). A format of your own sets `expand.Engine.Strict` ([expand](expand.md)).
 
 ## Try it
 
@@ -329,9 +404,27 @@ Bearer ${gopass:work/api}          => Bearer fake-gopass-token
 missing: plugin=gopass not found=true
 ```
 
+```sh
+cd examples/value/strict && go run .
+```
+
+```text
+Bearer ${API_TOKEN}      => Bearer fake-token
+[${EMPTY}]               => []
+${REGION:-eu-west-1}     => eu-west-1
+Bearer ${API_TOKN}           strict=true  unset API_TOKN
+  expand: variable API_TOKN is not set (offset 7)
+${gopas:work/api}            strict=true  unknown scheme gopas
+  expand: no resolver for scheme "gopas" in ${gopas:work/api} (offset 0)
+$(gopass show -o work/api)   strict=true  command off
+  expand: command substitution is off: $(gopass show -o work/api) (offset 0)
+${API_SECRET:?set it}        strict=false required API_SECRET
+  expand: required variable API_SECRET is not set or is empty: set it
+```
+
 ## Pitfalls
 
-- **Unset is not an error.** `${TOKEN}` with nothing defining `TOKEN` is `""`. Write `${TOKEN:?set TOKEN}` when a missing value must stop the program.
+- **Unset is not an error.** `${TOKEN}` with nothing defining `TOKEN` is `""`. Write `${TOKEN:?set TOKEN}` when one missing value must stop the program, or pass `WithStrict()` to refuse every unresolved reference.
 - **Without a source, nothing has a value.** `Expand(ctx, "$HOME")` is `""`: pass `WithEnv()` to read the environment.
 - **A `-` after a colon is an operator, not part of a scheme.** `${nobody:owns-this}` is the name `nobody:owns` with the default `this`, exactly as in the formats. Scheme references such as `${vault:a/b}` are not affected, because a scheme's colon is never followed by `-`, `+` or `?`.
 - **Command output is trimmed of trailing newlines only.** A command printing `"  x  \n"` gives `"  x  "`.
@@ -345,5 +438,5 @@ missing: plugin=gopass not found=true
 - [expand](expand.md): the engine underneath, for a format of your own.
 - [Value plugins](../plugins/README.md): gopass, file, vault, aws, and writing your own.
 - [dotenv expansion](../dotenv/expansion.md) and [jsonc expansion](../jsonc/expansion-and-plugins.md): the same rules over whole files.
-- Examples: [`examples/value/env`](../../../examples/value/env), [`examples/value/commands`](../../../examples/value/commands), [`examples/value/secrets`](../../../examples/value/secrets).
+- Examples: [`examples/value/env`](../../../examples/value/env), [`examples/value/commands`](../../../examples/value/commands), [`examples/value/secrets`](../../../examples/value/secrets), [`examples/value/strict`](../../../examples/value/strict).
 - API: [value on pkg.go.dev](https://pkg.go.dev/github.com/ubgo/textdata/value).

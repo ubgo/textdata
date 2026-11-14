@@ -187,6 +187,90 @@ func guardSave(w io.Writer, name string, s *schema.Schema) error {
 ```
 <!-- /ds:block hash=d41e57 -->
 
+## Step 6 — Refuse typo'd keys with `StrictKeys`
+
+Every struct `FromStruct` sees gets `additionalProperties: false`, so a key the struct does not know is reported at its `line:col`. By default it is a warning: a newer option read by an older program should not refuse the file. A program that decodes the file into a typed struct usually wants the opposite, because a misspelt key silently leaves its field at the zero value. Pass [`schema.StrictKeys()`](ds:block?id=strictkeys-z4ruxr9j) to `Validate` (or to `Plugin`, so its `Validate` and save guard refuse the file too) and an unknown key is an error, still at the key ([pinned](ds:block?id=testagxshapestrictkeys-46m8nuv5&assert=true)). Warnings for unsupported keywords stay warnings.
+
+The runnable program [`examples/jsonc-tools/strict-keys`](../../../examples/jsonc-tools/strict-keys) validates a config shaped like a multi-agent tool's: maps of structs (`map[string]Profile`, `map[AgentID]Binding`), a string ID type with `MarshalText` as a map key and a value, an `enum:"plan,api"` field, `[]string`, a pointer and `omitempty`:
+
+<!-- ds:block id=jt-strictkeys-config-w3f7h2pe -->
+**Profile** · [`examples/jsonc-tools/strict-keys/main.go:31-46`](../../../examples/jsonc-tools/strict-keys/main.go#L31-L46)
+
+```go
+type (
+	Profile struct {
+		Billing string   `json:"billing" enum:"plan,api"`
+		Args    []string `json:"args,omitempty"`
+		Timeout *int     `json:"timeout,omitempty"`
+	}
+	Binding struct {
+		Agent   AgentID `json:"agent"`
+		Profile string  `json:"profile"`
+	}
+	Config struct {
+		Default  AgentID             `json:"default"`
+		Profiles map[string]Profile  `json:"profiles"`
+		Bindings map[AgentID]Binding `json:"bindings,omitempty"`
+	}
+)
+```
+<!-- /ds:block hash=369f43 -->
+
+<!-- ds:block id=jt-strictkeys-run-q9d4m6vt -->
+**run** · [`examples/jsonc-tools/strict-keys/main.go:69-95`](../../../examples/jsonc-tools/strict-keys/main.go#L69-L95)
+
+```go
+func run(w io.Writer) error {
+	s, err := schema.FromStruct(Config{})
+	if err != nil {
+		return err
+	}
+	doc, err := jsonc.Parse([]byte(config), jsonc.WithFileName("agents.jsonc"))
+	if err != nil {
+		return err
+	}
+	for _, mode := range []struct {
+		name string
+		opts []schema.Option
+	}{
+		{"default", nil},
+		{"strict keys", []schema.Option{schema.StrictKeys()}},
+	} {
+		res := schema.Validate(doc, s, mode.opts...)
+		fmt.Fprintf(w, "%s: ok=%t\n", mode.name, res.OK())
+		for _, e := range res.Errors {
+			fmt.Fprintf(w, "  error   %v\n", e)
+		}
+		for _, e := range res.Warnings {
+			fmt.Fprintf(w, "  warning %v\n", e)
+		}
+	}
+	return nil
+}
+```
+<!-- /ds:block hash=da3ca0 -->
+
+```text
+default: ok=false
+  error   agents.jsonc:4:25: profiles.work.billing: must be one of "plan", "api"; got "free"
+  warning agents.jsonc:5:14: profiles.home.biling: unknown key "biling"
+strict keys: ok=false
+  error   agents.jsonc:4:25: profiles.work.billing: must be one of "plan", "api"; got "free"
+  error   agents.jsonc:5:14: profiles.home.biling: unknown key "biling"
+```
+
+How those Go shapes map, all checked by the package's tests:
+
+| Go | Schema |
+|---|---|
+| `map[string]T`, `map[AgentID]T` | `object` whose values are `T`'s schema; keys are not constrained (JSON keys are always strings) |
+| a string-kind type with `MarshalText` | `type: string`, as a value or a map key |
+| `[]string` | `type: ["array", "null"]` with string items (a nil slice encodes as `null`) |
+| `*int`, `*string` | the element type plus `null` |
+| `*Struct` | `anyOf: [{$ref}, {type: null}]` |
+| `omitempty` | never makes a key required; only `required:"true"`, `env:",required"` or `env:",notempty"` do |
+| `enum:"plan,api"` | `enum` with those values, split on `delim` (default `,`), each parsed for the field's type |
+
 ## Try it
 
 ```sh
@@ -257,7 +341,8 @@ textdatactl jsonc validate config.jsonc --schema config.schema.json
 
 ## Pitfalls
 
-- **Unknown keys are warnings, not errors.** With `additionalProperties: false` a typo such as `tpyo` does not fail `Validate`, `res.Err()` or `doc.Validate()`. Check `res.Warnings` (or pass `OnWarning` to the plugin) if you want to act on them.
+- **Unknown keys are warnings unless you pass `StrictKeys`.** With `additionalProperties: false` a typo such as `tpyo` does not fail `Validate`, `res.Err()` or `doc.Validate()` by default. Pass `StrictKeys()` (Step 6) to make it an error, or check `res.Warnings` (or pass `OnWarning` to the plugin).
+- **An enum field needs a `default` for generated files.** `generate.FromStruct` writes the zero value `""` for an enum field with no `default` tag, and that file then fails the schema's `enum` check.
 - **The plugin drops warnings unless you pass `OnWarning`.** `plugin.Validator` returns one `error`; warnings have nowhere else to go.
 - **Installing the plugin validates on save, never on read.** `Save` refuses a document with schema errors (Step 5); to check a file you only read, call `doc.Validate()`.
 - **`pattern` is a Go regexp (RE2).** Lookaround and backreferences are refused by `Parse` with `ErrSchema`. Like ECMA-262 it matches anywhere unless anchored with `^`/`$`.
@@ -272,5 +357,5 @@ textdatactl jsonc validate config.jsonc --schema config.schema.json
 - [Generate a JSONC file](generate.md) (the file from the same struct validates clean), [Format a JSONC file](format.md), [Diff two JSONC files](diff.md)
 - Package reference: [jsonc/schema README](../../../jsonc/schema/README.md) (full tag table, keyword rules, guarantees)
 - CLI: [jsonc/cli README § verbs](../../../jsonc/cli/README.md#verbs) (`validate --schema`)
-- Example: [`examples/jsonc-tools/schema-plugin`](../../../examples/jsonc-tools/schema-plugin); the package's own [`ExampleValidate`](../../../jsonc/schema/example_test.go)
+- Examples: [`examples/jsonc-tools/schema-plugin`](../../../examples/jsonc-tools/schema-plugin), [`examples/jsonc-tools/strict-keys`](../../../examples/jsonc-tools/strict-keys); the package's own [`ExampleValidate`](../../../jsonc/schema/example_test.go)
 - API: [pkg.go.dev/github.com/ubgo/textdata/jsonc/schema](https://pkg.go.dev/github.com/ubgo/textdata/jsonc/schema), [plugin.SaveGuard](https://pkg.go.dev/github.com/ubgo/textdata/plugin#SaveGuard)

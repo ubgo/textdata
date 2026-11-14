@@ -303,6 +303,49 @@ func readExpanded(w io.Writer, dir string) error {
 ```
 <!-- /ds:block hash=fc896a -->
 
+## Step 6 — Refuse unresolved references with `WithStrictExpand`
+
+A program that decodes its config into a typed struct needs to know a reference produced a real value. With [`WithStrictExpand()`](ds:block?id=withstrictexpand-tnccxzjq), `Expanded`, `GetExpanded` and `Read` with `WithExpand` fail where they would otherwise read a reference as `""` or keep it as text:
+
+| Reference | Without | With `WithStrictExpand()` |
+|---|---|---|
+| a name no lookup defines (`${API_TOKN}`) | `""` | `*expand.UnsetError` |
+| a `${scheme:ref}` no installed Resolver claims | `""` | `*expand.UnknownSchemeError` |
+| `$(command)` with substitution off | kept as written | `*expand.CommandOffError` |
+
+`${VAR:-d}` and `${VAR-d}` still use their default and `${VAR:?msg}` keeps its `*expand.RequiredError`. The error is a `*pos.Error` at the string's `file:line:col` wrapping the typed error, which names the variable and its byte offset inside the decoded string, never a value; every one matches `expand.ErrStrict` ([pinned](ds:block?id=teststrictexpand-8h7qa9nr&assert=true)). It is named `WithStrictExpand`, not `Strict`, because [`Strict()`](parse-and-strict.md) already means "parse as plain JSON". The runnable program is [`examples/jsonc/strict-config`](../../../examples/jsonc/strict-config):
+
+<!-- ds:block id=jsonc-strict-load-b8n4t6wd -->
+**load** · [`examples/jsonc/strict-config/main.go:75-90`](../../../examples/jsonc/strict-config/main.go#L75-L90)
+
+```go
+func load(name, src string) (Config, error) {
+	var cfg Config
+	d, err := jsonc.Parse([]byte(src),
+		jsonc.WithFileName(name),
+		jsonc.WithStrictExpand(),
+		jsonc.WithLookup(func(k string) (string, bool) { v, ok := env[k]; return v, ok }),
+	)
+	if err != nil {
+		return cfg, err
+	}
+	x, err := d.Expanded()
+	if err != nil {
+		return cfg, err
+	}
+	return cfg, x.Decode(&cfg)
+}
+```
+<!-- /ds:block hash=a8d83a -->
+
+```text
+good: {Default:claude Token:fake-token Region:eu-west-1}
+typo: at=3:12 name=API_TOKN strict=true
+  typo.jsonc:3:12: expand "token": expand: variable API_TOKN is not set (offset 0)
+```
+
+The same switch for a single value is [`value.WithStrict()`](../base/value.md#step-7--make-unresolved-references-errors-with-withstrict). To also refuse a typo'd key, validate with [`schema.StrictKeys()`](../jsonc-tools/schema.md#step-6--refuse-typod-keys-with-strictkeys).
+
 ## Try it
 
 ```sh
@@ -327,7 +370,7 @@ Read: postgres://db.internal:5432/app | ExpandRequested: true
 ## Pitfalls
 
 - **Reads are raw.** `GetString("db.url")` returns `${HOST}`; only `Expanded` and `GetExpanded` expand. This is what keeps secrets out of saved files.
-- **An unknown `${NAME}` is `""`, silently.** Use `${NAME:?message}` for anything required, or `${NAME:-default}`.
+- **An unknown `${NAME}` is `""`, silently.** Use `${NAME:?message}` for anything required, `${NAME:-default}`, or `WithStrictExpand()` (Step 6) to refuse every unresolved reference.
 - **A failing command is an error, not `""`**, whether it runs through the default shell (non-zero exit, or a timeout from `WithCommandContext`) or your `CommandRunner` (any returned error): `Expanded` and `GetExpanded` fail with an `*expand.CommandError` naming the command, at the value's `file:line:col`.
 - **A plugin error is an error naming the plugin**, never an empty value: a Resolver returning an error fails the expansion with `jsonc: plugin "<name>": ...` at the value's `file:line:col`.
 - **`plugin.ErrNotFound` from a Resolver is still an error** for that reference; a scheme only falls back to an ordinary name when no Resolver claims it.
@@ -341,5 +384,5 @@ Read: postgres://db.internal:5432/app | ExpandRequested: true
 - Base engine: [expand guide](../base/expand.md), [plugin guide](../base/plugin.md)
 - Plugins: [overview](../plugins/overview.md), [write a value plugin](../plugins/write-a-value-plugin.md)
 - Module README: [jsonc § Expansion and plugins](../../../jsonc/README.md#expansion-and-plugins)
-- Example: [`examples/jsonc/expand`](../../../examples/jsonc/expand)
+- Examples: [`examples/jsonc/expand`](../../../examples/jsonc/expand), [`examples/jsonc/strict-config`](../../../examples/jsonc/strict-config)
 - API: [pkg.go.dev/github.com/ubgo/textdata/jsonc](https://pkg.go.dev/github.com/ubgo/textdata/jsonc)

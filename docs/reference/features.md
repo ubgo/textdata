@@ -48,6 +48,7 @@ Packages are Go import paths under `github.com/ubgo/textdata/`. Most features ar
 | `$(cmd)` substitution hook (`Engine.Run`) | `expand` | [base/expand § Step 4](../guides/base/expand.md#step-4--turn-on-cmd-with-a-runner) | [`examples/base/expand-engine`](../../examples/base/expand-engine) |
 | Cycle guard and depth bound (`Stack`, `DefaultMaxDepth`) | `expand` | [base/expand § Step 5](../guides/base/expand.md#step-5--stop-cycles-with-the-stack) | [`examples/base/expand-engine`](../../examples/base/expand-engine) |
 | `RequiredError` for `${VAR:?e}` | `expand` | [base/expand § Step 6](../guides/base/expand.md#step-6--fail-loudly-with-varmsg) | [`examples/base/expand-engine`](../../examples/base/expand-engine) |
+| Strict mode: unresolved references are errors (`Engine.Strict`, `UnsetError`, `UnknownSchemeError`, `CommandOffError`, `ErrStrict`) | `expand` | [base/expand § Step 7](../guides/base/expand.md#step-7--refuse-unresolved-references-with-enginestrict) | [`examples/value/strict`](../../examples/value/strict) |
 
 ## Base: shell
 
@@ -64,6 +65,7 @@ Packages are Go import paths under `github.com/ubgo/textdata/`. Most features ar
 |---|---|---|---|
 | Expand one value (`Expand`, `WithEnv`, `WithLookup`) with the formats' rules | `value` | [base/value § Step 1](../guides/base/value.md#step-1--expand-from-the-environment) | [`examples/value/env`](../../examples/value/env) |
 | Commands off by default (`WithCommands`, `WithRunner`) | `value` | [base/value § Step 3](../guides/base/value.md#step-3--turn-on-commands-deliberately) | [`examples/value/commands`](../../examples/value/commands) |
+| Strict expansion of one value (`WithStrict`) | `value` | [base/value § Step 7](../guides/base/value.md#step-7--make-unresolved-references-errors-with-withstrict) | [`examples/value/strict`](../../examples/value/strict) |
 | Value plugins in one value (`WithPlugins`, `ErrUnsupportedPlugin`) | `value` | [base/value § Step 5](../guides/base/value.md#step-5--read-secrets-with-value-plugins) | [`examples/value/secrets`](../../examples/value/secrets) |
 
 ## Base: atomicfile, pos, path, texttest
@@ -71,6 +73,7 @@ Packages are Go import paths under `github.com/ubgo/textdata/`. Most features ar
 | Feature | Package | Guide | Example |
 |---|---|---|---|
 | Atomic write: temp file, fsync, rename, keep mode, write through symlinks (`Write`, `Options`, `Resolve`) | `atomicfile` | [base/atomicfile § Step 1](../guides/base/atomicfile.md#step-1--write-a-new-file) | [`examples/base/atomic-write`](../../examples/base/atomic-write) |
+| Cross-process file lock for read-modify-write (`Lock`, `FileLock`, `ErrLockTimeout`, `ErrLockUnsupported`) | `atomicfile` | [base/atomicfile § Step 5](../guides/base/atomicfile.md#step-5--lock-around-a-read-modify-write) | [`examples/base/file-lock`](../../examples/base/file-lock) |
 | Positions and `file:line:col` errors (`Pos`, `Index`, `Error`, `ErrorList`, `First`) | `pos` | [base/pos-and-path § Step 3](../guides/base/pos-and-path.md#step-3--map-byte-offsets-to-line-and-column) | [`examples/base/paths`](../../examples/base/paths) |
 | Paths `a."b.c"[2]` and JSON Pointer (`Parse`, `ParsePointer`, `ParseAny`, `Path.String`) | `path` | [base/pos-and-path § Step 1](../guides/base/pos-and-path.md#step-1--parse-dotted-paths-and-json-pointers) | [`examples/base/paths`](../../examples/base/paths) |
 | Round-trip and untouched-bytes property harness (`RoundTrip`, `CheckUntouched`, `Untouched`, `DiffWindow`, `Seed`, `Corpus`) | `texttest` | [base/texttest § Step 2](../guides/base/texttest.md#step-2--round-trip-the-corpus) | [`examples/base/property-harness`](../../examples/base/property-harness) |
@@ -121,6 +124,7 @@ Packages are Go import paths under `github.com/ubgo/textdata/`. Most features ar
 | Values from outside the file (`WithLookup`) | `dotenv` | [dotenv/plugins § Step 1](../guides/dotenv/plugins.md#step-1--install-one-function-hooks) | [`examples/dotenv/plugin-hooks`](../../examples/dotenv/plugin-hooks) |
 | Command substitution, off by default (`WithCommandSubstitution`, `WithCommandRunner`) | `dotenv` | [dotenv/expansion § Step 7](../guides/dotenv/expansion.md#step-7--run-commands-opt-in) | [`examples/dotenv/expansion`](../../examples/dotenv/expansion) |
 | Bound command substitution (`WithCommandContext`) | `dotenv` | [dotenv/expansion § Step 7](../guides/dotenv/expansion.md#step-7--run-commands-opt-in) | [`examples/shell/errors`](../../examples/shell/errors) |
+| Strict expansion (`WithStrictExpand`) | `dotenv` | [dotenv/expansion § Step 8](../guides/dotenv/expansion.md#step-8--refuse-unresolved-references-with-withstrictexpand) | [`examples/dotenv/strict-env`](../../examples/dotenv/strict-env) |
 
 ## dotenv: plugins
 
@@ -139,6 +143,7 @@ Packages are Go import paths under `github.com/ubgo/textdata/`. Most features ar
 |---|---|---|---|
 | Atomic save (`Save`, `SaveAs`), keeps mode and symlinks | `dotenv` | [dotenv/saving § Step 1](../guides/dotenv/saving.md#step-1--save-to-the-file-you-opened) | [`examples/dotenv/saving`](../../examples/dotenv/saving) |
 | Line endings and trailing newline preserved | `dotenv` | [dotenv/saving § Step 3](../guides/dotenv/saving.md#step-3--keep-line-endings-and-the-trailing-newline) | [`examples/dotenv/saving`](../../examples/dotenv/saving) |
+| Locked read-modify-write across processes (`Update`) | `dotenv` | [dotenv/saving § Step 6](../guides/dotenv/saving.md#step-6--update-a-file-several-processes-write) | [`examples/dotenv/update-env`](../../examples/dotenv/update-env) |
 
 ## jsonc: parse
 
@@ -183,8 +188,10 @@ Packages are Go import paths under `github.com/ubgo/textdata/`. Most features ar
 | Expansion (`WithExpand`, `Expanded`, `GetExpanded`, `ExpandRequested`, `WithLookup`) | `jsonc` | [jsonc/expansion-and-plugins § Step 1](../guides/jsonc/expansion-and-plugins.md#step-1--expand-through-a-lookup) | [`examples/jsonc/expand`](../../examples/jsonc/expand) |
 | Command substitution, off by default (`WithCommandSubstitution`) | `jsonc` | [jsonc/expansion-and-plugins § Step 4](../guides/jsonc/expansion-and-plugins.md#step-4--turn-on-command-substitution-deliberately) | [`examples/jsonc/expand`](../../examples/jsonc/expand) |
 | Bound command substitution (`WithCommandContext`) | `jsonc` | [jsonc/expansion-and-plugins § Step 4](../guides/jsonc/expansion-and-plugins.md#step-4--turn-on-command-substitution-deliberately) | [`examples/shell/errors`](../../examples/shell/errors) |
+| Strict expansion (`WithStrictExpand`) | `jsonc` | [jsonc/expansion-and-plugins § Step 6](../guides/jsonc/expansion-and-plugins.md#step-6--refuse-unresolved-references-with-withstrictexpand) | [`examples/jsonc/strict-config`](../../examples/jsonc/strict-config) |
 | Plugins (`WithPlugin`, `Plugins`) | `jsonc` | [jsonc/expansion-and-plugins § Step 3](../guides/jsonc/expansion-and-plugins.md#step-3--install-value-plugins) | [`examples/jsonc/expand`](../../examples/jsonc/expand) |
 | Atomic save with SaveGuards (`Save`, `SaveAs`, `SetPath`) | `jsonc` | [jsonc/save § Step 1](../guides/jsonc/save.md#step-1--save-edits-in-place) | [`examples/jsonc/edit-config`](../../examples/jsonc/edit-config) |
+| Locked read-modify-write across processes (`Update`) | `jsonc` | [jsonc/save § Step 6](../guides/jsonc/save.md#step-6--update-a-file-several-processes-write) | [`examples/jsonc/update-config`](../../examples/jsonc/update-config) |
 
 ## jsonc tools: format, diff, generate, schema
 
@@ -200,6 +207,7 @@ Packages are Go import paths under `github.com/ubgo/textdata/`. Most features ar
 | Schema from a struct (`schema.FromStruct`) | `jsonc/schema` | [jsonc-tools/schema § Step 1](../guides/jsonc-tools/schema.md#step-1--build-the-schema-from-your-config-struct) | [`examples/jsonc-tools/schema-plugin`](../../examples/jsonc-tools/schema-plugin) |
 | Validate a document (`schema.Validate`, `Result`, `Issue`, `OnWarning`) | `jsonc/schema` | [jsonc-tools/schema § Step 2](../guides/jsonc-tools/schema.md#step-2--validate-a-file) | [`examples/jsonc-tools/schema-plugin`](../../examples/jsonc-tools/schema-plugin) |
 | Load or parse a schema (`schema.Parse`, `schema.Load`) | `jsonc/schema` | [jsonc-tools/schema § Step 3](../guides/jsonc-tools/schema.md#step-3--load-or-parse-a-schema-written-by-hand) | [`examples/jsonc-tools/schema-plugin`](../../examples/jsonc-tools/schema-plugin) |
+| Unknown keys as errors (`schema.StrictKeys`) | `jsonc/schema` | [jsonc-tools/schema § Step 6](../guides/jsonc-tools/schema.md#step-6--refuse-typod-keys-with-strictkeys) | [`examples/jsonc-tools/strict-keys`](../../examples/jsonc-tools/strict-keys) |
 | Schema as a Validator and SaveGuard plugin (`schema.Plugin`) | `jsonc/schema` | [jsonc-tools/schema § Step 4](../guides/jsonc-tools/schema.md#step-4--run-it-as-a-plugin) | [`examples/jsonc-tools/schema-plugin`](../../examples/jsonc-tools/schema-plugin) |
 
 ## jsonc CLI (`textdatactl jsonc`)

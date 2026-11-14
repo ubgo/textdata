@@ -193,6 +193,39 @@ func guardSave(w io.Writer, dir string) error {
 
 Guards also run for `SaveAs`. They are plugins like any other, installed with `WithPlugin`, and the same guard works for a dotenv file.
 
+## Step 6 — Update a file several processes write
+
+`Open`, `Set` and `Save` are safe for one writer. When several processes write the same config (a CLI, its daemon, two runs at once), each `Save` is atomic, but the later one writes back a copy read before the earlier one landed, and that edit is lost. [`jsonc.Update(ctx, path, fn, opts...)`](ds:block?id=update-v2hk4zns) closes the gap: it takes the cross-process lock for `path` ([`atomicfile.Lock`](../base/atomicfile.md#step-5--lock-around-a-read-modify-write)), opens the file, calls `fn` with the document, saves if `fn` changed it, and releases the lock. The runnable program is [`examples/jsonc/update-config`](../../../examples/jsonc/update-config): six workers each add their own entry and bump a shared counter at once, and every edit survives with the comments intact ([pinned](ds:block?id=testupdateconcurrentkeepseveryedit-eugnqggz&assert=true)).
+
+<!-- ds:block id=jsonc-update-recordrun-v5k2m8xq -->
+**recordRun** · [`examples/jsonc/update-config/main.go:85-98`](../../../examples/jsonc/update-config/main.go#L85-L98)
+
+```go
+func recordRun(path, agent string) error {
+	ctx, cancel := context.WithTimeout(context.Background(), lockWait)
+	defer cancel()
+	return jsonc.Update(ctx, path, func(d *jsonc.Doc) error {
+		n, err := d.GetInt("runs")
+		if err != nil {
+			return err
+		}
+		if err := d.Set("agents."+agent, map[string]any{"enabled": true}); err != nil {
+			return err
+		}
+		return d.Set("runs", n+1)
+	})
+}
+```
+<!-- /ds:block hash=8d00bf -->
+
+```text
+runs: 6
+agents: 6
+comment kept: true
+```
+
+The rules: `ctx` bounds only the wait for the lock (its deadline gives an error wrapping `atomicfile.ErrLockTimeout`); a missing file opens empty and is created at `0600` only if `fn` adds something; a file with syntax errors is refused before `fn` runs; when `fn` returns an error nothing is written and that error is returned; when `fn` leaves the bytes unchanged nothing is written; SaveGuards run as for `Save`. The lock is advisory, so every writer has to use `Update` (or `atomicfile.Lock`). `fn` must not keep `d` or call `SetPath`.
+
 ## Try it
 
 ```sh
@@ -240,12 +273,13 @@ The lines from `saved app.jsonc` on belong to this page; the first block is the 
 - **The temp file is `<target>.jsonc-tmp` in the same folder**, so the folder must be writable (not only the file), and a leftover after a crash sits next to its file.
 - **A symlink is followed, not replaced.** To make the path a regular file again, remove the link first.
 - **A guard sees the document, not your intent.** It gets the bytes about to be written through `plugin.Document` (`ValueAt` is raw, unexpanded); a guard error wraps your error, so match it with `errors.Is`.
-- **Concurrent writers are not coordinated.** Two processes saving the same file each write atomically, and the last rename wins; take a lock of your own if several writers share a file.
+- **`Save` alone does not coordinate writers.** Two processes saving the same file each write atomically, and the last rename wins; use `Update` (Step 6) when several writers share a file.
+- **`Update` leaves a `.lock` file next to the target** (`config.jsonc.lock`): the lock's sidecar, created once and never removed, because deleting it while another process waits could let two writers in.
 
 ## Related
 
 - [Edit](edit.md) · [Disable and restore](disable-restore.md) · [Expansion and plugins](expansion-and-plugins.md) · [Parse and strict](parse-and-strict.md)
 - Base: [atomicfile guide](../base/atomicfile.md), [plugin guide](../base/plugin.md)
 - Module README: [jsonc § Saving](../../../jsonc/README.md#saving)
-- Example: [`examples/jsonc/edit-config`](../../../examples/jsonc/edit-config)
+- Examples: [`examples/jsonc/edit-config`](../../../examples/jsonc/edit-config), [`examples/jsonc/update-config`](../../../examples/jsonc/update-config)
 - API: [pkg.go.dev/github.com/ubgo/textdata/jsonc](https://pkg.go.dev/github.com/ubgo/textdata/jsonc)

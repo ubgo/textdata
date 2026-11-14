@@ -4,6 +4,12 @@ All notable changes to `github.com/ubgo/textdata/dotenv` are listed here. The fo
 
 ## [Unreleased]
 
+### Added
+
+- `WithStrictExpand()`: `GetExpanded`, `ExpandedMap` and `Read` refuse an unset name (`*expand.UnsetError`), a `${scheme:ref}` no installed Resolver claims (`*expand.UnknownSchemeError`) and a `$(cmd)` with substitution off (`*expand.CommandOffError`), wrapped in a `*pos.Error` at the value's `file:line:col`; all match `expand.ErrStrict`. Defaults and `*RequiredError` are unchanged, and nothing changes without the option. Needs the base's next release.
+- `Update(ctx, path, fn, opts...)`: a read-modify-write under the cross-process `atomicfile.Lock`: open, `fn`, save only when the rendered bytes changed, unlock. `fn`'s error is returned untouched and nothing is written; a no-op does not create or touch the file. Needs the base's next release.
+
+
 ## [0.1.5] - 2026-11-14
 
 ### Added

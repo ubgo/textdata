@@ -913,6 +913,8 @@ Single-quoted and backtick values are not interpolated — `SECRET='${A}'` means
 
 Expansion is depth-bounded, so a reference cycle terminates instead of hanging the caller.
 
+An unresolved reference reads as `""`, as in Compose. [`WithStrictExpand()`](ds:block?id=withstrictexpand-at8hy283) makes it an error instead: an unset name (`*expand.UnsetError`), a `${scheme:ref}` no resolver claims (`*expand.UnknownSchemeError`) and a `$(cmd)` with substitution off (`*expand.CommandOffError`), each wrapped in a `*pos.Error` at the value's `file:line:col` and matching `expand.ErrStrict`. Defaults and `${VAR:?msg}` behave as before.
+
 > **Use `Get`, not `GetExpanded`, for anything you write back.** Expansion must feed what a consumer *reads*, never what gets persisted — otherwise a reference is flattened into a copy of its target and the link is lost.
 
 Full guide: [Variable expansion](../docs/guides/dotenv/expansion.md). Not sure which setup? See [Options for your kind of app](../docs/choosing/app-setups.md).
@@ -928,6 +930,8 @@ Full guide: [Variable expansion](../docs/guides/dotenv/expansion.md). Not sure w
 The mechanics are the shared textdata [`atomicfile`](../README.md#atomicfile) package. A rename within a directory is atomic, so a reader never observes a half-written credentials file, and a crash mid-save leaves the original intact. A failed save removes the temp file rather than leaving it beside the real one.
 
 Existing file modes are preserved; new files are created `0600`. The explicit `chmod` is necessary because `os.WriteFile`'s mode argument is filtered by the process umask, so it cannot be relied on to reproduce the original permissions.
+
+Several processes writing one file each save atomically, but the later save would write back a copy read before the earlier one landed. [`dotenv.Update(ctx, path, fn)`](ds:block?id=update-yzkcq24k) holds a cross-process lock ([`atomicfile.Lock`](../README.md#atomicfile)) across open, edit and save, so every edit survives; it writes only when `fn` changed something and returns `fn`'s error untouched.
 
 Full guide: [Saving a .env file](../docs/guides/dotenv/saving.md).
 

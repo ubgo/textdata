@@ -142,6 +142,8 @@ fmt.Println(p, k)
 
 Every installed `SaveGuard` runs first, on a clone, and the first refusal aborts with the file untouched. A document with syntax errors is saved byte for byte: `Save` never rewrites what it was given.
 
+When several processes write one file, use [`jsonc.Update(ctx, path, fn, opts...)`](ds:block?id=update-v2hk4zns): it holds a cross-process lock ([`atomicfile.Lock`](../README.md#atomicfile)) across open, edit and save, so no process writes back a copy read before another's save. It writes only when `fn` changed the bytes, refuses a file with syntax errors before `fn` runs, and returns `fn`'s error untouched. Guide: [jsonc save § Step 6](../docs/guides/jsonc/save.md#step-6--update-a-file-several-processes-write).
+
 ## Expansion and plugins
 
 Dynamic values are off unless the caller turns them on, and expansion never changes the document: `Expanded()` returns an expanded copy and `GetExpanded(p)` reads one path from it, while `Get`, `JSON`, `Decode`, `Render` and `Save` always see the raw text (`WithExpand()` only makes the one-call `Read` expand).
@@ -241,7 +243,7 @@ Bases merge in list order, then the file on top; refs are relative to each file;
 
 ### Other expansion details
 
-`ExpandRequested()` tells a caller whether `WithExpand()` was given; expansion errors carry `file:line:col` and still unwrap to the underlying `RequiredError` or `plugin.Error`.
+`ExpandRequested()` tells a caller whether `WithExpand()` was given; expansion errors carry `file:line:col` and still unwrap to the underlying `RequiredError` or `plugin.Error`. [`WithStrictExpand()`](ds:block?id=withstrictexpand-tnccxzjq) refuses every unresolved reference (an unset name, an unclaimed `${scheme:ref}`, a `$(cmd)` with substitution off) with a typed `expand` error matching `expand.ErrStrict`, instead of `""` or the text as written; it is not `Strict()`, which parses plain JSON.
 
 ### Packages
 
