@@ -249,7 +249,9 @@ Ready-made value plugins live in their own modules: [`plugins/gopass`](../../../
 
 ## Step 4 — Turn on command substitution, deliberately
 
-`$(command)` runs nothing by default. `WithCommandSubstitution(true)` runs it through `sh -c` (trailing newlines trimmed), and so does installing any `CommandRunner`. With it on, expanding a file runs whatever the file says, so use it only for files you trust.
+`$(command)` runs nothing by default. `WithCommandSubstitution(true)` runs it through the shared runner, [`shell.Run`](../base/shell.md) (trailing newlines trimmed), and installing any `CommandRunner` turns it on with that runner instead. With it on, expanding a file runs whatever the file says, so use it only for files you trust.
+
+The default runner picks the shell for the OS: `sh -c` on Linux, macOS and other Unix-likes; on Windows `pwsh -NoProfile -NonInteractive -Command` when PowerShell 7 is on `PATH`, else `powershell.exe` with the same flags. A command written for `sh` does not run in PowerShell, so on Windows write it for PowerShell or install a `CommandRunner` that runs another shell ([shell § Step 3](../base/shell.md#step-3--use-another-shell)). Stdin is closed, so a prompting command fails instead of hanging. [`WithCommandContext(ctx)`](ds:block?id=withcommandcontext-3z9bvvrh) bounds the default runner: with `context.WithTimeout`, a command still running when the context ends is killed and `Expanded` and `GetExpanded` fail with an error wrapping `shell.ErrTimeout`.
 
 <!-- ds:block id=commandsubstitution-npg99swj -->
 **commandSubstitution** · [`examples/jsonc/expand/plugins.go:92-103`](../../../examples/jsonc/expand/plugins.go#L92-L103)
@@ -326,7 +328,7 @@ Read: postgres://db.internal:5432/app | ExpandRequested: true
 
 - **Reads are raw.** `GetString("db.url")` returns `${HOST}`; only `Expanded` and `GetExpanded` expand. This is what keeps secrets out of saved files.
 - **An unknown `${NAME}` is `""`, silently.** Use `${NAME:?message}` for anything required, or `${NAME:-default}`.
-- **A failing command is an error, not `""`**, whether it runs through `sh -c` (non-zero exit) or your `CommandRunner` (any returned error): `Expanded` and `GetExpanded` fail with an `*expand.CommandError` naming the command, at the value's `file:line:col`.
+- **A failing command is an error, not `""`**, whether it runs through the default shell (non-zero exit, or a timeout from `WithCommandContext`) or your `CommandRunner` (any returned error): `Expanded` and `GetExpanded` fail with an `*expand.CommandError` naming the command, at the value's `file:line:col`.
 - **A plugin error is an error naming the plugin**, never an empty value: a Resolver returning an error fails the expansion with `jsonc: plugin "<name>": ...` at the value's `file:line:col`.
 - **`plugin.ErrNotFound` from a Resolver is still an error** for that reference; a scheme only falls back to an ordinary name when no Resolver claims it.
 - **Expansion does not see `$extends` bases.** Call `Extended()` first, then `Expanded()` on the result; `Read` does both in that order.

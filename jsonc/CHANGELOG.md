@@ -4,6 +4,16 @@ All notable changes to `github.com/ubgo/textdata/jsonc` are listed here. The for
 
 ## [Unreleased]
 
+## [0.1.6] - 2026-11-14
+
+### Added
+
+- `WithCommandContext(ctx)` bounds `$(command)` substitution: when the context is cancelled or its deadline passes, the running command is killed and `Expanded`, `GetExpanded` and `Read` with expansion fail with an error unwrapping to `*expand.CommandError` and to `shell.ErrTimeout` (a deadline) or `context.Canceled`. Clones keep it. Without it, commands are unbounded, as before.
+
+### Changed
+
+- `$(command)` runs through the base `shell.Run` instead of a private `sh -c` copy (needs base `v0.1.5`). On macOS and Linux nothing changes except that a trailing `\r` before the final newline is now trimmed too, as dotenv already did. On Windows substitution now works, through `pwsh` when it is on `PATH`, else `powershell.exe`. A failing command's error now unwraps to `*shell.ExitError` instead of `*exec.ExitError`.
+
 ## [0.1.5] - 2026-11-13
 
 ### Fixed

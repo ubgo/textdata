@@ -231,6 +231,7 @@ key=TOKEN empty=true
 
 ## Related
 
+- [shell](shell.md): the runner the formats plug into `Run`, usable on its own; [value](value.md): this engine with the formats' rules for one string.
 - [Plugins](plugin.md): `Lookuper`, `Resolver` and `CommandRunner` are how a format fills these callbacks from installed plugins.
 - [dotenv README § Variable expansion](../../../dotenv/README.md#variable-expansion) and [§ Interpolation](../../../dotenv/README.md#interpolation): the rules dotenv adds (single quotes, which definition a self-reference sees).
 - [jsonc README § Expansion and plugins](../../../jsonc/README.md#expansion-and-plugins).

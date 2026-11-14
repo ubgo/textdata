@@ -8,6 +8,8 @@ Packages are Go import paths under `github.com/ubgo/textdata/`. Most features ar
 
 - [Base: plugin](#base-plugin)
 - [Base: expand](#base-expand)
+- [Base: shell](#base-shell)
+- [Base: value](#base-value)
 - [Base: atomicfile, pos, path, texttest](#base-atomicfile-pos-path-texttest)
 - [dotenv: read](#dotenv-read)
 - [dotenv: syntax](#dotenv-syntax)
@@ -46,6 +48,23 @@ Packages are Go import paths under `github.com/ubgo/textdata/`. Most features ar
 | `$(cmd)` substitution hook (`Engine.Run`) | `expand` | [base/expand § Step 4](../guides/base/expand.md#step-4--turn-on-cmd-with-a-runner) | [`examples/base/expand-engine`](../../examples/base/expand-engine) |
 | Cycle guard and depth bound (`Stack`, `DefaultMaxDepth`) | `expand` | [base/expand § Step 5](../guides/base/expand.md#step-5--stop-cycles-with-the-stack) | [`examples/base/expand-engine`](../../examples/base/expand-engine) |
 | `RequiredError` for `${VAR:?e}` | `expand` | [base/expand § Step 6](../guides/base/expand.md#step-6--fail-loudly-with-varmsg) | [`examples/base/expand-engine`](../../examples/base/expand-engine) |
+
+## Base: shell
+
+| Feature | Package | Guide | Example |
+|---|---|---|---|
+| Run a command through the OS shell (`Run`, `DefaultShell`): `sh -c`, or PowerShell on Windows | `shell` | [base/shell § Step 1](../guides/base/shell.md#step-1--run-a-command) | [`examples/shell/run`](../../examples/shell/run) |
+| Runner options (`Runner{Shell, Timeout, Env, Dir}`, `RunCommand`) | `shell` | [base/shell § Step 2](../guides/base/shell.md#step-2--set-the-environment-directory-and-timeout-with-a-runner) | [`examples/shell/run`](../../examples/shell/run) |
+| Failure errors (`ExitError`, `ErrNoShell`, `MaxStderr`), no stdout in errors, closed stdin | `shell` | [base/shell § Step 5](../guides/base/shell.md#step-5--handle-a-failing-command) | [`examples/shell/errors`](../../examples/shell/errors) |
+| Timeouts and contexts (`ErrTimeout`) | `shell` | [base/shell § Step 6](../guides/base/shell.md#step-6--bound-it-with-a-timeout-or-a-context) | [`examples/shell/errors`](../../examples/shell/errors) |
+
+## Base: value
+
+| Feature | Package | Guide | Example |
+|---|---|---|---|
+| Expand one value (`Expand`, `WithEnv`, `WithLookup`) with the formats' rules | `value` | [base/value § Step 1](../guides/base/value.md#step-1--expand-from-the-environment) | [`examples/value/env`](../../examples/value/env) |
+| Commands off by default (`WithCommands`, `WithRunner`) | `value` | [base/value § Step 3](../guides/base/value.md#step-3--turn-on-commands-deliberately) | [`examples/value/commands`](../../examples/value/commands) |
+| Value plugins in one value (`WithPlugins`, `ErrUnsupportedPlugin`) | `value` | [base/value § Step 5](../guides/base/value.md#step-5--read-secrets-with-value-plugins) | [`examples/value/secrets`](../../examples/value/secrets) |
 
 ## Base: atomicfile, pos, path, texttest
 
@@ -101,6 +120,7 @@ Packages are Go import paths under `github.com/ubgo/textdata/`. Most features ar
 | Required variables (`RequiredError`) | `dotenv` | [dotenv/expansion § Step 6](../guides/dotenv/expansion.md#step-6--fail-loudly-with-requirederror) | [`examples/dotenv/expansion`](../../examples/dotenv/expansion) |
 | Values from outside the file (`WithLookup`) | `dotenv` | [dotenv/plugins § Step 1](../guides/dotenv/plugins.md#step-1--install-one-function-hooks) | [`examples/dotenv/plugin-hooks`](../../examples/dotenv/plugin-hooks) |
 | Command substitution, off by default (`WithCommandSubstitution`, `WithCommandRunner`) | `dotenv` | [dotenv/expansion § Step 7](../guides/dotenv/expansion.md#step-7--run-commands-opt-in) | [`examples/dotenv/expansion`](../../examples/dotenv/expansion) |
+| Bound command substitution (`WithCommandContext`) | `dotenv` | [dotenv/expansion § Step 7](../guides/dotenv/expansion.md#step-7--run-commands-opt-in) | [`examples/shell/errors`](../../examples/shell/errors) |
 
 ## dotenv: plugins
 
@@ -162,6 +182,7 @@ Packages are Go import paths under `github.com/ubgo/textdata/`. Most features ar
 | `$extends` (`Extended`, `Extends`, `ExtendsKey`, `MaxExtendsDepth`, extends errors) | `jsonc` | [jsonc/extends § Step 2](../guides/jsonc/extends.md#step-2--build-the-merged-view) | [`examples/jsonc/extends`](../../examples/jsonc/extends) |
 | Expansion (`WithExpand`, `Expanded`, `GetExpanded`, `ExpandRequested`, `WithLookup`) | `jsonc` | [jsonc/expansion-and-plugins § Step 1](../guides/jsonc/expansion-and-plugins.md#step-1--expand-through-a-lookup) | [`examples/jsonc/expand`](../../examples/jsonc/expand) |
 | Command substitution, off by default (`WithCommandSubstitution`) | `jsonc` | [jsonc/expansion-and-plugins § Step 4](../guides/jsonc/expansion-and-plugins.md#step-4--turn-on-command-substitution-deliberately) | [`examples/jsonc/expand`](../../examples/jsonc/expand) |
+| Bound command substitution (`WithCommandContext`) | `jsonc` | [jsonc/expansion-and-plugins § Step 4](../guides/jsonc/expansion-and-plugins.md#step-4--turn-on-command-substitution-deliberately) | [`examples/shell/errors`](../../examples/shell/errors) |
 | Plugins (`WithPlugin`, `Plugins`) | `jsonc` | [jsonc/expansion-and-plugins § Step 3](../guides/jsonc/expansion-and-plugins.md#step-3--install-value-plugins) | [`examples/jsonc/expand`](../../examples/jsonc/expand) |
 | Atomic save with SaveGuards (`Save`, `SaveAs`, `SetPath`) | `jsonc` | [jsonc/save § Step 1](../guides/jsonc/save.md#step-1--save-edits-in-place) | [`examples/jsonc/edit-config`](../../examples/jsonc/edit-config) |
 

@@ -4,6 +4,16 @@ All notable changes to `github.com/ubgo/textdata/dotenv` are listed here. The fo
 
 ## [Unreleased]
 
+## [0.1.5] - 2026-11-14
+
+### Added
+
+- `WithCommandContext(ctx)` bounds `$(command)` substitution: when the context is cancelled or its deadline passes, the running command is killed and `GetExpanded`, `ExpandedMap` and `Read` return an `*expand.CommandError` wrapping `shell.ErrTimeout` (a deadline) or `context.Canceled`. Without it, commands are unbounded, as before.
+
+### Changed
+
+- `$(command)` runs through the base `shell.Run` instead of a private `sh -c` copy (needs base `v0.1.5`). On macOS and Linux nothing changes: the same `sh -c`, the same trailing CR/LF trimming, stdin already at the null device. On Windows substitution now works, through `pwsh` when it is on `PATH`, else `powershell.exe`; a `.env` written for `sh` may need `WithCommandRunner(shell.Runner{Shell: ...}.RunCommand)` there. A failing command's error now unwraps to `*shell.ExitError` (exit code and the head of stderr) instead of `*exec.ExitError`.
+
 ## [0.1.4] - 2026-11-13
 
 First public release. The earlier `dotenv/v0.1.1`–`dotenv/v0.1.2` tags were pre-releases; they are retracted in `go.mod`, and everything they contained is in this release.

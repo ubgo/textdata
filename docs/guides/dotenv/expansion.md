@@ -227,8 +227,12 @@ In the bad file both `AUTH` and `DB` fail, but only the first is reported. The e
 
 There are two ways to turn it on:
 
-- `WithCommandSubstitution(true)` runs each command with `sh -c`, with trailing newlines removed from the output. Use this only for files you trust as much as your own code.
-- `WithCommandRunner(fn)` runs each command through your function instead, and enables substitution. Use it to allow-list commands, run them in a sandbox, or fake them in tests. Passing `nil` enables substitution with the default `sh -c` runner.
+- `WithCommandSubstitution(true)` runs each command through the shared runner, [`shell.Run`](../base/shell.md), with trailing newlines removed from the output. Use this only for files you trust as much as your own code.
+- `WithCommandRunner(fn)` runs each command through your function instead, and enables substitution. Use it to allow-list commands, run them in a sandbox, or fake them in tests. Passing `nil` enables substitution with the default shell runner.
+
+The default runner picks the shell for the OS: `sh -c` on Linux, macOS and other Unix-likes; on Windows `pwsh -NoProfile -NonInteractive -Command` when PowerShell 7 is on `PATH`, else `powershell.exe` with the same flags. Stdin is closed, so a command that prompts fails at once instead of waiting for input. A `.env` written for `sh` does not run in PowerShell: on Windows, write its commands for PowerShell or pass `WithCommandRunner(shell.Runner{Shell: []string{"bash", "-c"}}.RunCommand)` to use a POSIX shell such as Git for Windows' bash ([shell § Step 3](../base/shell.md#step-3--use-another-shell)).
+
+A command can hang: a password manager waiting for a GUI unlock, a network tool with no timeout. [`WithCommandContext(ctx)`](ds:block?id=withcommandcontext-v6889xsb) bounds the default runner: pass `context.WithTimeout(ctx, 5*time.Second)` and a command still running when it ends is killed, and `GetExpanded` returns an `*expand.CommandError` wrapping `shell.ErrTimeout`. Without it, a command may run as long as it likes.
 
 The command text is expanded first, so `$(${GIT} rev-parse --short HEAD)` reaches the runner as `git rev-parse --short HEAD`. A command that fails, exits non-zero or is refused by your runner makes `GetExpanded` and `ExpandedMap` return an `*expand.CommandError` naming the command (it unwraps to the runner's error), so a failed command never reads as an empty value (`WHO` below). Single-quoted and backtick values never run commands. Options apply in order, so a later `WithCommandSubstitution(false)` switches substitution back off, even after `WithCommandRunner`.
 
@@ -338,7 +342,8 @@ More tested examples: `ExampleFile_GetExpanded_operators`, `ExampleFile_GetExpan
 - **Dashed keys cannot be referenced.** `${MY-KEY}` is the `-` default operator ([Step 5](#step-5--know-which-names-a-reference-can-reach)).
 - **A bare reference stops at `.`.** `$spring.url` is `$spring` followed by `.url`. Use `${spring.url}`.
 - **Use `Get`, not `GetExpanded`, for anything you write back.** Writing an expanded value replaces the reference with a copy of its current target, and the link is lost.
-- **`WithCommandRunner(nil)` runs real shell commands.** It enables substitution with `sh -c`, not a no-op runner.
+- **`WithCommandRunner(nil)` runs real shell commands.** It enables substitution with the default shell runner (`sh -c`, or PowerShell on Windows), not a no-op runner.
+- **`WithCommandContext` bounds the default runner only.** A runner you install with `WithCommandRunner` is called as is; give it its own limit, for example `shell.Runner{Timeout: 5 * time.Second}.RunCommand`.
 - **A failing command fails the read.** Any runner error or non-zero exit is an `*expand.CommandError` naming the command (`WHO` above), so one bad `$(…)` stops `ExpandedMap` and `Read`. If a command may fail harmlessly, make it succeed in the shell (`$(cmd || true)`) or have your runner return a fallback value instead of an error.
 - **`ExpandedMap` reports only the first missing variable.** Fix it and rerun to see the next one.
 - **A lookup error beats a default.** `${DB_PASSWORD:-}` still fails when a `Lookuper` returns an error, so an unreachable secret store never reads as empty ([plugins.md](plugins.md#step-3--write-a-plugin-type)).

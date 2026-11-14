@@ -10,11 +10,13 @@ textdata is open source (Apache-2.0, github.com/ubgo/textdata). It is a multi-mo
 - [Feature index](https://github.com/ubgo/textdata/blob/main/docs/reference/features.md): every feature with its guide and example
 - [dotenv](https://github.com/ubgo/textdata/blob/main/dotenv/README.md): the .env library
 - [jsonc](https://github.com/ubgo/textdata/blob/main/jsonc/README.md): the JSONC and JSON library
+- [shell guide](https://github.com/ubgo/textdata/blob/main/docs/guides/base/shell.md): run one command through the OS shell (sh -c, PowerShell on Windows) with a timeout, closed stdin and errors that never contain stdout
+- [value guide](https://github.com/ubgo/textdata/blob/main/docs/guides/base/value.md): expand one string with ${VAR}, $(cmd) and ${scheme:ref} plugins, without a .env or JSONC file
 - [CHANGELOG](https://github.com/ubgo/textdata/blob/main/CHANGELOG.md): base module release history (each module has its own)
 - [CONTRIBUTING](https://github.com/ubgo/textdata/blob/main/CONTRIBUTING.md): how to contribute
 
 ## Install
-- Library: `go get github.com/ubgo/textdata/dotenv@latest` or `go get github.com/ubgo/textdata/jsonc@latest`
+- Library: `go get github.com/ubgo/textdata/dotenv@latest` or `go get github.com/ubgo/textdata/jsonc@latest`; the command runner and one-value expansion are in the base: `go get github.com/ubgo/textdata@latest` (packages `shell`, `value`)
 - CLI: `go install github.com/ubgo/textdata/cmd/textdatactl@latest`
 - Binaries: https://github.com/ubgo/textdata/releases
 
