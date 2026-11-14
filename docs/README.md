@@ -39,6 +39,8 @@ Follow the steps in order the first time; each one builds on the previous. Every
 | Run a command with a file's values | [dotenvctl run](guides/cli/dotenvctl.md#step-4--run-a-command-with-the-files-values), [envkit child env](guides/cli/envkit.md#step-6--build-a-child-process-environment) | [`cli/run-child`](../examples/cli/run-child) |
 | Give your own CLI the dotenv or jsonc verbs | [embedding](guides/cli/embedding.md) | [`cli/embed-jsonc`](../examples/cli/embed-jsonc) |
 | Refuse to save a private key or an invalid file | [base plugin › SaveGuard](guides/base/plugin.md#step-1--write-a-plugin-with-the-abilities-it-needs), [jsonc save › SaveGuard](guides/jsonc/save.md#step-5--veto-a-save-with-a-saveguard) | [`base/registry`](../examples/base/registry) |
+| Run a command with a timeout, on any OS, without leaking its output | [shell](guides/base/shell.md) | [`shell/run`](../examples/shell/run), [`shell/errors`](../examples/shell/errors) |
+| Expand one config value (`${VAR}`, `$(cmd)`, `${gopass:…}`) outside a `.env` or JSONC file | [value](guides/base/value.md) | [`value/env`](../examples/value/env), [`value/secrets`](../examples/value/secrets) |
 | Support a new secret store | [write a value plugin](guides/plugins/write-a-value-plugin.md) | [`plugins/custom-resolver`](../examples/plugins/custom-resolver) |
 | Decide between options | [Choosing](choosing/README.md) | - |
 | Find any feature | [Feature index](reference/features.md) | - |
@@ -128,6 +130,8 @@ Your code or a shell calls a format (`dotenv`, `jsonc`), directly or through the
 
 - [Plugins: one interface set for every format](guides/base/plugin.md)
 - [The expand engine](guides/base/expand.md)
+- [Run a command: shell](guides/base/shell.md)
+- [Expand one value: value.Expand](guides/base/value.md)
 - [Atomic writes](guides/base/atomicfile.md)
 - [Paths and positions](guides/base/pos-and-path.md)
 - [Testing a format with texttest](guides/base/texttest.md)

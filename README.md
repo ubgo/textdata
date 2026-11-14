@@ -126,7 +126,7 @@ See [textdatactl](docs/guides/getting-started/textdatactl.md) for every verb.
 
 - **[Learning path](docs/README.md#learning-path)**: 14 steps from a first read to the full production setup, each with a guide and a runnable program under [`examples/`](examples).
 - **[Choosing](docs/choosing/README.md)**: which format and modules, which method, which secret backend, which options for your kind of app, library or CLI.
-- **[Feature index](docs/reference/features.md)**: all 136 features, each with its package, the guide step that teaches it and an example that runs it.
+- **[Feature index](docs/reference/features.md)**: all 145 features, each with its package, the guide step that teaches it and an example that runs it.
 - **[All guides](docs/README.md#all-pages)**: getting started, dotenv, jsonc, jsonc tools, value plugins, the command line, push providers, base packages.
 
 ![textdata architecture: users at the top, then the CLI layer, the dotenv and jsonc formats, the base packages and files on disk, with push providers, jsonc packages and value plugins in a side column](docs/assets/architecture.svg)
@@ -135,7 +135,7 @@ See [textdatactl](docs/guides/getting-started/textdatactl.md) for every verb.
 
 | Module | Path | What |
 |---|---|---|
-| [`github.com/ubgo/textdata`](#the-base-packages) | `.` | the shared base: `plugin`, `expand`, `atomicfile`, `pos`, `path`, `texttest`; stdlib only |
+| [`github.com/ubgo/textdata`](#the-base-packages) | `.` | the shared base: `plugin`, `expand`, `shell` (run a command: [guide](docs/guides/base/shell.md)), `value` (expand one value: [guide](docs/guides/base/value.md)), `atomicfile`, `pos`, `path`, `texttest`; stdlib only |
 | [`…/dotenv`](dotenv/README.md) | `dotenv/` | the `.env` library: lossless parse, edit, Docker Compose interpolation, plugins |
 | [`…/dotenv/cli`](dotenv/cli/README.md) | `dotenv/cli/` | the `dotenvctl` binary and its command package `dotenvcmd`, the operations API `envkit`, `.env` family discovery |
 | [`…/jsonc`](jsonc/README.md) | `jsonc/` | JSONC: lossless parse, read, edit, Disable/Restore, save, expansion; plain JSON is `jsonc.Strict()` |
@@ -212,6 +212,14 @@ eng := expand.Engine{
 out, err := eng.Expand("postgres://${HOST}:${PORT:-5432}/app costs 5$$", expand.NewStack())
 fmt.Println(out, err) // postgres://db.internal:5432/app costs 5$ <nil>
 ```
+
+### shell
+
+`shell.Run(ctx, cmd)` runs one command line through the OS shell and returns its stdout with trailing CR/LF removed: `sh -c` on Unix-likes; on Windows `pwsh -NoProfile -NonInteractive -Command` when on `PATH`, else `powershell.exe` with the same flags. `Runner{Shell, Timeout, Env, Dir}` overrides the shell (`bash -c`, `cmd /C`), bounds each command, and sets its environment and directory. Stdin is the null device, so a prompting command cannot hang. Errors name the command and never contain stdout: `*ExitError` (exit code, head of stderr), `ErrTimeout`, `ErrNoShell`. It is the default `$(cmd)` runner of dotenv and jsonc, and works on its own. Guide: [shell](docs/guides/base/shell.md); examples: [`shell/run`](examples/shell/run), [`shell/errors`](examples/shell/errors).
+
+### value
+
+`value.Expand(ctx, s, opts...)` expands one string with the formats' engine and rules, for a value that does not live in a `.env` or JSONC file: `WithEnv()` and `WithLookup(fn)` for variables, `WithPlugins(...)` for `${gopass:…}`, `${vault:…}`, `${aws:…}`, `${file:…}`, and `WithCommands()` (through `shell.Run`, bounded by `ctx`) or `WithRunner(r)` for `$(cmd)`. Nothing is read or run unless asked: without a command option `$(…)` is kept as written. Errors are the formats' types: `*expand.RequiredError`, `*expand.CommandError`, `*plugin.Error`. Guide: [value](docs/guides/base/value.md); examples: [`value/env`](examples/value/env), [`value/commands`](examples/value/commands), [`value/secrets`](examples/value/secrets).
 
 ### atomicfile
 

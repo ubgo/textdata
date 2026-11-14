@@ -4,6 +4,17 @@ All notable changes to `github.com/ubgo/textdata` are listed here. The format fo
 
 ## [Unreleased]
 
+## [0.1.5] - 2026-11-14
+
+### Added
+
+- `shell`: one command runner for every format and for callers on their own (issue #1). `Run(ctx, cmd)` and `Runner{Shell, Timeout, Env, Dir}` run a command through the OS shell: `sh -c` on Unix-likes; on Windows `pwsh -NoProfile -NonInteractive -Command` when `pwsh` is on `PATH`, else `powershell.exe` with the same flags. Stdin is the null device, the context and `Timeout` kill the command, and only trailing CR/LF is trimmed from stdout. Errors name the command and never contain stdout: `*ExitError` (exit code, stderr cut at `MaxStderr` bytes), `ErrTimeout` (also `context.DeadlineExceeded`), `ErrNoShell`. `DefaultShell` reports the shell; `Runner.RunCommand` makes a `Runner` a `plugin.CommandRunner`.
+- `value`: `Expand(ctx, s, opts...)` expands one string with the formats' engine and rules, with `WithEnv`, `WithLookup`, `WithCommands`, `WithRunner` and `WithPlugins`. Command substitution is off unless `WithCommands`, `WithRunner` or a CommandRunner plugin is given; without it `$(…)` is kept as written. Errors are the formats' types (`*expand.RequiredError`, `*expand.CommandError`, `*plugin.Error`); a plugin with no usable ability is `ErrUnsupportedPlugin`.
+
+### Documentation
+
+- Guides [shell](docs/guides/base/shell.md) and [value](docs/guides/base/value.md), runnable examples `examples/shell/{run,errors}` and `examples/value/{env,commands,secrets}`, and the per-OS shell and `WithCommandContext` in the dotenv and jsonc `$(cmd)` sections.
+
 ## [0.1.4] - 2026-11-13
 
 First public release. The earlier `v0.1.1`–`v0.1.2` tags were pre-releases; they are retracted in `go.mod`, and everything they contained is in this release.

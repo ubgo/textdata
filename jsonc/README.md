@@ -150,7 +150,7 @@ Inside **string values** (keys are never expanded), through the base [`expand`](
 
 - `$VAR`, `${VAR}` and the operator family `${VAR:-d}`, `${VAR-d}`, `${VAR:+a}`, `${VAR+a}`, `${VAR:?e}`, `${VAR?e}`, nested; `$$` is a literal dollar. Names resolve through the installed Lookupers only (`WithLookup(os.LookupEnv)` for the environment; the package never reads it on its own); an unknown name is `""`.
 - `${scheme:ref}` goes to the `Resolver` plugin that owns the scheme (`${gopass:personal/db}`, `${file:./key.pem}`); a scheme nobody owns reads as an ordinary reference.
-- `$(command)` runs only with `WithCommandSubstitution(true)` (`sh -c`) or an installed `CommandRunner`; a failing command is an error (`*expand.CommandError`, with the value's `file:line:col`).
+- `$(command)` runs only with `WithCommandSubstitution(true)` or an installed `CommandRunner`; a failing command is an error (`*expand.CommandError`, with the value's `file:line:col`). The default runner is [`shell.Run`](../docs/guides/base/shell.md): `sh -c` on Unix-likes; on Windows `pwsh -NoProfile -NonInteractive -Command` when on `PATH`, else `powershell.exe` with the same flags, so a command written for `sh` may need a `CommandRunner` that runs another shell there. Stdin is closed, so a prompting command fails instead of hanging. [`WithCommandContext(ctx)`](ds:block?id=withcommandcontext-3z9bvvrh) bounds how long commands may run; one still running when the context ends is killed and the expansion fails with an error wrapping `shell.ErrTimeout`.
 - After expansion every string passes through the `ValueTransformer`s with its canonical dotted path.
 
 <!-- snippet: exempt — copied verbatim from jsonc/example_test.go (ExampleDoc_Expanded), which has no snippet region yet -->
