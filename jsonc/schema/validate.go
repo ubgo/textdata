@@ -92,6 +92,8 @@ type Option func(*validateOptions)
 type validateOptions struct {
 	file      string
 	onWarning func(Issue)
+	// strictKeys turns "unknown key" warnings into errors (StrictKeys).
+	strictKeys bool
 }
 
 // WithFileName sets the file name issues report. Without it Validate uses the
@@ -101,6 +103,21 @@ func WithFileName(name string) Option { return func(o *validateOptions) { o.file
 // OnWarning receives every warning a Plugin's validation finds; the plugin
 // interface can only return errors.
 func OnWarning(fn func(Issue)) Option { return func(o *validateOptions) { o.onWarning = fn } }
+
+// StrictKeys reports a key rejected by additionalProperties: false as an
+// error instead of a warning, positioned at the key, so Result.OK and Err
+// (and a Plugin's Validate and save guard) refuse a file with a typo'd key.
+//
+// Why it exists: by default an unknown key is only pointed out, so a newer
+// option read by an older program does not refuse the file. A program that
+// decodes the file into a typed struct usually wants the opposite: a
+// misspelt key silently leaves its field at the zero value.
+//
+// Invariant: only the additionalProperties: false check changes; warnings
+// for unsupported keywords stay warnings, and an issue is never reported in
+// both lists.
+// ds:def id=strictkeys-z4ruxr9j owner=@maintainers stability=stable
+func StrictKeys() Option { return func(o *validateOptions) { o.strictKeys = true } }
 
 // Validate checks doc against s. A document with syntax errors yields those
 // errors; a schema that does not compile (bad $ref or pattern) yields one
@@ -133,7 +150,7 @@ func Validate(doc *jsonc.Doc, s *Schema, opts ...Option) *Result {
 		res.Errors = append(res.Errors, Issue{File: o.file, Keyword: kwRef, Message: err.Error()})
 		return res
 	}
-	v := &validator{doc: doc, file: o.file, c: c, res: res, warned: map[warnKey]bool{}, budget: new(int)}
+	v := &validator{doc: doc, file: o.file, c: c, res: res, warned: map[warnKey]bool{}, budget: new(int), strictKeys: o.strictKeys}
 	if !doc.Has("") {
 		if !(s.Bool != nil && *s.Bool) {
 			res.Errors = append(res.Errors, Issue{File: o.file, Message: "the document is empty"})
@@ -176,6 +193,10 @@ type validator struct {
 	warned map[warnKey]bool
 	// budget counts schema applications, shared with branch scratch copies.
 	budget *int
+	// strictKeys: an unknown key is an error, not a warning (StrictKeys).
+	// Branch scratch copies inherit it, so an anyOf branch with a typo'd key
+	// fails and explain reports the key from the branch that fits the type.
+	strictKeys bool
 }
 
 func (v *validator) issue(at path.Path, keyword string, key bool, format string, args ...any) Issue {
@@ -409,7 +430,12 @@ func (v *validator) object(s *Schema, p path.Path, ps string) {
 			continue
 		}
 		if ap.Bool != nil && !*ap.Bool {
-			v.res.Warnings = append(v.res.Warnings, v.issue(child, kwAdditional, true, "unknown key %q", k))
+			unknown := v.issue(child, kwAdditional, true, "unknown key %q", k)
+			if v.strictKeys {
+				v.res.Errors = append(v.res.Errors, unknown)
+			} else {
+				v.res.Warnings = append(v.res.Warnings, unknown)
+			}
 			continue
 		}
 		v.check(ap, child, 0)

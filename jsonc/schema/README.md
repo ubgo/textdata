@@ -65,14 +65,14 @@ Every struct object gets `additionalProperties: false` (unknown keys become warn
 
 Keywords checked: `type` (`integer` is any number without a fraction, `1.0` included), `enum`, `const` (JSON equality: `1 == 1.0`, key order ignored), `minimum`, `maximum`, `exclusiveMinimum`, `exclusiveMaximum` (exact decimal comparison, so 64-bit integers do not round), `minLength`, `maxLength` (in characters), `pattern`, `items`, `minItems`, `maxItems`, `properties`, `required`, `additionalProperties`, `allOf`, `anyOf`, `oneOf`, `not`, `$ref`.
 
-- `additionalProperties: false` reports each unknown key as a **warning**, positioned at the key: a typo or a newer option should be pointed out without refusing the file. A schema-valued `additionalProperties` validates the extra values normally (errors).
+- `additionalProperties: false` reports each unknown key as a **warning**, positioned at the key: a typo or a newer option should be pointed out without refusing the file. With [`StrictKeys()`](ds:block?id=strictkeys-z4ruxr9j) it is an **error** instead, so `Result.OK`, `Err` and a `Plugin`'s `Validate` and save guard refuse a typo'd key: what a program decoding into a typed struct wants. A schema-valued `additionalProperties` validates the extra values normally (errors).
 - `$ref` must be local: `#` or a JSON Pointer into `$defs`, `properties`, `items`, `additionalProperties`, `allOf`/`anyOf`/`oneOf`/`not`. Remote references and anchors are refused by `Parse`. Sibling keywords next to `$ref` apply too (2020-12).
 - `pattern` is a Go regexp (RE2): lookaround and backreferences are not supported and make `Parse` fail. Like ECMA-262 it matches anywhere unless anchored with `^`/`$`.
 - Annotations (`title`, `description`, `default`, `examples`, `format`, `deprecated`, ...) are kept and not checked; `format` is an annotation in 2020-12.
 - Any other keyword (`if`/`then`/`else`, `patternProperties`, `uniqueItems`, `minProperties`, `multipleOf`, ...) is kept for round trips and produces one **warning** where it applies: it is never silently treated as satisfied.
 - When an `anyOf`/`oneOf` fails and exactly one branch accepts the value's type, that branch's errors are reported with their own positions (a nullable section with a bad key inside points at the key, not the section).
 
-`Result` holds `Errors` and `Warnings` (`Issue{File, Pos, Path, Keyword, Message}`), each in document order; `Err()` is nil without errors, otherwise a `pos.ErrorList`. A document with syntax errors yields those errors. `WithFileName` overrides the reported file name.
+`Result` holds `Errors` and `Warnings` (`Issue{File, Pos, Path, Keyword, Message}`), each in document order; `Err()` is nil without errors, otherwise a `pos.ErrorList`. A document with syntax errors yields those errors. `WithFileName` overrides the reported file name; `OnWarning` receives warnings (for a `Plugin`); `StrictKeys` makes unknown keys errors.
 
 ## Parse and Load
 

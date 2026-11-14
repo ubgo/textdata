@@ -13,7 +13,8 @@ const PluginName = "schema"
 // Checker validates a JSONC document against a schema. Installed with
 // jsonc.WithPlugin it is both a plugin.Validator (doc.Validate() runs it on
 // demand) and a plugin.SaveGuard (Save refuses a document with schema
-// errors). Warnings never fail either.
+// errors). Warnings never fail either; pass StrictKeys to make unknown keys
+// errors, so both refuse a file with a typo'd key.
 type Checker struct {
 	schema *Schema
 	opts   []Option
@@ -54,8 +55,8 @@ func (c *Checker) Validate(doc plugin.Document) error {
 }
 
 // GuardSave implements plugin.SaveGuard: Save refuses to write a document
-// with schema errors and leaves the file untouched. Warnings (unknown keys)
-// do not refuse; OnWarning still receives them.
+// with schema errors and leaves the file untouched. Warnings (unknown keys,
+// unless StrictKeys is passed) do not refuse; OnWarning still receives them.
 func (c *Checker) GuardSave(doc plugin.Document) error { return c.Validate(doc) }
 
 var (
