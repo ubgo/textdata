@@ -8,7 +8,7 @@ Module `github.com/ubgo/textdata/jsonc`, one format of [textdata](../README.md).
 go get github.com/ubgo/textdata/jsonc
 ```
 
-Status: released; the current tag is `jsonc/v0.1.5`.
+Status: released; the current tag is `jsonc/v0.1.6`.
 
 **Contents:** [Quick tour](#quick-tour) · [Format](#format) · [Parsing](#parsing) · [Reading](#reading) · [Paths](#paths) · [Editing](#editing) · [Disable and Restore](#disable-and-restore) · [Positions](#positions) · [Saving](#saving) · [Expansion and plugins](#expansion-and-plugins) · [Guarantees](#guarantees) · [Conformance and tests](#conformance-and-tests) · [More in this module](#more-in-this-module)
 
