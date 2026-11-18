@@ -1,9 +1,9 @@
-github.com/ubgo/textdata v0.1.5 h1:4K8deX0kQwecP1qJmNAJ/6rSgRsGFpmuRRNpdidJg2Y=
-github.com/ubgo/textdata v0.1.5/go.mod h1:vFmf4M3HCsUGsSOiunwuqes1T5tFj30aPbeaXg8dIAU=
-github.com/ubgo/textdata/dotenv v0.1.5 h1:M4NblPNcS0Igs9YEakUtvJBPIWUviCh/k1hBPVKNXF4=
-github.com/ubgo/textdata/dotenv v0.1.5/go.mod h1:KlS4v3YBLu3rbPkNlPEMCqCaJpIIyMBridRFuFgPp8I=
-github.com/ubgo/textdata/jsonc v0.1.6 h1:BIkyYMjKqYYnMsnRvGPSRQwbfgjpOQCEPmMFaeVeKMQ=
-github.com/ubgo/textdata/jsonc v0.1.6/go.mod h1:DALYoJIUjjYg+uJ7+gjXxl5I7l1YcIHhRqjN9I/vulo=
+github.com/ubgo/textdata v0.1.6 h1:0DRmlEF7zquyWh0tyC9lNFMgS3phNyMg0/wJycsQZ+w=
+github.com/ubgo/textdata v0.1.6/go.mod h1:vFmf4M3HCsUGsSOiunwuqes1T5tFj30aPbeaXg8dIAU=
+github.com/ubgo/textdata/dotenv v0.1.6 h1:tKaE69wRD3bDq3AQpVjAKBm9o5h5gaOnVVaa0h257Ok=
+github.com/ubgo/textdata/dotenv v0.1.6/go.mod h1:9hrzXYidMPIGGBIV4dlC1Hl3yq/vCAhOXT5TqVnVz30=
+github.com/ubgo/textdata/jsonc v0.1.7 h1:CNH4agDp6BPPW8xFnzPHBni7IHUitv0mShcLcfOw/XM=
+github.com/ubgo/textdata/jsonc v0.1.7/go.mod h1:wjZ+8t7BAV8ckfUGRT2hygWgws35mvPJE+7kH50GHII=
 github.com/ubgo/textdata/plugins/aws v0.1.4 h1:ThFYF/URqctty88PfOJd1FYI/m3SyqL55TUN/PMjwlQ=
 github.com/ubgo/textdata/plugins/aws v0.1.4/go.mod h1:u6erNVMYx9//cA5mJuXIWzqn5sGF2Gsd2NohQufBECQ=
 github.com/ubgo/textdata/plugins/extends v0.1.4 h1:7UnfrJ/puc1FiHqTGN2xHFL7BC+ozNbCi8rQ0ItcY3M=
