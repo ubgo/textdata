@@ -18,7 +18,7 @@ go install github.com/ubgo/textdata/dotenv/cli/cmd/dotenvctl@latest    # the CLI
 go install github.com/ubgo/textdata/cmd/textdatactl@latest             # or the umbrella CLI: textdatactl dotenv …
 ```
 
-Status: released; the current tag is `dotenv/v0.1.5`.
+Status: released; the current tag is `dotenv/v0.1.6`.
 
 **Quickstart** — open a file, read a value raw and expanded, change another, save. The comment and the reference survive byte for byte:
 
