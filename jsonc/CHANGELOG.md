@@ -4,16 +4,17 @@ All notable changes to `github.com/ubgo/textdata/jsonc` are listed here. The for
 
 ## [Unreleased]
 
+## [0.1.7] - 2026-11-18
+
 ### Added
 
-- `WithStrictExpand()`: `Expanded`, `GetExpanded` and `Read` with `WithExpand` refuse an unset name (`*expand.UnsetError`), a `${scheme:ref}` no installed Resolver claims (`*expand.UnknownSchemeError`) and a `$(cmd)` with substitution off (`*expand.CommandOffError`), at the string's `file:line:col`; all match `expand.ErrStrict`. Named apart from `Strict()`, which parses plain JSON. Needs the base's next release.
-- `Update(ctx, path, fn, opts...)`: a read-modify-write under the cross-process `atomicfile.Lock`: open (a file with syntax errors is refused before `fn`), `fn`, save only when the bytes changed, unlock. Needs the base's next release.
+- `WithStrictExpand()`: `Expanded`, `GetExpanded` and `Read` with `WithExpand` refuse an unset name (`*expand.UnsetError`), a `${scheme:ref}` no installed Resolver claims (`*expand.UnknownSchemeError`) and a `$(cmd)` with substitution off (`*expand.CommandOffError`), at the string's `file:line:col`; all match `expand.ErrStrict`. Named apart from `Strict()`, which parses plain JSON. Requires base v0.1.6.
+- `Update(ctx, path, fn, opts...)`: a read-modify-write under the cross-process `atomicfile.Lock`: open (a file with syntax errors is refused before `fn`), `fn`, save only when the bytes changed, unlock. Requires base v0.1.6.
 - `schema.StrictKeys()`: a key rejected by `additionalProperties: false` is an error instead of a warning, still at the key, so `Result.OK`, `Err` and a `Plugin`'s `Validate` and save guard refuse a typo'd key. Without it nothing changes.
 
 ### Tests
 
 - `jsonc/schema`: an agx-shaped config (maps of structs, a `MarshalText` string ID as key and value, `enum:"plan,api"`, `[]string`, pointers, `omitempty`) checked through `FromStruct`, `Validate`, `StrictKeys`, the plugin's save guard, and agreement with `generate.FromStruct`.
-
 
 ## [0.1.6] - 2026-11-14
 
