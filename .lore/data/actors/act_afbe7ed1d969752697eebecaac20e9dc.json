@@ -1,7 +1,10 @@
 {
+  "_hlc": "1970-01-01T00:00:00.000Z/0000/",
   "_table": "actors",
-  "_v": 1,
+  "_v": 2,
+  "created_by": "act_00000000000070008000000000000000",
   "display_name": "khanakia",
   "id": "act_afbe7ed1d969752697eebecaac20e9dc",
-  "kind": "human"
+  "kind": "human",
+  "updated_by": "act_00000000000070008000000000000000"
 }
