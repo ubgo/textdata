@@ -1,11 +1,13 @@
 {
+  "_hlc": "2026-11-13T07:44:12.463Z/0000/",
   "_table": "tasks",
-  "_v": 1,
+  "_v": 2,
   "assigned_to_actor_id": null,
   "body": "Batch 2 writer; ownership in docsi/plans/docs-gaps.md (e)",
   "commitment": "accepted",
   "completed_at": "2026-11-13T07:44:12.258530556Z",
   "created_at": "2026-11-13T07:26:20.789000000Z",
+  "created_by": "act_7b6e2727126b7bbb9f3a5a9cefc0022f",
   "created_by_actor_id": "act_7b6e2727126b7bbb9f3a5a9cefc0022f",
   "deferred_until": null,
   "done_by": "act_7b6e2727126b7bbb9f3a5a9cefc0022f",
@@ -20,5 +22,6 @@
   "status": "done",
   "tasklist_id": "tlt_01a1bb15600f71bd81160920a09e2a72",
   "title": "Docs B2-3 jsonc core",
-  "updated_at": "2026-11-13T07:44:12.463000000Z"
+  "updated_at": "2026-11-13T07:44:12.463000000Z",
+  "updated_by": "act_00000000000070008000000000000000"
 }

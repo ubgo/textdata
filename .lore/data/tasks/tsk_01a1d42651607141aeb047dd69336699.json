@@ -1,11 +1,13 @@
 {
+  "_hlc": "2026-11-13T09:26:30.600Z/0000/",
   "_table": "tasks",
-  "_v": 1,
+  "_v": 2,
   "assigned_to_actor_id": null,
   "body": "Owner go 2026-11-13 'fix all': /space/tmp/textdata-docs-go.md; bug list in docsi/memory/textdata-status.md (Docs build section)",
   "commitment": "accepted",
   "completed_at": "2026-11-13T09:26:30.465670201Z",
   "created_at": "2026-11-13T09:04:03.599000000Z",
+  "created_by": "act_7b6e2727126b7bbb9f3a5a9cefc0022f",
   "created_by_actor_id": "act_7b6e2727126b7bbb9f3a5a9cefc0022f",
   "deferred_until": null,
   "done_by": "act_7b6e2727126b7bbb9f3a5a9cefc0022f",
@@ -20,5 +22,6 @@
   "status": "done",
   "tasklist_id": "tlt_01a1bb15600f71bd81160920a09e2a72",
   "title": "Fix the library bugs found while documenting",
-  "updated_at": "2026-11-13T09:26:30.600000000Z"
+  "updated_at": "2026-11-13T09:26:30.600000000Z",
+  "updated_by": "act_00000000000070008000000000000000"
 }
