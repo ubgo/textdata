@@ -156,6 +156,7 @@ tasks:
   check:
     desc: The full gate, once before a commit — gofmt, go mod tidy, dependency rules, vet, Windows vet and test build, race tests, short fuzz of every target
     cmds:
+      - task: names:check
       - task: fmt:check
       - task: tidy:check
       - task: deps:check
@@ -163,3 +164,8 @@ tasks:
       - task: windows:check
       - task: test:race
       - task: fuzz:all
+
+  names:check:
+    desc: Fail if a tracked file holds a private name listed (as a sha256 hash) in .github/denyhash.txt
+    cmds:
+      - bash scripts/check-names.sh
